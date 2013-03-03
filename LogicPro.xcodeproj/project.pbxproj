@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2F805B4716A6DE1700350139 /* Gates.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F805B4616A6DE1700350139 /* Gates.m */; };
+		2F805B4B16A6E6A500350139 /* GateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F805B4A16A6E6A500350139 /* GateView.m */; };
 		478DB5FC1615B41A00D69B15 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 478DB5FB1615B41A00D69B15 /* UIKit.framework */; };
 		478DB5FE1615B41A00D69B15 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 478DB5FD1615B41A00D69B15 /* Foundation.framework */; };
 		478DB6001615B41A00D69B15 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 478DB5FF1615B41A00D69B15 /* CoreGraphics.framework */; };
@@ -19,9 +21,19 @@
 		478DB6151615B41A00D69B15 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 478DB6131615B41A00D69B15 /* MainStoryboard_iPhone.storyboard */; };
 		478DB6181615B41A00D69B15 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 478DB6161615B41A00D69B15 /* MainStoryboard_iPad.storyboard */; };
 		478DB61B1615B41A00D69B15 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 478DB61A1615B41A00D69B15 /* ViewController.m */; };
+		47B303AE16A6BEB1000F5AB0 /* And.png in Resources */ = {isa = PBXBuildFile; fileRef = 47B303AD16A6BEB1000F5AB0 /* And.png */; };
+		47B303B016A6BED4000F5AB0 /* Nand.png in Resources */ = {isa = PBXBuildFile; fileRef = 47B303AF16A6BED4000F5AB0 /* Nand.png */; };
+		47B303B216A6BEDB000F5AB0 /* Or.png in Resources */ = {isa = PBXBuildFile; fileRef = 47B303B116A6BEDB000F5AB0 /* Or.png */; };
+		47B303B416A6BEE3000F5AB0 /* Not.png in Resources */ = {isa = PBXBuildFile; fileRef = 47B303B316A6BEE3000F5AB0 /* Not.png */; };
+		47B303B616A6BEF4000F5AB0 /* XOr.png in Resources */ = {isa = PBXBuildFile; fileRef = 47B303B516A6BEF4000F5AB0 /* XOr.png */; };
+		47B303B916A6C0B5000F5AB0 /* GateCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 47B303B816A6C0B5000F5AB0 /* GateCollectionViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2F805B4516A6DE1700350139 /* Gates.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Gates.h; sourceTree = "<group>"; };
+		2F805B4616A6DE1700350139 /* Gates.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Gates.m; sourceTree = "<group>"; };
+		2F805B4916A6E6A500350139 /* GateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GateView.h; sourceTree = "<group>"; };
+		2F805B4A16A6E6A500350139 /* GateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GateView.m; sourceTree = "<group>"; };
 		478DB5F71615B41A00D69B15 /* LogicPro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LogicPro.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		478DB5FB1615B41A00D69B15 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		478DB5FD1615B41A00D69B15 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -39,6 +51,13 @@
 		478DB6171615B41A00D69B15 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
 		478DB6191615B41A00D69B15 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		478DB61A1615B41A00D69B15 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		47B303AD16A6BEB1000F5AB0 /* And.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = And.png; sourceTree = "<group>"; };
+		47B303AF16A6BED4000F5AB0 /* Nand.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Nand.png; sourceTree = "<group>"; };
+		47B303B116A6BEDB000F5AB0 /* Or.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Or.png; sourceTree = "<group>"; };
+		47B303B316A6BEE3000F5AB0 /* Not.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Not.png; sourceTree = "<group>"; };
+		47B303B516A6BEF4000F5AB0 /* XOr.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = XOr.png; sourceTree = "<group>"; };
+		47B303B716A6C0B5000F5AB0 /* GateCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GateCollectionViewController.h; sourceTree = "<group>"; };
+		47B303B816A6C0B5000F5AB0 /* GateCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GateCollectionViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,8 +108,14 @@
 				478DB60B1615B41A00D69B15 /* AppDelegate.m */,
 				478DB6131615B41A00D69B15 /* MainStoryboard_iPhone.storyboard */,
 				478DB6161615B41A00D69B15 /* MainStoryboard_iPad.storyboard */,
+				47B303B716A6C0B5000F5AB0 /* GateCollectionViewController.h */,
+				47B303B816A6C0B5000F5AB0 /* GateCollectionViewController.m */,
 				478DB6191615B41A00D69B15 /* ViewController.h */,
 				478DB61A1615B41A00D69B15 /* ViewController.m */,
+				2F805B4516A6DE1700350139 /* Gates.h */,
+				2F805B4616A6DE1700350139 /* Gates.m */,
+				2F805B4916A6E6A500350139 /* GateView.h */,
+				2F805B4A16A6E6A500350139 /* GateView.m */,
 				478DB6021615B41A00D69B15 /* Supporting Files */,
 			);
 			path = LogicPro;
@@ -99,6 +124,11 @@
 		478DB6021615B41A00D69B15 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				47B303AD16A6BEB1000F5AB0 /* And.png */,
+				47B303AF16A6BED4000F5AB0 /* Nand.png */,
+				47B303B116A6BEDB000F5AB0 /* Or.png */,
+				47B303B316A6BEE3000F5AB0 /* Not.png */,
+				47B303B516A6BEF4000F5AB0 /* XOr.png */,
 				478DB6031615B41A00D69B15 /* LogicPro-Info.plist */,
 				478DB6041615B41A00D69B15 /* InfoPlist.strings */,
 				478DB6071615B41A00D69B15 /* main.m */,
@@ -167,6 +197,11 @@
 				478DB6121615B41A00D69B15 /* Default-568h@2x.png in Resources */,
 				478DB6151615B41A00D69B15 /* MainStoryboard_iPhone.storyboard in Resources */,
 				478DB6181615B41A00D69B15 /* MainStoryboard_iPad.storyboard in Resources */,
+				47B303AE16A6BEB1000F5AB0 /* And.png in Resources */,
+				47B303B016A6BED4000F5AB0 /* Nand.png in Resources */,
+				47B303B216A6BEDB000F5AB0 /* Or.png in Resources */,
+				47B303B416A6BEE3000F5AB0 /* Not.png in Resources */,
+				47B303B616A6BEF4000F5AB0 /* XOr.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -180,6 +215,9 @@
 				478DB6081615B41A00D69B15 /* main.m in Sources */,
 				478DB60C1615B41A00D69B15 /* AppDelegate.m in Sources */,
 				478DB61B1615B41A00D69B15 /* ViewController.m in Sources */,
+				47B303B916A6C0B5000F5AB0 /* GateCollectionViewController.m in Sources */,
+				2F805B4716A6DE1700350139 /* Gates.m in Sources */,
+				2F805B4B16A6E6A500350139 /* GateView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -305,6 +343,7 @@
 				478DB6201615B41A00D69B15 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
