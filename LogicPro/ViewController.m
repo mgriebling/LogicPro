@@ -17,62 +17,66 @@
 @property (strong, nonatomic) GateView *drawView;
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UITextField *drawingScale;
+@property (strong, nonatomic) Gates *gates;
 
 @end
 
 @implementation ViewController {
-    Gates *gates;
+
     NSInteger lastGateType;
     Gate *activeObject;
 }
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
-    self.navigationController.toolbarHidden = NO;
-    lastGateType = 0;
+- (Gates *)gates {
+    if (!_gates) _gates = [[Gates alloc] init];
+    return _gates;
+}
+
+- (void) setScrollView:(UIScrollView *)scrollView {
+    _scrollView = scrollView;
+    _scrollView.delegate = self;
+    [_scrollView addSubview:self.drawView];
+    _scrollView.contentSize = self.drawView.frame.size;
     
-    if (gates == nil) {
-        gates = [[Gates alloc] init];
-    }
+    // panning with two fingers
+    UIPanGestureRecognizer *panGR = _scrollView.panGestureRecognizer;
+    panGR.minimumNumberOfTouches = 2;
+    panGR.maximumNumberOfTouches = 2;
+    _scrollView.pagingEnabled = NO;
     
-    if (_drawView == nil) {
+    // tap gesture for selecting and creating objects
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tappedView:)];
+    tapGesture.numberOfTapsRequired = 1;
+    tapGesture.numberOfTouchesRequired = 1;
+    [_scrollView addGestureRecognizer:tapGesture];
+    
+    // single-finger pan to move active objects
+    UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(dragInView:)];
+    panGesture.minimumNumberOfTouches = 1;
+    panGesture.maximumNumberOfTouches = 1;
+    panGesture.delegate = self;
+    [_scrollView addGestureRecognizer:panGesture];
+    
+    // stroke gesture to delete object
+    UISwipeGestureRecognizer *swipGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swippedView:)];
+    swipGesture.numberOfTouchesRequired = 1;
+    swipGesture.direction = UISwipeGestureRecognizerDirectionLeft;
+    swipGesture.delegate = self;
+    [_scrollView addGestureRecognizer:swipGesture];
+}
+
+- (GateView *)drawView {
+    if (!_drawView) {
         _drawView = [[GateView alloc] init];
         _drawView.frame = (CGRect){.origin=CGPointMake(0, 0), .size=CGSizeMake(1000, 1000)};
         _drawView.backgroundColor = [UIColor whiteColor];
-        _drawView.gates = gates;
-        
-        _scrollView.delegate = self;
-        [_scrollView addSubview:_drawView];
-        _scrollView.contentSize = _drawView.frame.size;
-        
-        // panning with two fingers
-        UIPanGestureRecognizer *panGR = _scrollView.panGestureRecognizer;
-        panGR.minimumNumberOfTouches = 2;
-        panGR.maximumNumberOfTouches = 2;
-        _scrollView.pagingEnabled = NO;
-        
-        // tap gesture for selecting and creating objects
-        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tappedView:)];
-        tapGesture.numberOfTapsRequired = 1;
-        tapGesture.numberOfTouchesRequired = 1;
-        [self.scrollView addGestureRecognizer:tapGesture];
-        
-        // single-finger pan to move active objects
-        UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(dragInView:)];
-        panGesture.minimumNumberOfTouches = 1;
-        panGesture.maximumNumberOfTouches = 1;
-        panGesture.delegate = self;
-        [self.scrollView addGestureRecognizer:panGesture];
-        
-        // stroke gesture to delete object
-        UISwipeGestureRecognizer *swipGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swippedView:)];
-        swipGesture.numberOfTouchesRequired = 1;
-        swipGesture.direction = UISwipeGestureRecognizerDirectionLeft;
-        swipGesture.delegate = self;
-        [self.scrollView addGestureRecognizer:swipGesture];
     }
+    return _drawView;
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    lastGateType = 0;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -83,17 +87,10 @@
     CGFloat minScale = MIN(scaleHeight, scaleWidth);
     self.scrollView.minimumZoomScale = minScale;
     
-    self.scrollView.maximumZoomScale = 2.0;
+    self.scrollView.maximumZoomScale = 5.0;
     self.scrollView.zoomScale = 1.0;
     self.drawingScale.text = [NSString stringWithFormat:@"%.0f%%", self.scrollView.zoomScale*100.0];
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    _drawView = nil;
-    gates = nil;
-    activeObject = nil;
+    self.drawView.gates = self.gates;
 }
 
 - (IBAction)exitGateSelection:(UIStoryboardSegue *)segue {
@@ -101,7 +98,6 @@
         GateCollectionViewController *gateSelection = segue.sourceViewController;
         if (gateSelection.currentSelection >= 0) {
             lastGateType = gateSelection.currentSelection;
-            _gateSymbol.image = [Gates getImageForGate:lastGateType];
         }
     }
 }
@@ -117,8 +113,8 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if ([alertView cancelButtonIndex] != buttonIndex) {
-        [gates.list removeObject:activeObject];
-        [_drawView setNeedsDisplay];
+        [self.gates.list removeObject:activeObject];
+        [self.drawView setNeedsDisplay];
         activeObject = nil;
     }
 }
@@ -126,7 +122,7 @@
 - (void)swippedView:(UISwipeGestureRecognizer *)sender {
     CGPoint position = [sender locationInView:_drawView];
     NSLog(@"swipped");
-    Gate *gate = [gates findMatch:position];
+    Gate *gate = [self.gates findMatch:position];
     if (gate) {
         gate.selected = YES;
         activeObject = gate;
@@ -136,39 +132,44 @@
 }
 
 - (void)tappedView:(UITapGestureRecognizer *)sender {
-    CGPoint position = [sender locationInView:_drawView];
-    Gate *gate = [gates findMatch:position];
+    CGPoint position = [sender locationInView:self.drawView];
+    Gate *gate = [self.gates findMatch:position];
     
     if (gate == nil) {
         gate = [[Gate alloc] initWithGate:lastGateType andLocation:position];
-        [gates.list addObject:gate];
+        [self.gates.list addObject:gate];
         gate.selected = YES;
     } else {
         gate.selected = !gate.selected;
     }
 
     if (gate.selected) activeObject = gate;
-    [_drawView setNeedsDisplay];
+    [self.drawView setNeedsDisplay];
 }
 
 - (void)dragInView:(UIPanGestureRecognizer *)sender {
     if (sender.state == UIGestureRecognizerStateChanged ||
         sender.state == UIGestureRecognizerStateBegan) {
-        CGPoint position = [sender locationInView:_drawView];
+        CGPoint position = [sender locationInView:self.drawView];
         if (activeObject) {
             activeObject.location = position;
-            [_drawView setNeedsDisplay];
+            [self.drawView setNeedsDisplay];
         }
     } else if (sender.state == UIGestureRecognizerStateEnded) {
         activeObject.selected = NO;
         activeObject = nil;
-        [_drawView setNeedsDisplay];
+        [self.drawView setNeedsDisplay];
     }
 }
 
 #pragma mark - UIScrollView Delegate methods
 - (UIView*)viewForZoomingInScrollView:(UIScrollView *)scrollView {
     return self.drawView;
+}
+
+- (void)scrollViewDidZoom:(UIScrollView *)scrollView {
+    self.drawingScale.text = [NSString stringWithFormat:@"%.0f%%", scrollView.zoomScale*100.0];
+    [self.drawView setNeedsDisplay];
 }
 
 - (BOOL)scrollViewShouldScrollToTop:(UIScrollView *)scrollView {

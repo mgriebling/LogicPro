@@ -10,18 +10,19 @@
 
 @interface Gate : NSObject
 
-- (id)initWithGate:(NSInteger)gate andLocation:(CGPoint)location;
+typedef enum {OR_GATE, NOR_GATE, AND_GATE, NAND_GATE, XOR_GATE, XNOR_GATE, BUFFER_GATE, INVERTER_GATE, MAX_GATES} GateType;
+
+- (id)initWithGate:(GateType)gate andLocation:(CGPoint)location;
 
 @property(nonatomic)CGPoint location;
-@property(nonatomic)NSInteger gate;
+@property(nonatomic)GateType gate;
 @property(nonatomic)BOOL selected;
 
 @end
 
 @interface Gates : NSObject
 
-+ (UIImage *)getImageForGate:(NSInteger)gate;
-+ (NSString *)getNameForGate:(NSInteger)gate;
++ (NSString *)getNameForGate:(GateType)gate;
 + (NSInteger)total;
 
 - (Gate *)findMatch:(CGPoint)position;

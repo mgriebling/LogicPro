@@ -12,6 +12,6 @@
 
 @interface GateView : UIView
 
-@property (weak, nonatomic)Gates *gates;
+@property (strong, nonatomic) Gates *gates;
 
 @end

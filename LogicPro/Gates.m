@@ -12,72 +12,36 @@
 
 - (id)init {
     self = [super init];
-    if (self) {
-        _list = [[NSMutableArray alloc] initWithCapacity:50];
-    }
+    if (self) _list = [NSMutableArray array];
     return self;
 }
 
-+ (UIImage *)getImageForGate:(NSInteger)gate {
++ (NSString *)getNameForGate:(GateType)gate {
     switch (gate) {
-        case 0:
-            return [UIImage imageNamed:@"And.png"];
-            break;
-            
-        case 1:
-            return [UIImage imageNamed:@"Or.png"];
-            break;
-            
-        case 2:
-            return [UIImage imageNamed:@"Not.png"];
-            break;
-            
-        case 3:
-            return [UIImage imageNamed:@"XOr.png"];
-            break;
-            
-        default:
-            return nil;
-            break;
-    }
-}
-
-+ (NSString *)getNameForGate:(NSInteger)gate {
-    switch (gate) {
-        case 0:
-            return @"And Gate";
-            break;
-            
-        case 1:
-            return @"Or Gate";
-            break;
-            
-        case 2:
-            return @"Not Gate";
-            break;
-            
-        case 3:
-            return @"Xor Gate";
-            break;
-            
-        default:
-            return @"";
-            break;
+        case AND_GATE:      return @"And Gate";
+        case NAND_GATE:     return @"Nand Gate";
+        case OR_GATE:       return @"Or Gate";
+        case NOR_GATE:      return @"Nor Gate";
+        case BUFFER_GATE:   return @"Buffer Gate";
+        case INVERTER_GATE: return @"Inverter Gate";
+        case XOR_GATE:      return @"Xor Gate";
+        case XNOR_GATE:     return @"XNor Gate";
+        default:            return @"";
     }
 }
 
 + (NSInteger)total {
-    return 4;
+    return MAX_GATES;
 }
 
 - (Gate *)findMatch:(CGPoint)position {
-    for (Gate *gate in _list) {
-        CGSize gsize = [Gates getImageForGate:gate.gate].size;
-        CGRect grect = CGRectMake(gate.location.x - gsize.width/4, gate.location.y - gsize.height/4, gsize.width/2, gsize.height/2);;
-        if (CGRectContainsPoint(grect, position)) {
-            return gate;
-        } 
-    }
+//    for (Gate *gate in self.list) {
+//        CGSize gsize = [Gates getImageForGate:gate.gate].size;
+//        CGRect grect = CGRectMake(gate.location.x - gsize.width/4, gate.location.y - gsize.height/4, gsize.width/2, gsize.height/2);;
+//        if (CGRectContainsPoint(grect, position)) {
+//            return gate;
+//        } 
+//    }
     return nil;
 }
 
@@ -86,7 +50,7 @@
 
 @implementation Gate
 
-- (id)initWithGate:(NSInteger)gate andLocation:(CGPoint)location {
+- (id)initWithGate:(GateType)gate andLocation:(CGPoint)location {
     _gate = gate;
     _location = location;
     _selected = NO;

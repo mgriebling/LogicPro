@@ -8,6 +8,7 @@
 
 #import "GateCollectionViewController.h"
 #import "Gates.h"
+#import "GateView.h"
 
 @interface GateCollectionViewController () <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
@@ -49,16 +50,18 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"GateCell" forIndexPath:indexPath];
-    UIImageView *image = (UIImageView *)[cell viewWithTag:10];
+    GateView *gateView = (GateView *)[cell viewWithTag:10];
+    Gate *gate = [[Gate alloc] initWithGate:indexPath.item andLocation:CGPointMake(0, 0)];
+    gateView.gates = [[Gates alloc] init];
+    [gateView.gates.list addObject:gate];
     UILabel *label = (UILabel *)[cell viewWithTag:20];
-    image.image = [Gates getImageForGate:indexPath.row];
     label.text = [Gates getNameForGate:indexPath.row];
     return cell;
 }
 
 #pragma mark - UICollectionViewDelegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    _currentSelection = indexPath.row;
+    _currentSelection = indexPath.item;
     [self performSegueWithIdentifier:@"ExitGateSelection" sender:self];
 }
 
