@@ -11,6 +11,23 @@
 
 @implementation GateView
 
+@synthesize scale = _scale;
+
+#define NICE_SIZE  (0.25)
+
+- (void)setScale:(CGFloat)scale {
+    // redraw when the scale changes
+    if (scale != _scale) {
+        _scale = scale * NICE_SIZE;      // scale by 0.25 so 1.0 give a nice size
+        [self setNeedsDisplay];
+    }
+}
+
+- (CGFloat)scale {
+    if (!_scale) _scale = NICE_SIZE;
+    return _scale;
+}
+
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
@@ -85,16 +102,16 @@
     [self drawNotInContext:context atPoint:CGPointMake(point.x+135.0*scale, point.y+65.0*scale) withScale:scale];
 }
 
-- (void)drawShape:(Gate *)gate inContext:(CGContextRef)context {
+- (void)drawShape:(Gate *)gate inContext:(CGContextRef)context withScale:(CGFloat)scale {
     switch (gate.gate) {
-        case OR_GATE:       [self drawOrInContext:context atPoint:gate.location withScale:0.25]; break;
-        case NOR_GATE:      [self drawNorInContext:context atPoint:gate.location withScale:0.25]; break;
-        case AND_GATE:      [self drawAndInContext:context atPoint:gate.location withScale:0.25]; break;
-        case NAND_GATE:     [self drawNandInContext:context atPoint:gate.location withScale:0.25]; break;
-        case XOR_GATE:      [self drawXorInContext:context atPoint:gate.location withScale:0.25]; break;
-        case XNOR_GATE:     [self drawXNorInContext:context atPoint:gate.location withScale:0.25]; break;
-        case BUFFER_GATE:   [self drawBufferInContext:context atPoint:gate.location withScale:0.25]; break;
-        case INVERTER_GATE: [self drawInverterInContext:context atPoint:gate.location withScale:0.25]; break;
+        case OR_GATE:       [self drawOrInContext:context atPoint:gate.location withScale:scale]; break;
+        case NOR_GATE:      [self drawNorInContext:context atPoint:gate.location withScale:scale]; break;
+        case AND_GATE:      [self drawAndInContext:context atPoint:gate.location withScale:scale]; break;
+        case NAND_GATE:     [self drawNandInContext:context atPoint:gate.location withScale:scale]; break;
+        case XOR_GATE:      [self drawXorInContext:context atPoint:gate.location withScale:scale]; break;
+        case XNOR_GATE:     [self drawXNorInContext:context atPoint:gate.location withScale:scale]; break;
+        case BUFFER_GATE:   [self drawBufferInContext:context atPoint:gate.location withScale:scale]; break;
+        case INVERTER_GATE: [self drawInverterInContext:context atPoint:gate.location withScale:scale]; break;
         default: break;
     }
 }
@@ -102,15 +119,16 @@
 - (void)drawRect:(CGRect)rect {
     // Drawing code
     CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSetLineWidth(context, 3);
+    NSLog(@"Scale = %f", self.scale);
+    CGContextSetLineWidth(context, MAX(1,12*self.scale));
     for (Gate *gate in self.gates.list) {
         if (gate.selected) {
             CGContextSaveGState(context);
             CGContextSetRGBStrokeColor(context, 1, 0, 0, 1);
-            [self drawShape:gate inContext:context];
+            [self drawShape:gate inContext:context withScale:self.scale];
             CGContextRestoreGState(context);
         } else {
-            [self drawShape:gate inContext:context];
+            [self drawShape:gate inContext:context withScale:self.scale];
         }
     }
 }

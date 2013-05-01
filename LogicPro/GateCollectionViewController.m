@@ -51,7 +51,8 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"GateCell" forIndexPath:indexPath];
     GateView *gateView = (GateView *)[cell viewWithTag:10];
-    Gate *gate = [[Gate alloc] initWithGate:indexPath.item andLocation:CGPointMake(0, 0)];
+    gateView.scale = 0.6;
+    Gate *gate = [[Gate alloc] initWithGate:indexPath.item andLocation:CGPointMake(25, 5)];
     gateView.gates = [[Gates alloc] init];
     [gateView.gates.list addObject:gate];
     UILabel *label = (UILabel *)[cell viewWithTag:20];

@@ -148,8 +148,7 @@
 }
 
 - (void)dragInView:(UIPanGestureRecognizer *)sender {
-    if (sender.state == UIGestureRecognizerStateChanged ||
-        sender.state == UIGestureRecognizerStateBegan) {
+    if (sender.state == UIGestureRecognizerStateChanged || sender.state == UIGestureRecognizerStateBegan) {
         CGPoint position = [sender locationInView:self.drawView];
         if (activeObject) {
             activeObject.location = position;
@@ -169,7 +168,7 @@
 
 - (void)scrollViewDidZoom:(UIScrollView *)scrollView {
     self.drawingScale.text = [NSString stringWithFormat:@"%.0f%%", scrollView.zoomScale*100.0];
-    [self.drawView setNeedsDisplay];
+    self.drawView.scale = scrollView.zoomScale;
 }
 
 - (BOOL)scrollViewShouldScrollToTop:(UIScrollView *)scrollView {

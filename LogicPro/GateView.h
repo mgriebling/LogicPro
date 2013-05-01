@@ -13,5 +13,6 @@
 @interface GateView : UIView
 
 @property (strong, nonatomic) Gates *gates;
+@property (nonatomic) CGFloat scale;
 
 @end
