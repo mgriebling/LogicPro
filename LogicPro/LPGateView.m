@@ -6,10 +6,10 @@
 //  Copyright (c) 2013 Computer Inspirations. All rights reserved.
 //
 
-#import "GateView.h"
+#import "LPGateView.h"
 #import "Gates.h"
 
-@implementation GateView
+@implementation LPGateView
 
 @synthesize scale = _scale;
 
@@ -102,7 +102,7 @@
     [self drawNotInContext:context atPoint:CGPointMake(point.x+135.0*scale, point.y+65.0*scale) withScale:scale];
 }
 
-- (void)drawShape:(Gate *)gate inContext:(CGContextRef)context withScale:(CGFloat)scale {
+- (void)drawShape:(LPGate *)gate inContext:(CGContextRef)context withScale:(CGFloat)scale {
     switch (gate.gate) {
         case OR_GATE:       [self drawOrInContext:context atPoint:gate.location withScale:scale]; break;
         case NOR_GATE:      [self drawNorInContext:context atPoint:gate.location withScale:scale]; break;
@@ -121,7 +121,7 @@
     CGContextRef context = UIGraphicsGetCurrentContext();
     NSLog(@"Scale = %f", self.scale);
     CGContextSetLineWidth(context, MAX(1,12*self.scale));
-    for (Gate *gate in self.gates.list) {
+    for (LPGate *gate in self.gates.list) {
         if (gate.selected) {
             CGContextSaveGState(context);
             CGContextSetRGBStrokeColor(context, 1, 0, 0, 1);
