@@ -13,7 +13,7 @@
 
 @interface ViewController () <UIScrollViewDelegate, UIAlertViewDelegate, UIGestureRecognizerDelegate>
 
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *gateSymbol;
+@property (weak, nonatomic) IBOutlet UIButton *gateButton;
 @property (strong, nonatomic) GateView *drawView;
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UITextField *drawingScale;
@@ -76,7 +76,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    lastGateType = 0;
+    lastGateType = NAND_GATE;
+    [self.gateButton setImage:[self imageForGate:lastGateType] forState:UIControlStateNormal];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -93,11 +94,26 @@
     self.drawView.gates = self.gates;
 }
 
+- (UIImage *)imageForGate:(GateType)gate {
+    GateView *gateView = [[GateView alloc] initWithFrame:self.gateButton.bounds];
+    gateView.scale = 0.6;
+    Gate *gateObject = [[Gate alloc] initWithGate:gate andLocation:CGPointMake(15, 5)];
+    gateView.gates = [[Gates alloc] init];
+    gateView.backgroundColor = [UIColor whiteColor];
+    [gateView.gates.list addObject:gateObject];
+    UIGraphicsBeginImageContext(self.gateButton.bounds.size);
+    [gateView.layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *gateImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return gateImage;
+}
+
 - (IBAction)exitGateSelection:(UIStoryboardSegue *)segue {
     if ([segue.identifier isEqualToString:@"ExitGateSelection"]) {
         GateCollectionViewController *gateSelection = segue.sourceViewController;
         if (gateSelection.currentSelection >= 0) {
             lastGateType = gateSelection.currentSelection;
+            [self.gateButton setImage:[self imageForGate:lastGateType] forState:UIControlStateNormal];
         }
     }
 }

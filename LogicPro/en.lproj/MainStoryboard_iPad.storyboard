@@ -1,38 +1,52 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12D78" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="2">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4514" systemVersion="13A603" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="2">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
+        <deployment defaultVersion="1792" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
         <scene sceneID="4">
             <objects>
                 <viewController id="2" customClass="ViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="p6p-3b-RCS"/>
+                        <viewControllerLayoutGuide type="bottom" id="TXV-OY-8Dv"/>
+                    </layoutGuides>
                     <view key="view" contentMode="redraw" id="zBG-Go-aqc">
-                        <rect key="frame" x="0.0" y="20" width="768" height="1004"/>
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="redraw" id="TCa-SI-fn6">
-                                <rect key="frame" x="0.0" y="0.0" width="768" height="1014"/>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="TCa-SI-fn6">
+                                <rect key="frame" x="0.0" y="0.0" width="768" height="1034"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </scrollView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="blackTranslucent" id="NNS-9K-JAu">
-                                <rect key="frame" x="0.0" y="960" width="768" height="44"/>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NNS-9K-JAu">
+                                <rect key="frame" x="0.0" y="980" width="768" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items>
-                                    <barButtonItem image="And.png" width="45" id="Xtk-RU-CvW">
-                                        <connections>
-                                            <segue destination="KRU-de-0oV" kind="popover" identifier="showGates" popoverAnchorBarButtonItem="Xtk-RU-CvW" id="k3d-Ck-Cbg">
-                                                <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
-                                            </segue>
-                                        </connections>
+                                    <barButtonItem style="plain" id="4xQ-JN-Ltg">
+                                        <button key="customView" opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="edC-U8-FF7">
+                                            <rect key="frame" x="16" y="2" width="75" height="40"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <state key="normal" image="And.png">
+                                                <color key="titleShadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <segue destination="KRU-de-0oV" kind="popover" popoverAnchorView="edC-U8-FF7" id="qdz-L3-6wa">
+                                                    <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                                </segue>
+                                            </connections>
+                                        </button>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="29i-IU-tTN"/>
                                     <barButtonItem title="LogicPro™" style="plain" id="X3q-ta-Ldv"/>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="tuQ-ny-7Oz"/>
-                                    <barButtonItem id="z7j-FX-EwB">
-                                        <textField key="customView" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="100%" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" id="X7Y-JN-EXi">
-                                            <rect key="frame" x="697" y="7" width="64" height="30"/>
+                                    <barButtonItem width="64" id="z7j-FX-EwB">
+                                        <textField key="customView" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="100%" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" id="X7Y-JN-EXi">
+                                            <rect key="frame" x="688" y="7" width="64" height="30"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                             <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -42,14 +56,27 @@
                                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </barButtonItem>
                                 </items>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="TCa-SI-fn6" firstAttribute="leading" secondItem="zBG-Go-aqc" secondAttribute="leading" id="1n5-ed-JjE"/>
+                            <constraint firstAttribute="trailing" secondItem="NNS-9K-JAu" secondAttribute="trailing" id="AUg-kO-xIz"/>
+                            <constraint firstItem="TCa-SI-fn6" firstAttribute="leading" secondItem="NNS-9K-JAu" secondAttribute="leading" id="BAe-YV-8O8"/>
+                            <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="TCa-SI-fn6" secondAttribute="bottom" constant="-10" id="MtY-aS-xLc"/>
+                            <constraint firstItem="TCa-SI-fn6" firstAttribute="top" secondItem="zBG-Go-aqc" secondAttribute="top" id="Pah-k5-j0R"/>
+                            <constraint firstItem="NNS-9K-JAu" firstAttribute="trailing" secondItem="TCa-SI-fn6" secondAttribute="trailing" id="Tev-hS-esT"/>
+                            <constraint firstItem="NNS-9K-JAu" firstAttribute="leading" secondItem="zBG-Go-aqc" secondAttribute="leading" id="egV-GY-JSq"/>
+                            <constraint firstAttribute="bottom" secondItem="NNS-9K-JAu" secondAttribute="bottom" id="f2m-Ri-6Sk"/>
+                            <constraint firstAttribute="bottom" secondItem="TCa-SI-fn6" secondAttribute="bottom" constant="-10" id="f8k-e8-QJK"/>
+                            <constraint firstAttribute="trailing" secondItem="TCa-SI-fn6" secondAttribute="trailing" id="m0i-rB-5dv"/>
+                        </constraints>
                     </view>
                     <toolbarItems/>
                     <connections>
                         <outlet property="drawingScale" destination="X7Y-JN-EXi" id="gFW-cb-045"/>
-                        <outlet property="gateSymbol" destination="Xtk-RU-CvW" id="Zih-dd-AGc"/>
+                        <outlet property="gateButton" destination="edC-U8-FF7" id="IjF-85-7gp"/>
                         <outlet property="scrollView" destination="TCa-SI-fn6" id="egg-TE-qay"/>
                     </connections>
                 </viewController>
@@ -62,9 +89,8 @@
             <objects>
                 <collectionViewController autoresizesArchivedViewToFullSize="NO" id="KRU-de-0oV" customClass="GateCollectionViewController" sceneMemberID="viewController">
                     <collectionView key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" indicatorStyle="white" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="vBl-qb-SZ8">
-                        <rect key="frame" x="0.0" y="20" width="540" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="540" height="620"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <inset key="contentInset" minX="10" minY="5" maxX="10" maxY="5"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="1Ti-Iy-QcW">
                             <size key="itemSize" width="94" height="61"/>
                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -79,12 +105,12 @@
                                     <rect key="frame" x="0.0" y="0.0" width="94" height="61"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <view tag="10" contentMode="scaleToFill" id="7oA-uL-Tde" customClass="GateView">
+                                        <view tag="10" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7oA-uL-Tde" customClass="GateView">
                                             <rect key="frame" x="0.0" y="0.0" width="94" height="61"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                         </view>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="20" contentMode="left" text="And Gate" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="HYX-s8-4bd">
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="20" contentMode="left" fixedFrame="YES" text="And Gate" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HYX-s8-4bd">
                                             <rect key="frame" x="0.0" y="40" width="94" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -110,49 +136,14 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="17H-3J-rr1" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="KcN-xG-6LL" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1832" y="118"/>
+            <point key="canvasLocation" x="1628" y="118"/>
         </scene>
     </scenes>
     <resources>
         <image name="And.png" width="288" height="168"/>
     </resources>
-    <classes>
-        <class className="GateCollectionViewController" superclassName="UICollectionViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/GateCollectionViewController.h"/>
-        </class>
-        <class className="GateView" superclassName="UIView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/GateView.h"/>
-        </class>
-        <class className="UICollectionReusableView" superclassName="UIView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionReusableView.h"/>
-        </class>
-        <class className="UICollectionViewCell" superclassName="UICollectionReusableView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewCell.h"/>
-        </class>
-        <class className="UICollectionViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewController.h"/>
-        </class>
-        <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
-        </class>
-        <class className="UICollectionViewLayout" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewLayout.h"/>
-        </class>
-        <class className="UIStoryboardSegue" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UIStoryboardSegue.h"/>
-        </class>
-        <class className="ViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="exitGateSelection:" candidateClass="UIStoryboardSegue"/>
-                <relationship kind="outlet" name="drawingScale" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="gateSymbol" candidateClass="UIBarButtonItem"/>
-                <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
-            </relationships>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
-        <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
+        <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
