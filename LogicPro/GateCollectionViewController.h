@@ -10,4 +10,5 @@
 
 @interface GateCollectionViewController : UICollectionViewController
 @property (nonatomic) NSInteger currentSelection;
+@property (nonatomic, strong)NSArray *gates;
 @end

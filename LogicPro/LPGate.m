@@ -51,9 +51,9 @@
 @implementation LPGate
 
 - (id)initWithLocation:(CGPoint)location {
-    _location = location;
-    _selected = NO;
-    UIImage *image;
+//    _location = location;
+//    _selected = NO;
+//    UIImage *image;
     return self;
 }
 

@@ -7,8 +7,8 @@
 //
 
 #import "GateCollectionViewController.h"
-#import "Gates.h"
-#import "GateView.h"
+#import "LPGate.h"
+#import "LPGateView.h"
 
 @interface GateCollectionViewController () <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
@@ -41,7 +41,7 @@
 #pragma mark - UICollectionView Datasource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return [Gates total];
+    return self.gates.count;
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
@@ -50,13 +50,13 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"GateCell" forIndexPath:indexPath];
-    GateView *gateView = (GateView *)[cell viewWithTag:10];
-    gateView.scale = 0.6;
-    Gate *gate = [[Gate alloc] initWithGate:indexPath.item andLocation:CGPointMake(25, 5)];
-    gateView.gates = [[Gates alloc] init];
-    [gateView.gates.list addObject:gate];
-    UILabel *label = (UILabel *)[cell viewWithTag:20];
-    label.text = [Gates getNameForGate:indexPath.row];
+    LPGateView *gateView = (LPGateView *)[cell viewWithTag:10];
+//    gateView.scale = 0.6;
+//    LPGate *gate = [[LPGate alloc] initWithGate:indexPath.item andLocation:CGPointMake(25, 5)];
+//    gateView.gates = [[Gates alloc] init];
+//    [gateView.gates.list addObject:gate];
+//    UILabel *label = (UILabel *)[cell viewWithTag:20];
+//    label.text = [Gates getNameForGate:indexPath.row];
     return cell;
 }
 

@@ -7,30 +7,30 @@
 //
 
 #import "ViewController.h"
-#import "Gates.h"
+#import "LPGate.h"
 #import "GateCollectionViewController.h"
-#import "GateView.h"
+#import "LPGateView.h"
 
 @interface ViewController () <UIScrollViewDelegate, UIAlertViewDelegate, UIGestureRecognizerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIButton *gateButton;
-@property (strong, nonatomic) GateView *drawView;
+@property (strong, nonatomic) LPGateView *drawView;
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UITextField *drawingScale;
-@property (strong, nonatomic) Gates *gates;
+@property (strong, nonatomic) LPGate *gates;
 
 @end
 
 @implementation ViewController {
 
     NSInteger lastGateType;
-    Gate *activeObject;
+    LPGate *activeObject;
 }
 
-- (Gates *)gates {
-    if (!_gates) _gates = [[Gates alloc] init];
-    return _gates;
-}
+//- (Gates *)gates {
+//    if (!_gates) _gates = [[Gates alloc] init];
+//    return _gates;
+//}
 
 - (void) setScrollView:(UIScrollView *)scrollView {
     _scrollView = scrollView;
@@ -65,9 +65,9 @@
     [_scrollView addGestureRecognizer:swipGesture];
 }
 
-- (GateView *)drawView {
+- (LPGateView *)drawView {
     if (!_drawView) {
-        _drawView = [[GateView alloc] init];
+        _drawView = [[LPGateView alloc] init];
         _drawView.frame = (CGRect){.origin=CGPointMake(0, 0), .size=CGSizeMake(1000, 1000)};
         _drawView.backgroundColor = [UIColor whiteColor];
     }
@@ -76,8 +76,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    lastGateType = NAND_GATE;
-    [self.gateButton setImage:[self imageForGate:lastGateType] forState:UIControlStateNormal];
+//    lastGateType = NAND_GATE;
+//    [self.gateButton setImage:[self imageForGate:lastGateType] forState:UIControlStateNormal];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -91,29 +91,29 @@
     self.scrollView.maximumZoomScale = 5.0;
     self.scrollView.zoomScale = 1.0;
     self.drawingScale.text = [NSString stringWithFormat:@"%.0f%%", self.scrollView.zoomScale*100.0];
-    self.drawView.gates = self.gates;
+//    self.drawView.gates = self.gates;
 }
 
-- (UIImage *)imageForGate:(GateType)gate {
-    GateView *gateView = [[GateView alloc] initWithFrame:self.gateButton.bounds];
-    gateView.scale = 0.6;
-    Gate *gateObject = [[Gate alloc] initWithGate:gate andLocation:CGPointMake(15, 5)];
-    gateView.gates = [[Gates alloc] init];
-    gateView.backgroundColor = [UIColor whiteColor];
-    [gateView.gates.list addObject:gateObject];
-    UIGraphicsBeginImageContext(self.gateButton.bounds.size);
-    [gateView.layer renderInContext:UIGraphicsGetCurrentContext()];
-    UIImage *gateImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return gateImage;
-}
+//- (UIImage *)imageForGate:(GateType)gate {
+//    LPGateView *gateView = [[LPGateView alloc] initWithFrame:self.gateButton.bounds];
+//    gateView.scale = 0.6;
+//    Gate *gateObject = [[Gate alloc] initWithGate:gate andLocation:CGPointMake(15, 5)];
+//    gateView.gates = [[Gates alloc] init];
+//    gateView.backgroundColor = [UIColor whiteColor];
+//    [gateView.gates.list addObject:gateObject];
+//    UIGraphicsBeginImageContext(self.gateButton.bounds.size);
+//    [gateView.layer renderInContext:UIGraphicsGetCurrentContext()];
+//    UIImage *gateImage = UIGraphicsGetImageFromCurrentImageContext();
+//    UIGraphicsEndImageContext();
+//    return gateImage;
+//}
 
 - (IBAction)exitGateSelection:(UIStoryboardSegue *)segue {
     if ([segue.identifier isEqualToString:@"ExitGateSelection"]) {
         GateCollectionViewController *gateSelection = segue.sourceViewController;
         if (gateSelection.currentSelection >= 0) {
             lastGateType = gateSelection.currentSelection;
-            [self.gateButton setImage:[self imageForGate:lastGateType] forState:UIControlStateNormal];
+//            [self.gateButton setImage:[self imageForGate:lastGateType] forState:UIControlStateNormal];
         }
     }
 }
@@ -129,7 +129,7 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if ([alertView cancelButtonIndex] != buttonIndex) {
-        [self.gates.list removeObject:activeObject];
+//        [self.gates.list removeObject:activeObject];
         [self.drawView setNeedsDisplay];
         activeObject = nil;
     }
@@ -138,9 +138,9 @@
 - (void)swippedView:(UISwipeGestureRecognizer *)sender {
     CGPoint position = [sender locationInView:_drawView];
     NSLog(@"swipped");
-    Gate *gate = [self.gates findMatch:position];
+    LPGate *gate = nil;  //[self.gates findMatch:position];
     if (gate) {
-        gate.selected = YES;
+//        gate.selected = YES;
         activeObject = gate;
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Delete Gate?" message:@"Are you sure you want to delete the selected gate?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Delete", nil];
         [alert show];
@@ -149,17 +149,17 @@
 
 - (void)tappedView:(UITapGestureRecognizer *)sender {
     CGPoint position = [sender locationInView:self.drawView];
-    Gate *gate = [self.gates findMatch:position];
+    LPGate *gate = nil;  //[self.gates findMatch:position];
     
     if (gate == nil) {
-        gate = [[Gate alloc] initWithGate:lastGateType andLocation:position];
-        [self.gates.list addObject:gate];
-        gate.selected = YES;
+        gate = [[LPGate alloc] init];
+//        [self.gates.list addObject:gate];
+//        gate.selected = YES;
     } else {
-        gate.selected = !gate.selected;
+//        gate.selected = !gate.selected;
     }
 
-    if (gate.selected) activeObject = gate;
+//    if (gate.selected) activeObject = gate;
     [self.drawView setNeedsDisplay];
 }
 
@@ -167,11 +167,11 @@
     if (sender.state == UIGestureRecognizerStateChanged || sender.state == UIGestureRecognizerStateBegan) {
         CGPoint position = [sender locationInView:self.drawView];
         if (activeObject) {
-            activeObject.location = position;
+//            activeObject.location = position;
             [self.drawView setNeedsDisplay];
         }
     } else if (sender.state == UIGestureRecognizerStateEnded) {
-        activeObject.selected = NO;
+//        activeObject.selected = NO;
         activeObject = nil;
         [self.drawView setNeedsDisplay];
     }
@@ -184,7 +184,7 @@
 
 - (void)scrollViewDidZoom:(UIScrollView *)scrollView {
     self.drawingScale.text = [NSString stringWithFormat:@"%.0f%%", scrollView.zoomScale*100.0];
-    self.drawView.scale = scrollView.zoomScale;
+//    self.drawView.scale = scrollView.zoomScale;
 }
 
 - (BOOL)scrollViewShouldScrollToTop:(UIScrollView *)scrollView {
