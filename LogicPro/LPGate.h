@@ -8,11 +8,45 @@
 
 #import <Foundation/Foundation.h>
 
+// The keys described down below.
+extern NSString *LPGateCanSetDrawingFillKey;
+extern NSString *LPGateCanSetDrawingStrokeKey;
+extern NSString *LPGateIsDrawingFillKey;
+extern NSString *LPGateFillColorKey;
+extern NSString *LPGateIsDrawingStrokeKey;
+extern NSString *LPGateStrokeColorKey;
+extern NSString *LPGateStrokeWidthKey;
+extern NSString *LPGateXPositionKey;
+extern NSString *LPGateYPositionKey;
+extern NSString *LPGateWidthKey;
+extern NSString *LPGateHeightKey;
+extern NSString *LPGateBoundsKey;
+extern NSString *LPGateDrawingBoundsKey;
+extern NSString *LPGateDrawingContentsKey;
+extern NSString *LPGateKeysForValuesToObserveForUndoKey;
+
+// The value that is returned by -handleUnderPoint: to indicate that no selection handle is under the point.
+extern const NSInteger LPGateNoHandle;
+
+enum {
+    LPGateUpperLeftHandle = 1,
+    LPGateUpperMiddleHandle = 2,
+    LPGateUpperRightHandle = 3,
+    LPGateMiddleLeftHandle = 4,
+    LPGateMiddleRightHandle = 5,
+    LPGateLowerLeftHandle = 6,
+    LPGateLowerMiddleHandle = 7,
+    LPGateLowerRightHandle = 8,
+};
+
+extern CGFloat LPGateHandleWidth;
+extern CGFloat LPGateHandleHalfWidth;
+
 @interface LPGate : NSObject <NSCopying> {
 @private
     
     // The values underlying some of the key-value coding (KVC) and observing (KVO) compliance described below. Any corresponding getter or setter methods are there for invocation by code in subclasses, not for KVC or KVO compliance. KVC's direct instance variable access, KVO's autonotifying, and KVO's property dependency mechanism makes them unnecessary for the latter purpose.
-    // If you look closely, you'll notice that SKTGraphic itself never touches these instance variables directly except in initializers, -copyWithZone:, and public accessors. SKTGraphic is following a good rule: if a class publishes getters and setters it should itself invoke them, because people who override methods to customize behavior are right to expect their overrides to actually be invoked.
+    // If you look closely, you'll notice that LPGate itself never touches these instance variables directly except in initializers, -copyWithZone:, and public accessors. LPGate is following a good rule: if a class publishes getters and setters it should itself invoke them, because people who override methods to customize behavior are right to expect their overrides to actually be invoked.
     CGRect  _bounds;
     BOOL    _isDrawingFill;
     UIColor *_fillColor;
@@ -26,7 +60,7 @@
 
 #pragma mark *** Convenience ***
 
-/* You can override these class methods in your subclass of SKTGraphic, but it would be a waste of time, because no one invokes these on any class other than SKTGraphic itself. Really these could just be functions if we didn't have such a syntactic sweet tooth. */
+/* You can override these class methods in your subclass of LPGate, but it would be a waste of time, because no one invokes these on any class other than LPGate itself. Really these could just be functions if we didn't have such a syntactic sweet tooth. */
 
 // Move each graphic in the array by the same amount.
 + (void)translateGraphics:(NSArray *)graphics byX:(CGFloat)deltaX y:(CGFloat)deltaY;
@@ -39,7 +73,7 @@
 
 #pragma mark *** Persistence ***
 
-/* You can override these class methods in your subclass of SKTGraphic, but it would be a waste of time, because no one invokes these on any class other than SKTGraphic itself. Really these could just be functions if we didn't have such a syntactic sweet tooth. */
+/* You can override these class methods in your subclass of LPGate, but it would be a waste of time, because no one invokes these on any class other than LPGate itself. Really these could just be functions if we didn't have such a syntactic sweet tooth. */
 
 // Return an array of graphics created from flattened data of the sort returned by +pasteboardDataWithGraphics: or, if that's not possible, return nil and set *outError to an NSError that can be presented to the user to explain what went wrong.
 + (NSArray *)graphicsWithPasteboardData:(NSData *)data error:(NSError **)outError;
@@ -53,7 +87,7 @@
 // Given an array of graphics, return an array of property list dictionaries.
 + (NSArray *)propertiesWithGraphics:(NSArray *)graphics;
 
-/* Subclasses of SKTGraphic might have reason to override any of the rest of this class' methods, starting here. */
+/* Subclasses of LPGate might have reason to override any of the rest of this class' methods, starting here. */
 
 // Given a dictionary having the sort of entries that would be in a dictionary returned by -properties, but whose validity has not been determined, initialize, setting the values of as many properties as possible from it. Ignore unrecognized dictionary entries. Use default values for missing dictionary entries. This is not the designated initializer for this class (-init is).
 - (id)initWithProperties:(NSDictionary *)properties;
@@ -74,7 +108,7 @@
 
 #pragma mark *** Drawing ***
 
-// Return the keys of all of the properties whose values affect the appearance of an instance of the receiving subclass of SKTGraphic (even properties declared in a superclass). The first method should return the keys for such properties that affect the drawing bounds of graphics. The second method should return the keys for such properties that do not. Most subclasses of SKTGraphic should override one or both of these, and be KVO-compliant for the properties identified by keys in the returned set. Implementations of these methods don't have to be fast, at least not in the context of Sketch, because their results are cached. In Mac OS 10.5 and later these methods are invoked automatically by KVO because their names match the result of applying to "drawingBounds" and "drawingContents" the naming pattern used by the default implementation of +[NSObject(NSKeyValueObservingCustomization) keyPathsForValuesAffectingValueForKey:].
+// Return the keys of all of the properties whose values affect the appearance of an instance of the receiving subclass of LPGate (even properties declared in a superclass). The first method should return the keys for such properties that affect the drawing bounds of graphics. The second method should return the keys for such properties that do not. Most subclasses of LPGate should override one or both of these, and be KVO-compliant for the properties identified by keys in the returned set. Implementations of these methods don't have to be fast, at least not in the context of Sketch, because their results are cached. In Mac OS 10.5 and later these methods are invoked automatically by KVO because their names match the result of applying to "drawingBounds" and "drawingContents" the naming pattern used by the default implementation of +[NSObject(NSKeyValueObservingCustomization) keyPathsForValuesAffectingValueForKey:].
 + (NSSet *)keyPathsForValuesAffectingDrawingBounds;
 + (NSSet *)keyPathsForValuesAffectingDrawingContents;
 
@@ -112,7 +146,7 @@
 // Return YES if the point is in the contents of the receiver, NO otherwise. The default implementation of this method returns YES if the point is inside [self bounds].
 - (BOOL)isContentsUnderPoint:(CGPoint)point;
 
-// If the point is in one of the handles of the receiver return its number, SKTGraphicNoHandle otherwise. The default implementation of this method invokes -isHandleAtPoint:underPoint: for the corners and on the sides of the rectangle returned by -bounds. Subclasses that override this probably have to override several other methods too.
+// If the point is in one of the handles of the receiver return its number, LPGateNoHandle otherwise. The default implementation of this method invokes -isHandleAtPoint:underPoint: for the corners and on the sides of the rectangle returned by -bounds. Subclasses that override this probably have to override several other methods too.
 - (NSInteger)handleUnderPoint:(CGPoint)point;
 
 // Return YES if the handle at a point is under another point. Subclasses that override -handleUnderPoint: can invoke this to hit-test the sort of handles that would be drawn by -drawHandleInView:atPoint:.
@@ -125,7 +159,7 @@
 - (void)flipHorizontally;
 - (void)flipVertically;
 
-// Given that [[self class] canMakeNaturalSize] would return YES, set the the bounds of the receiver to whatever is "natural" for its particular subclass of SKTGraphic. The default implementation of this method just squares the bounds.
+// Given that [[self class] canMakeNaturalSize] would return YES, set the the bounds of the receiver to whatever is "natural" for its particular subclass of LPGate. The default implementation of this method just squares the bounds.
 - (void)makeNaturalSize;
 
 // Set the bounds of the graphic, doing whatever scaling and translation is necessary.
