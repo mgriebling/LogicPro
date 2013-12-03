@@ -91,7 +91,6 @@ CGFloat LPGateHandleHalfWidth = 6.0f / 2.0f;
 
 @implementation LPGate
 
-
 // An override of the superclass' designated initializer.
 - (id)init {
     
@@ -309,85 +308,108 @@ CGFloat LPGateHandleHalfWidth = 6.0f / 2.0f;
 + (NSData *)pasteboardDataWithGraphics:(NSArray *)graphics {
     
     // Convert the contents of the document to a property list and then flatten the property list.
-    return [NSPropertyListSerialization dataFromPropertyList:[self propertiesWithGraphics:graphics] format:NSPropertyListBinaryFormat_v1_0 errorDescription:NULL];
-    
+//    return [NSPropertyListSerialization dataFromPropertyList:[self propertiesWithGraphics:graphics] format:NSPropertyListBinaryFormat_v1_0 errorDescription:NULL];
+    return nil;
 }
 
 
-+ (NSArray *)propertiesWithGraphics:(NSArray *)graphics {
-    
-    // Convert the array of graphics dictionaries into an array of graphic property dictionaries.
-    NSUInteger graphicCount = [graphics count];
-    NSMutableArray *propertiesArray = [[NSMutableArray alloc] initWithCapacity:graphicCount];
-    for (NSUInteger index = 0; index<graphicCount; index++) {
-        LPGate *graphic = [graphics objectAtIndex:index];
-        
-        // Get the properties of the graphic, add the class name that can be used by +graphicsWithProperties: to it, and add the properties to the array we're building.
-        NSMutableDictionary *properties = [graphic properties];
-        [properties setObject:NSStringFromClass([graphic class]) forKey:LPGateClassNameKey];
-        [propertiesArray addObject:properties];
-        
-    }
-    return propertiesArray;
-    
-}
+//+ (NSArray *)propertiesWithGraphics:(NSArray *)graphics {
+//    
+//    // Convert the array of graphics dictionaries into an array of graphic property dictionaries.
+//    NSUInteger graphicCount = [graphics count];
+//    NSMutableArray *propertiesArray = [[NSMutableArray alloc] initWithCapacity:graphicCount];
+//    for (NSUInteger index = 0; index<graphicCount; index++) {
+//        LPGate *graphic = [graphics objectAtIndex:index];
+//        
+//        // Get the properties of the graphic, add the class name that can be used by +graphicsWithProperties: to it, and add the properties to the array we're building.
+//        NSMutableDictionary *properties = [graphic properties];
+//        [properties setObject:NSStringFromClass([graphic class]) forKey:LPGateClassNameKey];
+//        [propertiesArray addObject:properties];
+//        
+//    }
+//    return propertiesArray;
+//    
+//}
 
-
-- (id)initWithProperties:(NSDictionary *)properties {
-    
-    // Invoke the designated initializer.
-    self = [self init];
+- (id)initWithCoder:(NSCoder *)decoder {
+    self = [super init];
     if (self) {
-        
-        // The dictionary entries are all instances of the classes that can be written in property lists. Don't trust the type of something you get out of a property list unless you know your process created it or it was read from your application or framework's resources. We don't have to worry about KVO-compliance in initializers like this by the way; no one should be observing an unitialized object.
-        Class dataClass = [NSData class];
-        Class numberClass = [NSNumber class];
-        Class stringClass = [NSString class];
-        NSString *boundsString = [properties objectForKey:LPGateBoundsKey];
-        if ([boundsString isKindOfClass:stringClass]) {
-            _bounds = CGRectFromString(boundsString);
-        }
-        NSNumber *isDrawingFillNumber = [properties objectForKey:LPGateIsDrawingFillKey];
-        if ([isDrawingFillNumber isKindOfClass:numberClass]) {
-            _isDrawingFill = [isDrawingFillNumber boolValue];
-        }
-        NSData *fillColorData = [properties objectForKey:LPGateFillColorKey];
-        if ([fillColorData isKindOfClass:dataClass]) {
-            _fillColor = [NSUnarchiver unarchiveObjectWithData:fillColorData];
-        }
-        NSNumber *isDrawingStrokeNumber = [properties objectForKey:LPGateIsDrawingStrokeKey];
-        if ([isDrawingStrokeNumber isKindOfClass:numberClass]) {
-            _isDrawingStroke = [isDrawingStrokeNumber boolValue];
-        }
-        NSData *strokeColorData = [properties objectForKey:LPGateStrokeColorKey];
-        if ([strokeColorData isKindOfClass:dataClass]) {
-            _strokeColor = [NSUnarchiver unarchiveObjectWithData:strokeColorData];
-        }
-        NSNumber *strokeWidthNumber = [properties objectForKey:LPGateStrokeWidthKey];
-        if ([strokeWidthNumber isKindOfClass:numberClass]) {
-            _strokeWidth = [strokeWidthNumber doubleValue];
-        }
-        
+        _bounds = [decoder decodeCGRectForKey:LPGateBoundsKey];
+        _isDrawingFill = [decoder decodeBoolForKey:LPGateIsDrawingFillKey];
+        _fillColor = [decoder decodeObjectForKey:LPGateFillColorKey];
+        _isDrawingStroke = [decoder decodeBoolForKey:LPGateIsDrawingStrokeKey];
+        _strokeColor = [decoder decodeObjectForKey:LPGateStrokeColorKey];
+        _strokeWidth = [decoder decodeDoubleForKey:LPGateStrokeWidthKey];
     }
     return self;
-    
 }
+
+- (void)encodeWithCoder:(NSCoder *)encoder {
+    [encoder encodeCGRect:_bounds forKey:LPGateBoundsKey];
+    [encoder encodeBool:_isDrawingFill forKey:LPGateIsDrawingFillKey];
+    [encoder encodeObject:_fillColor forKey:LPGateFillColorKey];
+    [encoder encodeBool:_isDrawingStroke forKey:LPGateIsDrawingStrokeKey];
+    [encoder encodeObject:_strokeColor forKey:LPGateStrokeColorKey];
+    [encoder encodeDouble:_strokeWidth forKey:LPGateStrokeWidthKey];
+}
+
+
+//- (id)initWithProperties:(NSDictionary *)properties {
+//    
+//    // Invoke the designated initializer.
+//    self = [self init];
+//    if (self) {
+//        
+//        // The dictionary entries are all instances of the classes that can be written in property lists. Don't trust the type of something you get out of a property list unless you know your process created it or it was read from your application or framework's resources. We don't have to worry about KVO-compliance in initializers like this by the way; no one should be observing an unitialized object.
+//        Class dataClass = [NSData class];
+//        Class numberClass = [NSNumber class];
+//        Class stringClass = [NSString class];
+//        NSString *boundsString = [properties objectForKey:LPGateBoundsKey];
+//        if ([boundsString isKindOfClass:stringClass]) {
+//            _bounds = CGRectFromString(boundsString);
+//        }
+//        NSNumber *isDrawingFillNumber = [properties objectForKey:LPGateIsDrawingFillKey];
+//        if ([isDrawingFillNumber isKindOfClass:numberClass]) {
+//            _isDrawingFill = [isDrawingFillNumber boolValue];
+//        }
+//        NSData *fillColorData = [properties objectForKey:LPGateFillColorKey];
+//        if ([fillColorData isKindOfClass:dataClass]) {
+//            _fillColor = [NSUnarchiver unarchiveObjectWithData:fillColorData];
+//        }
+//        NSNumber *isDrawingStrokeNumber = [properties objectForKey:LPGateIsDrawingStrokeKey];
+//        if ([isDrawingStrokeNumber isKindOfClass:numberClass]) {
+//            _isDrawingStroke = [isDrawingStrokeNumber boolValue];
+//        }
+//        NSData *strokeColorData = [properties objectForKey:LPGateStrokeColorKey];
+//        if ([strokeColorData isKindOfClass:dataClass]) {
+//            _strokeColor = [NSUnarchiver unarchiveObjectWithData:strokeColorData];
+//        }
+//        NSNumber *strokeWidthNumber = [properties objectForKey:LPGateStrokeWidthKey];
+//        if ([strokeWidthNumber isKindOfClass:numberClass]) {
+//            _strokeWidth = [strokeWidthNumber doubleValue];
+//        }
+//        
+//    }
+//    return self;
+//    
+//}
 
 
 - (NSMutableDictionary *)properties {
     
     // Return a dictionary that contains nothing but values that can be written in property lists.
     NSMutableDictionary *properties = [NSMutableDictionary dictionary];
-    [properties setObject:NSStringFromRect([self bounds]) forKey:LPGateBoundsKey];
+    CFDictionaryRef ref = CGRectCreateDictionaryRepresentation([self bounds]);
+    [properties setObject:nil forKey:LPGateBoundsKey];
     [properties setObject:[NSNumber numberWithBool:[self isDrawingFill]] forKey:LPGateIsDrawingFillKey];
     UIColor *fillColor = [self fillColor];
     if (fillColor) {
-        [properties setObject:[NSArchiver archivedDataWithRootObject:fillColor] forKey:LPGateFillColorKey];
+        [properties setObject:fillColor forKey:LPGateFillColorKey];
     }
     [properties setObject:[NSNumber numberWithBool:[self isDrawingStroke]] forKey:LPGateIsDrawingStrokeKey];
     UIColor *strokeColor = [self strokeColor];
     if (strokeColor) {
-        [properties setObject:[NSArchiver archivedDataWithRootObject:strokeColor] forKey:LPGateStrokeColorKey];
+        [properties setObject:strokeColor forKey:LPGateStrokeColorKey];
     }
     [properties setObject:[NSNumber numberWithDouble:[self strokeWidth]] forKey:LPGateStrokeWidthKey];
     return properties;
@@ -509,17 +531,16 @@ CGFloat LPGateHandleHalfWidth = 6.0f / 2.0f;
     handleBounds.origin.y = point.y - LPGateHandleHalfWidth;
     handleBounds.size.width = LPGateHandleWidth;
     handleBounds.size.height = LPGateHandleWidth;
-    handleBounds = [view centerScanRect:handleBounds];
+//    handleBounds = [view centerScanRect:handleBounds];
     
     // Draw the shadow of the handle.
     CGRect handleShadowBounds = CGRectOffset(handleBounds, 1.0f, 1.0f);
-    [[UIColor darkGrayColor] set];
-//    [[UIColor controlDarkShadowColor] set];
-    CGRectFill(handleShadowBounds);
+    [[UIColor darkGrayColor] set];   // [UIColor controlDarkShadowColor] set];
+    UIRectFill(handleShadowBounds);
     
     // Draw the handle itself.
     [[UIColor redColor] set];
-    CGRectFill(handleBounds);
+    UIRectFill(handleBounds);
     
 }
 
@@ -880,9 +901,9 @@ CGFloat LPGateHandleHalfWidth = 6.0f / 2.0f;
             } else {
                 
                 // Not allowed. Tell the scripter what happened.
-                NSScriptCommand *currentScriptCommand = [NSScriptCommand currentCommand];
-                [currentScriptCommand setScriptErrorNumber:errAEEventFailed];
-                [currentScriptCommand setScriptErrorString:NSLocalizedStringFromTable(@"You can't set the fill color of this kind of graphic.", @"LPGate", @"A scripting error message.")];
+//                NSScriptCommand *currentScriptCommand = [NSScriptCommand currentCommand];
+//                [currentScriptCommand setScriptErrorNumber:errAEEventFailed];
+//                [currentScriptCommand setScriptErrorString:NSLocalizedStringFromTable(@"You can't set the fill color of this kind of graphic.", @"LPGate", @"A scripting error message.")];
                 canSetFillColor = NO;
                 
             }
@@ -897,9 +918,9 @@ CGFloat LPGateHandleHalfWidth = 6.0f / 2.0f;
             } else {
                 
                 // Not allowed. Tell the scripter what happened.
-                NSScriptCommand *currentScriptCommand = [NSScriptCommand currentCommand];
-                [currentScriptCommand setScriptErrorNumber:errAEEventFailed];
-                [currentScriptCommand setScriptErrorString:NSLocalizedStringFromTable(@"You can't remove the fill from this kind of graphic.", @"LPGate", @"A scripting error message.")];
+//                NSScriptCommand *currentScriptCommand = [NSScriptCommand currentCommand];
+//                [currentScriptCommand setScriptErrorNumber:errAEEventFailed];
+//                [currentScriptCommand setScriptErrorString:NSLocalizedStringFromTable(@"You can't remove the fill from this kind of graphic.", @"LPGate", @"A scripting error message.")];
                 
             }
         }
@@ -916,10 +937,10 @@ CGFloat LPGateHandleHalfWidth = 6.0f / 2.0f;
             if ([self canSetDrawingStroke]) {
                 [self setValue:[NSNumber numberWithBool:YES] forKey:LPGateIsDrawingStrokeKey];
             } else {
-                NSScriptCommand *currentScriptCommand = [NSScriptCommand currentCommand];
-                [currentScriptCommand setScriptErrorNumber:errAEEventFailed];
-                [currentScriptCommand setScriptErrorString:NSLocalizedStringFromTable(@"You can't set the stroke color of this kind of graphic.", @"LPGate", @"A scripting error message.")];
-                canSetStrokeColor = NO;
+//                NSScriptCommand *currentScriptCommand = [NSScriptCommand currentCommand];
+//                [currentScriptCommand setScriptErrorNumber:errAEEventFailed];
+//                [currentScriptCommand setScriptErrorString:NSLocalizedStringFromTable(@"You can't set the stroke color of this kind of graphic.", @"LPGate", @"A scripting error message.")];
+//                canSetStrokeColor = NO;
             }
         }
         if (canSetStrokeColor) {
@@ -930,9 +951,9 @@ CGFloat LPGateHandleHalfWidth = 6.0f / 2.0f;
             if ([self canSetDrawingStroke]) {
                 [self setValue:[NSNumber numberWithBool:NO] forKey:LPGateIsDrawingStrokeKey];
             } else {
-                NSScriptCommand *currentScriptCommand = [NSScriptCommand currentCommand];
-                [currentScriptCommand setScriptErrorNumber:errAEEventFailed];
-                [currentScriptCommand setScriptErrorString:NSLocalizedStringFromTable(@"You can't remove the stroke from this kind of graphic.", @"LPGate", @"A scripting error message.")];
+//                NSScriptCommand *currentScriptCommand = [NSScriptCommand currentCommand];
+//                [currentScriptCommand setScriptErrorNumber:errAEEventFailed];
+//                [currentScriptCommand setScriptErrorString:NSLocalizedStringFromTable(@"You can't remove the stroke from this kind of graphic.", @"LPGate", @"A scripting error message.")];
             }
         }
     }
@@ -952,9 +973,9 @@ CGFloat LPGateHandleHalfWidth = 6.0f / 2.0f;
             } else {
                 
                 // Not allowed. Tell the scripter what happened.
-                NSScriptCommand *currentScriptCommand = [NSScriptCommand currentCommand];
-                [currentScriptCommand setScriptErrorNumber:errAEEventFailed];
-                [currentScriptCommand setScriptErrorString:NSLocalizedStringFromTable(@"You can't set the stroke thickness of this kind of graphic.", @"LPGate", @"A scripting error message.")];
+//                NSScriptCommand *currentScriptCommand = [NSScriptCommand currentCommand];
+//                [currentScriptCommand setScriptErrorNumber:errAEEventFailed];
+//                [currentScriptCommand setScriptErrorString:NSLocalizedStringFromTable(@"You can't set the stroke thickness of this kind of graphic.", @"LPGate", @"A scripting error message.")];
                 canSetStrokeWidth = NO;
                 
             }
@@ -969,9 +990,9 @@ CGFloat LPGateHandleHalfWidth = 6.0f / 2.0f;
             } else {
                 
                 // Not allowed. Tell the scripter what happened.
-                NSScriptCommand *currentScriptCommand = [NSScriptCommand currentCommand];
-                [currentScriptCommand setScriptErrorNumber:errAEEventFailed];
-                [currentScriptCommand setScriptErrorString:NSLocalizedStringFromTable(@"You can't remove the stroke from this kind of graphic.", @"LPGate", @"A scripting error message.")];
+//                NSScriptCommand *currentScriptCommand = [NSScriptCommand currentCommand];
+//                [currentScriptCommand setScriptErrorNumber:errAEEventFailed];
+//                [currentScriptCommand setScriptErrorString:NSLocalizedStringFromTable(@"You can't remove the stroke from this kind of graphic.", @"LPGate", @"A scripting error message.")];
                 
             }
         }

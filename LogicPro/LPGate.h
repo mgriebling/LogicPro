@@ -42,7 +42,7 @@ enum {
 extern CGFloat LPGateHandleWidth;
 extern CGFloat LPGateHandleHalfWidth;
 
-@interface LPGate : NSObject <NSCopying> {
+@interface LPGate : NSObject <NSCopying, NSCoding> {
 @private
     
     // The values underlying some of the key-value coding (KVC) and observing (KVO) compliance described below. Any corresponding getter or setter methods are there for invocation by code in subclasses, not for KVC or KVO compliance. KVC's direct instance variable access, KVO's autonotifying, and KVO's property dependency mechanism makes them unnecessary for the latter purpose.
@@ -85,15 +85,15 @@ extern CGFloat LPGateHandleHalfWidth;
 + (NSData *)pasteboardDataWithGraphics:(NSArray *)graphics;
 
 // Given an array of graphics, return an array of property list dictionaries.
-+ (NSArray *)propertiesWithGraphics:(NSArray *)graphics;
+//+ (NSArray *)propertiesWithGraphics:(NSArray *)graphics;
 
 /* Subclasses of LPGate might have reason to override any of the rest of this class' methods, starting here. */
 
 // Given a dictionary having the sort of entries that would be in a dictionary returned by -properties, but whose validity has not been determined, initialize, setting the values of as many properties as possible from it. Ignore unrecognized dictionary entries. Use default values for missing dictionary entries. This is not the designated initializer for this class (-init is).
-- (id)initWithProperties:(NSDictionary *)properties;
+//- (id)initWithProperties:(NSDictionary *)properties;
 
 // Return a dictionary that can be used as property list object and contains enough information to recreate the graphic (except for its class, which is handled by +propertiesWithGraphics:). The returned dictionary must be mutable so that it can be added to efficiently, but the receiver must ignore any mutations made to it after it's been returned.
-- (NSMutableDictionary *)properties;
+//- (NSMutableDictionary *)properties;
 
 #pragma mark *** Simple Property Getting ***
 
