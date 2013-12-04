@@ -50,7 +50,7 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"GateCell" forIndexPath:indexPath];
-    LPGateView *gateView = (LPGateView *)[cell viewWithTag:10];
+//    LPGateView *gateView = (LPGateView *)[cell viewWithTag:10];
 //    gateView.scale = 0.6;
 //    LPGate *gate = [[LPGate alloc] initWithGate:indexPath.item andLocation:CGPointMake(25, 5)];
 //    gateView.gates = [[Gates alloc] init];
