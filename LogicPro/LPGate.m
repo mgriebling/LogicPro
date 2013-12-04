@@ -400,7 +400,7 @@ CGFloat LPGateHandleHalfWidth = 6.0f / 2.0f;
     // Return a dictionary that contains nothing but values that can be written in property lists.
     NSMutableDictionary *properties = [NSMutableDictionary dictionary];
     CFDictionaryRef ref = CGRectCreateDictionaryRepresentation([self bounds]);
-    [properties setObject:nil forKey:LPGateBoundsKey];
+    [properties setObject:(__bridge id)(ref) forKey:LPGateBoundsKey];
     [properties setObject:[NSNumber numberWithBool:[self isDrawingFill]] forKey:LPGateIsDrawingFillKey];
     UIColor *fillColor = [self fillColor];
     if (fillColor) {

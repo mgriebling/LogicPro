@@ -136,7 +136,7 @@
 }
 
 - (void)swippedView:(UISwipeGestureRecognizer *)sender {
-    CGPoint position = [sender locationInView:_drawView];
+//    CGPoint position = [sender locationInView:_drawView];
     NSLog(@"swipped");
     LPGate *gate = nil;  //[self.gates findMatch:position];
     if (gate) {
@@ -148,7 +148,7 @@
 }
 
 - (void)tappedView:(UITapGestureRecognizer *)sender {
-    CGPoint position = [sender locationInView:self.drawView];
+//    CGPoint position = [sender locationInView:self.drawView];
     LPGate *gate = nil;  //[self.gates findMatch:position];
     
     if (gate == nil) {
@@ -165,7 +165,7 @@
 
 - (void)dragInView:(UIPanGestureRecognizer *)sender {
     if (sender.state == UIGestureRecognizerStateChanged || sender.state == UIGestureRecognizerStateBegan) {
-        CGPoint position = [sender locationInView:self.drawView];
+//        CGPoint position = [sender locationInView:self.drawView];
         if (activeObject) {
 //            activeObject.location = position;
             [self.drawView setNeedsDisplay];

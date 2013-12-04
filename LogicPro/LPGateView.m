@@ -322,10 +322,10 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
         if ([keyPath isEqualToString:LPGateDrawingBoundsKey]) {
             
             // Redraw the part of the view that the graphic used to occupy, and the part that it now occupies.
-            CGRect oldGraphicDrawingBounds = [[change objectForKey:NSKeyValueChangeOldKey] rectValue];
-            [self setNeedsDisplayInRect:oldGraphicDrawingBounds];
-            CGRect newGraphicDrawingBounds = [[change objectForKey:NSKeyValueChangeNewKey] rectValue];
-            [self setNeedsDisplayInRect:newGraphicDrawingBounds];
+//            CGRect oldGraphicDrawingBounds = [[change objectForKey:NSKeyValueChangeOldKey] rectValue];
+//            [self setNeedsDisplayInRect:oldGraphicDrawingBounds];
+//            CGRect newGraphicDrawingBounds = [[change objectForKey:NSKeyValueChangeNewKey] rectValue];
+//            [self setNeedsDisplayInRect:newGraphicDrawingBounds];
             
         } else if ([keyPath isEqualToString:LPGateDrawingContentsKey]) {
             
@@ -448,13 +448,13 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
 //    CGRect newHorizontalRect = [self convertRect:echoRect toView:horizontalRuler];
 //    CGRect newVerticalRect = [self convertRect:echoRect toView:verticalRuler];
 //    
-//    [horizontalRuler moveRulerlineFromLocation:-1.0 toLocation:NSMinX(newHorizontalRect)];
-//    [horizontalRuler moveRulerlineFromLocation:-1.0 toLocation:NSMidX(newHorizontalRect)];
-//    [horizontalRuler moveRulerlineFromLocation:-1.0 toLocation:NSMaxX(newHorizontalRect)];
+//    [horizontalRuler moveRulerlineFromLocation:-1.0 toLocation:CGRectGetMinX(newHorizontalRect)];
+//    [horizontalRuler moveRulerlineFromLocation:-1.0 toLocation:CGRectGetMidX(newHorizontalRect)];
+//    [horizontalRuler moveRulerlineFromLocation:-1.0 toLocation:CGRectGetMaxX(newHorizontalRect)];
 //    
-//    [verticalRuler moveRulerlineFromLocation:-1.0 toLocation:NSMinY(newVerticalRect)];
-//    [verticalRuler moveRulerlineFromLocation:-1.0 toLocation:NSMidY(newVerticalRect)];
-//    [verticalRuler moveRulerlineFromLocation:-1.0 toLocation:NSMaxY(newVerticalRect)];
+//    [verticalRuler moveRulerlineFromLocation:-1.0 toLocation:CGRectGetMinY(newVerticalRect)];
+//    [verticalRuler moveRulerlineFromLocation:-1.0 toLocation:CGRectGetMidY(newVerticalRect)];
+//    [verticalRuler moveRulerlineFromLocation:-1.0 toLocation:CGRectGetMaxY(newVerticalRect)];
 //    
 //    _rulerEchoedBounds = echoRect;
 }
@@ -469,13 +469,13 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
 //    CGRect newHorizontalRect = [self convertRect:echoRect toView:horizontalRuler];
 //    CGRect newVerticalRect = [self convertRect:echoRect toView:verticalRuler];
 //    
-//    [horizontalRuler moveRulerlineFromLocation:NSMinX(oldHorizontalRect) toLocation:NSMinX(newHorizontalRect)];
-//    [horizontalRuler moveRulerlineFromLocation:NSMidX(oldHorizontalRect) toLocation:NSMidX(newHorizontalRect)];
-//    [horizontalRuler moveRulerlineFromLocation:NSMaxX(oldHorizontalRect) toLocation:NSMaxX(newHorizontalRect)];
+//    [horizontalRuler moveRulerlineFromLocation:CGRectGetMinX(oldHorizontalRect) toLocation:CGRectGetMinX(newHorizontalRect)];
+//    [horizontalRuler moveRulerlineFromLocation:CGRectGetMidX(oldHorizontalRect) toLocation:CGRectGetMidX(newHorizontalRect)];
+//    [horizontalRuler moveRulerlineFromLocation:CGRectGetMaxX(oldHorizontalRect) toLocation:CGRectGetMaxX(newHorizontalRect)];
 //    
-//    [verticalRuler moveRulerlineFromLocation:NSMinY(oldVerticalRect) toLocation:NSMinY(newVerticalRect)];
-//    [verticalRuler moveRulerlineFromLocation:NSMidY(oldVerticalRect) toLocation:NSMidY(newVerticalRect)];
-//    [verticalRuler moveRulerlineFromLocation:NSMaxY(oldVerticalRect) toLocation:NSMaxY(newVerticalRect)];
+//    [verticalRuler moveRulerlineFromLocation:CGRectGetMinY(oldVerticalRect) toLocation:CGRectGetMinY(newVerticalRect)];
+//    [verticalRuler moveRulerlineFromLocation:CGRectGetMidY(oldVerticalRect) toLocation:CGRectGetMidY(newVerticalRect)];
+//    [verticalRuler moveRulerlineFromLocation:CGRectGetMaxY(oldVerticalRect) toLocation:CGRectGetMaxY(newVerticalRect)];
 //    
 //    _rulerEchoedBounds = echoRect;
 }
@@ -487,13 +487,13 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
 //    CGRect oldHorizontalRect = [self convertRect:_rulerEchoedBounds toView:horizontalRuler];
 //    CGRect oldVerticalRect = [self convertRect:_rulerEchoedBounds toView:verticalRuler];
 //    
-//    [horizontalRuler moveRulerlineFromLocation:NSMinX(oldHorizontalRect) toLocation:-1.0];
-//    [horizontalRuler moveRulerlineFromLocation:NSMidX(oldHorizontalRect) toLocation:-1.0];
-//    [horizontalRuler moveRulerlineFromLocation:NSMaxX(oldHorizontalRect) toLocation:-1.0];
+//    [horizontalRuler moveRulerlineFromLocation:CGRectGetMinX(oldHorizontalRect) toLocation:-1.0];
+//    [horizontalRuler moveRulerlineFromLocation:CGRectGetMidX(oldHorizontalRect) toLocation:-1.0];
+//    [horizontalRuler moveRulerlineFromLocation:CGRectGetMaxX(oldHorizontalRect) toLocation:-1.0];
 //    
-//    [verticalRuler moveRulerlineFromLocation:NSMinY(oldVerticalRect) toLocation:-1.0];
-//    [verticalRuler moveRulerlineFromLocation:NSMidY(oldVerticalRect) toLocation:-1.0];
-//    [verticalRuler moveRulerlineFromLocation:NSMaxY(oldVerticalRect) toLocation:-1.0];
+//    [verticalRuler moveRulerlineFromLocation:CGRectGetMinY(oldVerticalRect) toLocation:-1.0];
+//    [verticalRuler moveRulerlineFromLocation:CGRectGetMidY(oldVerticalRect) toLocation:-1.0];
+//    [verticalRuler moveRulerlineFromLocation:CGRectGetMaxY(oldVerticalRect) toLocation:-1.0];
 //    
 //    _rulerEchoedBounds = NSZeroRect;
 }
@@ -533,7 +533,7 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
         
         // Make the editing view the first responder so it takes key events and relevant menu item commands.
         
-        [[self window] makeFirstResponder:_editingView];
+//        [[self window] makeFirstResponder:_editingView];
         
         // Get notified if the editing view's frame gets smaller, because we may have to force redrawing when that happens. Record the view's frame because it won't be available when we get the notification.
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setNeedsDisplayForEditingViewFrameChangeNotification:) name:UIScreenModeDidChangeNotification object:_editingView];
@@ -556,22 +556,21 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
         [[NSNotificationCenter defaultCenter] removeObserver:self name:UIScreenModeDidChangeNotification object:_editingView];
         
         // Pull the editing view out of this one. When editing is being stopped because the user has clicked in this view, outside of the editing view, NSWindow will have already made this view the window's first responder, and that's good. However, when editing is being stopped because the edited graphic is being removed (by undoing or scripting, for example), the invocation of -[NSView removeFromSuperview] we do here will leave the window as its own first responder, and that would be bad, so also fix the window's first responder if appropriate. It wouldn't be appropriate to steal first-respondership from sibling views here.
-        BOOL makeSelfFirstResponder = [[self window] firstResponder]==_editingView ? YES : NO;
+        BOOL makeSelfFirstResponder = _editingView.isFirstResponder;
         [_editingView removeFromSuperview];
         if (makeSelfFirstResponder) {
-            [[self window] makeFirstResponder:self];
+//            [[self window] makeFirstResponder:self];
+            [self becomeFirstResponder];
         }
         
         // If the editing view added a ruler accessory view then remove it because it's not applicable anymore, and get rid of the blank space in the ruler that would otherwise result. In Sketch the NSTextViews created by SKTTexts leave horizontal ruler accessory views.
-        NSRulerView *horizontalRulerView = [[self enclosingScrollView] horizontalRulerView];
-        [horizontalRulerView setAccessoryView:nil];
-        [horizontalRulerView setReservedThicknessForAccessoryView:_oldReservedThicknessForRulerAccessoryView];
+//        NSRulerView *horizontalRulerView = [[self enclosingScrollView] horizontalRulerView];
+//        [horizontalRulerView setAccessoryView:nil];
+//        [horizontalRulerView setReservedThicknessForAccessoryView:_oldReservedThicknessForRulerAccessoryView];
 	    
         // Give the graphic that created the editing view a chance to tear down their relationships and then forget about them both.
-        [_editingGraphic finalizeEditingView:_editingView];
-        [_editingGraphic release];
-        _editingGraphic = nil;
-        [_editingView release];
+        [_editingGate finalizeEditingView:_editingView];
+        _editingGate = nil;
         _editingView = nil;
         
     }
@@ -582,20 +581,20 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
 #pragma mark *** Mouse Event Handling ***
 
 
-- (LPGateView *)graphicUnderPoint:(CGPoint)point index:(NSUInteger *)outIndex isSelected:(BOOL *)outIsSelected handle:(NSInteger *)outHandle {
+- (LPGate *)graphicUnderPoint:(CGPoint)point index:(NSUInteger *)outIndex isSelected:(BOOL *)outIsSelected handle:(NSInteger *)outHandle {
     
     // We don't touch *outIndex, *outIsSelected, or *outHandle if we return nil. Those values are undefined if we don't return a match.
     
     // Search through all of the graphics, front to back, looking for one that claims that the point is on a selection handle (if it's selected) or in the contents of the graphic itself.
-    LPGateView *graphicToReturn = nil;
+    LPGate *graphicToReturn = nil;
     NSArray *graphics = [self graphics];
     NSIndexSet *selectionIndexes = [self selectionIndexes];
     NSUInteger graphicCount = [graphics count];
     for (NSUInteger index = 0; index<graphicCount; index++) {
-        LPGateView *graphic = [graphics objectAtIndex:index];
+        LPGate *graphic = [graphics objectAtIndex:index];
         
         // Do a quick check to weed out graphics that aren't even in the neighborhood.
-        if (CGPointInRect(point, [graphic drawingBounds])) {
+        if (CGRectContainsPoint([graphic drawingBounds], point)) {
             
             // Check the graphic's selection handles first, because they take precedence when they overlap the graphic's contents.
             BOOL graphicIsSelected = [selectionIndexes containsIndex:index];
@@ -643,45 +642,45 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
     
 }
 
-- (void)moveSelectedGraphicsWithEvent:(id)event {
+- (void)moveSelectedGraphicsWithEvent:(UIPanGestureRecognizer *)event {
     CGPoint lastPoint, curPoint;
     NSArray *selGraphics = [self selectedGraphics];
     NSUInteger c;
     BOOL didMove = NO, isMoving = NO;
-    BOOL echoToRulers = [[self enclosingScrollView] rulersVisible];
-    CGRect selBounds = [[LPGateView self] boundsOfGraphics:selGraphics];
+    BOOL echoToRulers = NO;  // [[self enclosingScrollView] rulersVisible];
+    CGRect selBounds = [[LPGate self] boundsOfGraphics:selGraphics];
     
     c = [selGraphics count];
     
-    lastPoint = [self convertPoint:[event locationInWindow] fromView:nil];
-    CGPoint selOriginOffset = NSMakePoint((lastPoint.x - selBounds.origin.x), (lastPoint.y - selBounds.origin.y));
+    lastPoint = [event locationInView:self];
+    CGPoint selOriginOffset = CGPointMake((lastPoint.x - selBounds.origin.x), (lastPoint.y - selBounds.origin.y));
     if (echoToRulers) {
         [self beginEchoingMoveToRulers:selBounds];
     }
     
-    while ([event type]!=NSLeftMouseUp) {
-        event = [[self window] nextEventMatchingMask:(NSLeftMouseDraggedMask | NSLeftMouseUpMask)];
-        [self autoscroll:event];
-        curPoint = [self convertPoint:[event locationInWindow] fromView:nil];
+    if ([event isKindOfClass:[UIPanGestureRecognizer class]]) {
+//        event = [[self window] nextEventMatchingMask:(NSLeftMouseDraggedMask | NSLeftMouseUpMask)];
+//        [self autoscroll:event];
+        curPoint = [event locationInView:self];
         if (!isMoving && ((fabs(curPoint.x - lastPoint.x) >= 2.0) || (fabs(curPoint.y - lastPoint.y) >= 2.0))) {
             isMoving = YES;
             _isHidingHandles = YES;
         }
         if (isMoving) {
-            if (_grid) {
-                CGPoint boundsOrigin;
-                boundsOrigin.x = curPoint.x - selOriginOffset.x;
-                boundsOrigin.y = curPoint.y - selOriginOffset.y;
-                boundsOrigin  = [_grid constrainedPoint:boundsOrigin];
-                curPoint.x = boundsOrigin.x + selOriginOffset.x;
-                curPoint.y = boundsOrigin.y + selOriginOffset.y;
-            }
-            if (!NSEqualPoints(lastPoint, curPoint)) {
+//            if (_grid) {
+//                CGPoint boundsOrigin;
+//                boundsOrigin.x = curPoint.x - selOriginOffset.x;
+//                boundsOrigin.y = curPoint.y - selOriginOffset.y;
+//                boundsOrigin  = [_grid constrainedPoint:boundsOrigin];
+//                curPoint.x = boundsOrigin.x + selOriginOffset.x;
+//                curPoint.y = boundsOrigin.y + selOriginOffset.y;
+//            }
+            if (!CGPointEqualToPoint(lastPoint, curPoint)) {
                 [[LPGateView class] translateGraphics:selGraphics byX:(curPoint.x - lastPoint.x) y:(curPoint.y - lastPoint.y)];
                 didMove = YES;
-                if (echoToRulers) {
-                    [self continueEchoingMoveToRulers:NSMakeRect(curPoint.x - selOriginOffset.x, curPoint.y - selOriginOffset.y, NSWidth(selBounds),NSHeight(selBounds))];
-                }
+//                if (echoToRulers) {
+//                    [self continueEchoingMoveToRulers:CGRectMake(curPoint.x - selOriginOffset.x, curPoint.y - selOriginOffset.y, NSWidth(selBounds),NSHeight(selBounds))];
+//                }
                 // Adjust the delta that is used for cascading pastes.  Pasting and then moving the pasted graphic is the way you determine the cascade delta for subsequent pastes.
                 _pasteCascadeDelta.x += (curPoint.x - lastPoint.x);
                 _pasteCascadeDelta.y += (curPoint.y - lastPoint.y);
@@ -695,13 +694,13 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
     }
     if (isMoving) {
         _isHidingHandles = NO;
-        [self setNeedsDisplayInRect:[LPGateView drawingBoundsOfGraphics:selGraphics]];
+        [self setNeedsDisplayInRect:[LPGate drawingBoundsOfGraphics:selGraphics]];
         if (didMove) {
             // Only if we really moved.
             [[self undoManager] setActionName:NSLocalizedStringFromTable(@"Move", @"UndoStrings", @"Action name for moves.")];
             
             // Post appropriate accessibility notification
-            NSAccessibilityPostNotification(self, NSAccessibilitySelectedChildrenMovedNotification);
+            UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, self);
         }
     }
 }
@@ -709,18 +708,18 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
 
 - (void)resizeGraphic:(LPGate *)graphic usingHandle:(NSInteger)handle withEvent:(id)event {
     
-    BOOL echoToRulers = [[self enclosingScrollView] rulersVisible];
+    BOOL echoToRulers = NO; // [[self enclosingScrollView] rulersVisible];
     if (echoToRulers) {
         [self beginEchoingMoveToRulers:[graphic bounds]];
     }
     
-    while ([event type]!=NSLeftMouseUp) {
-        event = [[self window] nextEventMatchingMask:(NSLeftMouseDraggedMask | NSLeftMouseUpMask)];
-        [self autoscroll:event];
-        CGPoint handleLocation = [self convertPoint:[event locationInWindow] fromView:nil];
-        if (_grid) {
-            handleLocation = [_grid constrainedPoint:handleLocation];
-        }
+    if ([event isKindOfClass:[UIPanGestureRecognizer class]]) {
+//        event = [[self window] nextEventMatchingMask:(NSLeftMouseDraggedMask | NSLeftMouseUpMask)];
+//        [self autoscroll:event];
+        CGPoint handleLocation = [event locationInView:self];
+//        if (_grid) {
+//            handleLocation = [_grid constrainedPoint:handleLocation];
+//        }
         handle = [graphic resizeByMovingHandle:handle toPoint:handleLocation];
         if (echoToRulers) {
             [self continueEchoingMoveToRulers:[graphic bounds]];
@@ -741,8 +740,8 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
     NSArray *graphics = [self graphics];
     NSUInteger graphicCount = [graphics count];
     for (NSUInteger index = 0; index<graphicCount; index++) {
-        LPGateView *graphic = [graphics objectAtIndex:index];
-        if (NSIntersectsRect(rect, [graphic drawingBounds])) {
+        LPGate *graphic = [graphics objectAtIndex:index];
+        if (CGRectIntersectsRect(rect, [graphic drawingBounds])) {
             [indexSetToReturn addIndex:index];
         }
     }
@@ -750,7 +749,7 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
 }
 
 
-- (void)createGraphicOfClass:(Class)graphicClass withEvent:(id)event {
+- (void)createGraphicOfClass:(Class)graphicClass withEvent:(UIGestureRecognizer *)event {
     
     // Before we invoke -[NSUndoManager beginUndoGrouping] turn off automatic per-event-loop group creation. If we don't turn it off now, -beginUndoGrouping will actually create _two_ undo groups: the top-level automatically-created one and then the nested one that we're explicitly creating. When we invoke -undoNestedGroup down below, the automatically-created undo group will be left on the undo stack. It will be ended automatically at the end of the event loop, which is good, and it will be empty, which is expected, but it will be left on the undo stack so the user will see a useless undo action in the Edit menu, which is bad. Is this a bug in NSUndoManager? Well it's certainly surprising that NSUndoManager isn't bright enough to ignore empty undo groups, especially ones that it itself created automatically, so NSUndoManager could definitely use a little improvement here.
     NSUndoManager *undoManager = [self undoManager];
@@ -764,51 +763,51 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
     [self changeSelectionIndexes:[NSIndexSet indexSet]];
     
     CGPoint graphicOrigin;
-    NSSize graphicSize;
+    CGSize graphicSize;
     if (event!=nil) {
         // Where is the mouse pointer as graphic creation is starting? Should the location be constrained to the grid?
-        graphicOrigin = [self convertPoint:[event locationInWindow] fromView:nil];
-        graphicSize = NSMakeSize(0.0f, 0.0f);
-        if (_grid) {
-            graphicOrigin = [_grid constrainedPoint:graphicOrigin];
-        }
+        graphicOrigin = [event locationInView:self];
+        graphicSize = CGSizeMake(0.0f, 0.0f);
+//        if (_grid) {
+//            graphicOrigin = [_grid constrainedPoint:graphicOrigin];
+//        }
     } else {
         // If there is no event, then automatically add a graphic at (10,10). Should the location and size be constrained to the grid?
-        graphicOrigin = NSMakePoint(10.0f, 10.0f);
-        graphicSize = NSMakeSize(100.0f, 100.0f);
+        graphicOrigin = CGPointMake(10.0f, 10.0f);
+        graphicSize = CGSizeMake(100.0f, 100.0f);
         
-        if (_grid) {
-            graphicOrigin = [_grid constrainedPoint:graphicOrigin];
-            
-            CGPoint graphicEndPoint = [_grid constrainedPoint:NSMakePoint(graphicOrigin.x+graphicSize.width, graphicOrigin.y+graphicSize.height)];
-            graphicSize = NSMakeSize(graphicEndPoint.x - graphicOrigin.x, graphicEndPoint.y - graphicOrigin.y);
-        }
+//        if (_grid) {
+//            graphicOrigin = [_grid constrainedPoint:graphicOrigin];
+//            
+//            CGPoint graphicEndPoint = [_grid constrainedPoint:NSMakePoint(graphicOrigin.x+graphicSize.width, graphicOrigin.y+graphicSize.height)];
+//            graphicSize = CGSizeMake(graphicEndPoint.x - graphicOrigin.x, graphicEndPoint.y - graphicOrigin.y);
+//        }
     }
     
     // Create the new graphic and set what little we know of its location.
-    _creatingGraphic = [[graphicClass alloc] init];
-    [_creatingGraphic setBounds:NSMakeRect(graphicOrigin.x, graphicOrigin.y, graphicSize.width, graphicSize.height)];
+    _creatingGate = [[graphicClass alloc] init];
+    [_creatingGate setBounds:CGRectMake(graphicOrigin.x, graphicOrigin.y, graphicSize.width, graphicSize.height)];
     
     // Add it to the set of graphics right away so that it will show up in other views of the same array of graphics as the user sizes it.
     NSMutableArray *mutableGraphics = [self mutableGraphics];
-    [mutableGraphics insertObject:_creatingGraphic atIndex:0];
+    [mutableGraphics insertObject:_creatingGate atIndex:0];
     
     // If this was triggered by a user event then allow the user size the new graphic until they let go of the mouse. Because different kinds of graphics have different kinds of handles, first ask the graphic class what handle the user is dragging during this initial sizing.
     if (event) {
-        [self resizeGraphic:_creatingGraphic usingHandle:[graphicClass creationSizingHandle] withEvent:event];
+        [self resizeGraphic:_creatingGate usingHandle:[graphicClass creationSizingHandle] withEvent:event];
     }
     
     // Why don't we do [undoManager endUndoGrouping] here, once, instead of twice in the following paragraphs? Because of the [undoManager setGroupsByEvent:NO] game we're playing. If we invoke -[NSUndoManager setActionName:] down below after invoking [undoManager endUndoGrouping] there won't be any open undo group, and NSUndoManager will raise an exception. If we weren't playing the [undoManager setGroupsByEvent:NO] game then it would be OK to invoke -[NSUndoManager setActionName:] after invoking [undoManager endUndoGrouping] because the action name would apply to the top-level automatically-created undo group, which is fine.
     
     // Did we really create a graphic? Don't check with !NSIsEmptyRect(createdGraphicBounds) because the bounds of a perfectly horizontal or vertical line is "empty" but of course we want to let people create those.
-    CGRect createdGraphicBounds = [_creatingGraphic bounds];
+    CGRect createdGraphicBounds = [_creatingGate bounds];
     if (NSWidth(createdGraphicBounds)!=0.0 || NSHeight(createdGraphicBounds)!=0.0) {
         
         // Select it.
         [self changeSelectionIndexes:[NSIndexSet indexSetWithIndex:0]];
         
         // The graphic wasn't sized to nothing during mouse tracking. Present its editing interface it if it's that kind of graphic (like Sketch's SKTTexts). Invokers of the method we're in right now should have already cleared out _editingView.
-        [self startEditingGraphic:_creatingGraphic];
+        [self startEditingGraphic:_creatingGate];
         
         // Overwrite whatever undo action name was registered during all of that with a more specific one.
         [undoManager setActionName:[NSString stringWithFormat:NSLocalizedStringFromTable(@"Create %@", @"UndoStrings", @"Action name for newly created graphics. Class name is inserted at the substitution."), [[NSBundle mainBundle] localizedStringForKey:NSStringFromClass(graphicClass) value:@"" table:@"GraphicClassNames"]]];
@@ -832,25 +831,24 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
     [undoManager setGroupsByEvent:undoManagerWasGroupingByEvent];
     
     // Done.
-    [_creatingGraphic release];
-    _creatingGraphic = nil;
+    _creatingGate = nil;
     
 }
 
 
-- (void)marqueeSelectWithEvent:(id)event {
+- (void)marqueeSelectWithEvent:(UIGestureRecognizer *)event {
     
     // Dequeue and handle mouse events until the user lets go of the mouse button.
     NSIndexSet *oldSelectionIndexes = [self selectionIndexes];
-    CGPoint originalMouseLocation = [self convertPoint:[event locationInWindow] fromView:nil];
-    while ([event type]!=NSLeftMouseUp) {
-        event = [[self window] nextEventMatchingMask:(NSLeftMouseDraggedMask | NSLeftMouseUpMask)];
-        [self autoscroll:event];
-        CGPoint currentMouseLocation = [self convertPoint:[event locationInWindow] fromView:nil];
+    CGPoint originalMouseLocation = [event locationInView:self];
+    if ([event isKindOfClass:[UIPanGestureRecognizer class]]) {
+//        event = [[self window] nextEventMatchingMask:(NSLeftMouseDraggedMask | NSLeftMouseUpMask)];
+//        [self autoscroll:event];
+        CGPoint currentMouseLocation = [event locationInView:self];
         
         // Figure out a new a selection rectangle based on the mouse location.
-        CGRect newMarqueeSelectionBounds = NSMakeRect(fmin(originalMouseLocation.x, currentMouseLocation.x), fmin(originalMouseLocation.y, currentMouseLocation.y), fabs(currentMouseLocation.x - originalMouseLocation.x), fabs(currentMouseLocation.y - originalMouseLocation.y));
-        if (!NSEqualRects(newMarqueeSelectionBounds, _marqueeSelectionBounds)) {
+        CGRect newMarqueeSelectionBounds = CGRectMake(fmin(originalMouseLocation.x, currentMouseLocation.x), fmin(originalMouseLocation.y, currentMouseLocation.y), fabs(currentMouseLocation.x - originalMouseLocation.x), fabs(currentMouseLocation.y - originalMouseLocation.y));
+        if (!CGRectEqualToRect(newMarqueeSelectionBounds, _marqueeSelectionBounds)) {
             
             // Erase the old selection rectangle and draw the new one.
             [self setNeedsDisplayInRect:_marqueeSelectionBounds];
@@ -868,7 +866,6 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
                 }
             }
             [self changeSelectionIndexes:newSelectionIndexes];
-            [newSelectionIndexes release];
             
         }
     }
@@ -877,7 +874,7 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
     [self setNeedsDisplayInRect:_marqueeSelectionBounds];
     
     // Make it not there.
-    _marqueeSelectionBounds = NSZeroRect;
+    _marqueeSelectionBounds = CGRectZero;
     
 }
 
@@ -885,14 +882,14 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
 - (void)selectAndTrackMouseWithEvent:(id)event {
     
     // Are we changing the existing selection instead of setting a new one?
-    BOOL modifyingExistingSelection = ([event modifierFlags] & NSShiftKeyMask) ? YES : NO;
+    BOOL modifyingExistingSelection = NO; // ([event modifierFlags] & NSShiftKeyMask) ? YES : NO;
     
     // Has the user clicked on a graphic?
-    CGPoint mouseLocation = [self convertPoint:[event locationInWindow] fromView:nil];
+    CGPoint mouseLocation = [event locationInView:self];
     NSUInteger clickedGraphicIndex;
     BOOL clickedGraphicIsSelected;
     NSInteger clickedGraphicHandle;
-    LPGateView *clickedGraphic = [self graphicUnderPoint:mouseLocation index:&clickedGraphicIndex isSelected:&clickedGraphicIsSelected handle:&clickedGraphicHandle];
+    LPGate *clickedGraphic = [self graphicUnderPoint:mouseLocation index:&clickedGraphicIndex isSelected:&clickedGraphicIsSelected handle:&clickedGraphicHandle];
     if (clickedGraphic) {
         
         // Clicking on a graphic knob takes precedence.
@@ -911,7 +908,6 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
                     NSMutableIndexSet *newSelectionIndexes = [[self selectionIndexes] mutableCopy];
                     [newSelectionIndexes removeIndex:clickedGraphicIndex];
                     [self changeSelectionIndexes:newSelectionIndexes];
-                    [newSelectionIndexes release];
                     clickedGraphicIsSelected = NO;
                     
                 } else {
@@ -920,7 +916,6 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
                     NSMutableIndexSet *newSelectionIndexes = [[self selectionIndexes] mutableCopy];
                     [newSelectionIndexes addIndex:clickedGraphicIndex];
                     [self changeSelectionIndexes:newSelectionIndexes];
-                    [newSelectionIndexes release];
                     clickedGraphicIsSelected = YES;
                     
                 }
@@ -943,9 +938,9 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
             } else {
                 
                 // No. Just swallow mouse events until the user lets go of the mouse button. We don't even bother autoscrolling here.
-                while ([event type]!=NSLeftMouseUp) {
-                    event = [[self window] nextEventMatchingMask:(NSLeftMouseDraggedMask | NSLeftMouseUpMask)];
-                }
+//                while ([event type]!=NSLeftMouseUp) {
+//                    event = [[self window] nextEventMatchingMask:(NSLeftMouseDraggedMask | NSLeftMouseUpMask)];
+//                }
                 
             }
             
@@ -982,31 +977,31 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
     [self stopEditing];
     
     // Is a tool other than the Selection tool selected?
-    Class graphicClassToInstantiate = [[SKTToolPaletteController sharedToolPaletteController] currentGraphicClass];
-    if (graphicClassToInstantiate) {
-        
-        // Create a new graphic and then track to size it.
-        [self createGraphicOfClass:graphicClassToInstantiate withEvent:event];
-        
-    } else {
-        
-        // Double-clicking with the selection tool always means "start editing," or "do nothing" if no editable graphic is double-clicked on.
-        LPGateView *doubleClickedGraphic = nil;
-        if ([event clickCount]>1) {
-            CGPoint mouseLocation = [self convertPoint:[event locationInWindow] fromView:nil];
-            doubleClickedGraphic = [self graphicUnderPoint:mouseLocation index:NULL isSelected:NULL handle:NULL];
-            if (doubleClickedGraphic) {
-                [self startEditingGraphic:doubleClickedGraphic];
-            }
-        }
-        if (!doubleClickedGraphic) {
-            
-            // Update the selection and/or move graphics or resize graphics.
-            [self selectAndTrackMouseWithEvent:event];
-            
-        }
-        
-    }
+//    Class graphicClassToInstantiate = [[SKTToolPaletteController sharedToolPaletteController] currentGraphicClass];
+//    if (graphicClassToInstantiate) {
+//        
+//        // Create a new graphic and then track to size it.
+//        [self createGraphicOfClass:graphicClassToInstantiate withEvent:event];
+//        
+//    } else {
+//        
+//        // Double-clicking with the selection tool always means "start editing," or "do nothing" if no editable graphic is double-clicked on.
+//        LPGateView *doubleClickedGraphic = nil;
+//        if ([event clickCount]>1) {
+//            CGPoint mouseLocation = [self convertPoint:[event locationInWindow] fromView:nil];
+//            doubleClickedGraphic = [self graphicUnderPoint:mouseLocation index:NULL isSelected:NULL handle:NULL];
+//            if (doubleClickedGraphic) {
+//                [self startEditingGraphic:doubleClickedGraphic];
+//            }
+//        }
+//        if (!doubleClickedGraphic) {
+//            
+//            // Update the selection and/or move graphics or resize graphics.
+//            [self selectAndTrackMouseWithEvent:event];
+//            
+//        }
+//        
+//    }
     
 }
 
@@ -1018,7 +1013,7 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
 - (void)keyDown:(id)event {
     
     // Ask the key binding manager to interpret the event for us.
-    [self interpretKeyEvents:[NSArray arrayWithObject:event]];
+//    [self interpretKeyEvents:[NSArray arrayWithObject:event]];
     
 }
 
@@ -1051,14 +1046,14 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
 - (void)unhideHandlesForTimer:(NSTimer *)timer {
     _isHidingHandles = NO;
     _handleShowingTimer = nil;
-    [self setNeedsDisplayInRect:[LPGateView drawingBoundsOfGraphics:[self selectedGraphics]]];
+    [self setNeedsDisplayInRect:[LPGate drawingBoundsOfGraphics:[self selectedGraphics]]];
 }
 
 - (void)hideHandlesMomentarily {
     [_handleShowingTimer invalidate];
     _handleShowingTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(unhideHandlesForTimer:) userInfo:nil repeats:NO];
     _isHidingHandles = YES;
-    [self setNeedsDisplayInRect:[LPGateView drawingBoundsOfGraphics:[self selectedGraphics]]];
+    [self setNeedsDisplayInRect:[LPGate drawingBoundsOfGraphics:[self selectedGraphics]]];
 }
 
 
@@ -1072,13 +1067,13 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
         [self hideHandlesMomentarily];
         
         // Move the selected graphics.
-        [[LPGateView class] translateGraphics:selectedGraphics byX:x y:y];
+        [[LPGate class] translateGraphics:selectedGraphics byX:x y:y];
         
         // Overwrite whatever undo action name was registered during all of that with a more specific one.
         [[self undoManager] setActionName:NSLocalizedStringFromTable(@"Nudge", @"UndoStrings", @"Action name for nudge keyboard commands.")];
         
         // Post appropriate accessibility notification
-        NSAccessibilityPostNotification(self, NSAccessibilitySelectedChildrenMovedNotification);
+        UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, self);
     }
     
 }
@@ -1104,49 +1099,49 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
 
 - (BOOL)makeNewImageFromContentsOfFile:(NSString *)filename atPoint:(CGPoint)point {
     NSString *extension = [filename pathExtension];
-    if ([[UIImage imageFileTypes] containsObject:extension]) {
-        UIImage *contents = [[UIImage alloc] initWithContentsOfFile:filename];
-        if (contents) {
-            SKTImage *newImage = [[SKTImage alloc] initWithPosition:point contents:contents];
-            [contents release];
-            [[self mutableGraphics] insertObject:newImage atIndex:0];
-            [newImage release];
-            [self changeSelectionIndexes:[NSIndexSet indexSetWithIndex:0]];
-            return YES;
-        }
-    }
+//    if ([[UIImage imageFileTypes] containsObject:extension]) {
+//        UIImage *contents = [[UIImage alloc] initWithContentsOfFile:filename];
+//        if (contents) {
+//            SKTImage *newImage = [[SKTImage alloc] initWithPosition:point contents:contents];
+//            [contents release];
+//            [[self mutableGraphics] insertObject:newImage atIndex:0];
+//            [newImage release];
+//            [self changeSelectionIndexes:[NSIndexSet indexSetWithIndex:0]];
+//            return YES;
+//        }
+//    }
     return NO;
 }
 
 
 - (BOOL)makeNewImageFromPasteboard:(id)pboard atPoint:(CGPoint)point {
-    NSString *type = [pboard availableTypeFromArray:[UIImage imagePasteboardTypes]];
-    if (type) {
-        UIImage *contents = [[UIImage alloc] initWithPasteboard:pboard];
-        if (contents) {
-            CGPoint imageOrigin = NSMakePoint(point.x, (point.y - [contents size].height));
-            SKTImage *newImage = [[SKTImage alloc] initWithPosition:imageOrigin contents:contents];
-            [contents release];
-            [[self mutableGraphics] insertObject:newImage atIndex:0];
-            [newImage release];
-            [self changeSelectionIndexes:[NSIndexSet indexSetWithIndex:0]];
-            return YES;
-        }
-    }
+//    NSString *type = [pboard availableTypeFromArray:[UIImage imagePasteboardTypes]];
+//    if (type) {
+//        UIImage *contents = [[UIImage alloc] initWithPasteboard:pboard];
+//        if (contents) {
+//            CGPoint imageOrigin = NSMakePoint(point.x, (point.y - [contents size].height));
+//            SKTImage *newImage = [[SKTImage alloc] initWithPosition:imageOrigin contents:contents];
+//            [contents release];
+//            [[self mutableGraphics] insertObject:newImage atIndex:0];
+//            [newImage release];
+//            [self changeSelectionIndexes:[NSIndexSet indexSetWithIndex:0]];
+//            return YES;
+//        }
+//    }
     return NO;
 }
 
 
 - (IBAction)copy:(id)sender {
-    NSArray *selectedGraphics = [self selectedGraphics];
-    NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
-    [pasteboard declareTypes:[NSArray arrayWithObjects:LPGateViewPasteboardType, NSPDFPboardType, NSTIFFPboardType, nil] owner:nil];
-    [pasteboard setData:[[LPGateView class] pasteboardDataWithGraphics:selectedGraphics] forType:LPGateViewPasteboardType];
-    [pasteboard setData:[[SKTRenderingView class] pdfDataWithGraphics:selectedGraphics] forType:NSPDFPboardType];
-    [pasteboard setData:[[SKTRenderingView class] tiffDataWithGraphics:selectedGraphics error:NULL] forType:NSTIFFPboardType];
-    _pasteboardChangeCount = [pasteboard changeCount];
-    _pasteCascadeNumber = 1;
-    _pasteCascadeDelta = NSMakePoint(LPGateViewDefaultPasteCascadeDelta, LPGateViewDefaultPasteCascadeDelta);
+//    NSArray *selectedGraphics = [self selectedGraphics];
+//    NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
+//    [pasteboard declareTypes:[NSArray arrayWithObjects:LPGateViewPasteboardType, NSPDFPboardType, NSTIFFPboardType, nil] owner:nil];
+//    [pasteboard setData:[[LPGateView class] pasteboardDataWithGraphics:selectedGraphics] forType:LPGateViewPasteboardType];
+//    [pasteboard setData:[[SKTRenderingView class] pdfDataWithGraphics:selectedGraphics] forType:NSPDFPboardType];
+//    [pasteboard setData:[[SKTRenderingView class] tiffDataWithGraphics:selectedGraphics error:NULL] forType:NSTIFFPboardType];
+//    _pasteboardChangeCount = [pasteboard changeCount];
+//    _pasteCascadeNumber = 1;
+//    _pasteCascadeDelta = NSMakePoint(LPGateViewDefaultPasteCascadeDelta, LPGateViewDefaultPasteCascadeDelta);
 }
 
 
@@ -1159,63 +1154,63 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
 
 - (IBAction)paste:(id)sender {
     
-    // We let the user paste graphics, image files, and image data.
-    NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
-    NSString *typeName = [pasteboard availableTypeFromArray:[NSArray arrayWithObjects:LPGateViewPasteboardType, NSFilenamesPboardType, nil]];
-    if ([typeName isEqualToString:LPGateViewPasteboardType]) {
-        
-        // You can't trust anything that might have been put on the pasteboard by another application, so be ready for +[LPGateView graphicsWithPasteboardData:error:] to fail and return nil.
-        Class graphicClass = [LPGateView class];
-        NSError *error;
-        NSArray *graphics = [graphicClass graphicsWithPasteboardData:[pasteboard dataForType:typeName] error:&error];
-        if (graphics) {
-            
-            // Should we reset the cascading of pasted graphics?
-            NSInteger pasteboardChangeCount = [pasteboard changeCount];
-            if (_pasteboardChangeCount!=pasteboardChangeCount) {
-                _pasteboardChangeCount = pasteboardChangeCount;
-                _pasteCascadeNumber = 0;
-                _pasteCascadeDelta = NSMakePoint(LPGateViewDefaultPasteCascadeDelta, LPGateViewDefaultPasteCascadeDelta);
-            }
-            
-            // An empty array doesn't signal an error, but it's still not useful to paste it.
-            NSUInteger graphicCount = [graphics count];
-            if (graphicCount>0) {
-                
-                // If this is a repetitive paste, or a paste of something that was just copied from this same view, then offset the graphics by a little bit.
-                if (_pasteCascadeNumber>0) {
-                    [graphicClass translateGraphics:graphics byX:(_pasteCascadeNumber * _pasteCascadeDelta.x) y:(_pasteCascadeNumber * _pasteCascadeDelta.y)];
-                }
-                _pasteCascadeNumber++;
-                
-                // Add the pasted graphics in front of all others and select them.
-                NSIndexSet *insertionIndexes = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, graphicCount)];
-                [[self mutableGraphics] insertObjects:graphics atIndexes:insertionIndexes];
-                [self changeSelectionIndexes:insertionIndexes];
-                
-                // Override any undo action name that might have been set with one that is more specific to this operation.
-                [[self undoManager] setActionName:NSLocalizedStringFromTable(@"Paste", @"UndoStrings", @"Action name for paste.")];
-                
-            }
-            
-        } else {
-            
-            // Something went wrong? Present the error to the user in a sheet. It was entirely +[LPGateView graphicsWithPasteboardData:error:]'s responsibility to set the error to something when it returned nil. It was also entirely responsible for not crashing if we had passed in error:NULL.
-            [self presentError:error modalForWindow:[self window] delegate:nil didPresentSelector:NULL contextInfo:NULL];
-            
-        }
-        
-    } else if ([typeName isEqualToString:NSFilenamesPboardType]) {
-        NSArray *filenames = [pasteboard propertyListForType:NSFilenamesPboardType];
-        if ([filenames count] == 1) {
-            NSString *filename = [filenames objectAtIndex:0];
-            if ([self makeNewImageFromContentsOfFile:filename atPoint:NSMakePoint(50, 50)]) {
-                [[self undoManager] setActionName:NSLocalizedStringFromTable(@"Paste", @"UndoStrings", @"Action name for paste.")];
-            }
-        }
-    } else if ([self makeNewImageFromPasteboard:pasteboard atPoint:NSMakePoint(50, 50)]) {
-        [[self undoManager] setActionName:NSLocalizedStringFromTable(@"Paste", @"UndoStrings", @"Action name for paste.")];
-    }
+//    // We let the user paste graphics, image files, and image data.
+//    NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
+//    NSString *typeName = [pasteboard availableTypeFromArray:[NSArray arrayWithObjects:LPGateViewPasteboardType, NSFilenamesPboardType, nil]];
+//    if ([typeName isEqualToString:LPGateViewPasteboardType]) {
+//        
+//        // You can't trust anything that might have been put on the pasteboard by another application, so be ready for +[LPGateView graphicsWithPasteboardData:error:] to fail and return nil.
+//        Class graphicClass = [LPGateView class];
+//        NSError *error;
+//        NSArray *graphics = [graphicClass graphicsWithPasteboardData:[pasteboard dataForType:typeName] error:&error];
+//        if (graphics) {
+//            
+//            // Should we reset the cascading of pasted graphics?
+//            NSInteger pasteboardChangeCount = [pasteboard changeCount];
+//            if (_pasteboardChangeCount!=pasteboardChangeCount) {
+//                _pasteboardChangeCount = pasteboardChangeCount;
+//                _pasteCascadeNumber = 0;
+//                _pasteCascadeDelta = NSMakePoint(LPGateViewDefaultPasteCascadeDelta, LPGateViewDefaultPasteCascadeDelta);
+//            }
+//            
+//            // An empty array doesn't signal an error, but it's still not useful to paste it.
+//            NSUInteger graphicCount = [graphics count];
+//            if (graphicCount>0) {
+//                
+//                // If this is a repetitive paste, or a paste of something that was just copied from this same view, then offset the graphics by a little bit.
+//                if (_pasteCascadeNumber>0) {
+//                    [graphicClass translateGraphics:graphics byX:(_pasteCascadeNumber * _pasteCascadeDelta.x) y:(_pasteCascadeNumber * _pasteCascadeDelta.y)];
+//                }
+//                _pasteCascadeNumber++;
+//                
+//                // Add the pasted graphics in front of all others and select them.
+//                NSIndexSet *insertionIndexes = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, graphicCount)];
+//                [[self mutableGraphics] insertObjects:graphics atIndexes:insertionIndexes];
+//                [self changeSelectionIndexes:insertionIndexes];
+//                
+//                // Override any undo action name that might have been set with one that is more specific to this operation.
+//                [[self undoManager] setActionName:NSLocalizedStringFromTable(@"Paste", @"UndoStrings", @"Action name for paste.")];
+//                
+//            }
+//            
+//        } else {
+//            
+//            // Something went wrong? Present the error to the user in a sheet. It was entirely +[LPGateView graphicsWithPasteboardData:error:]'s responsibility to set the error to something when it returned nil. It was also entirely responsible for not crashing if we had passed in error:NULL.
+//            [self presentError:error modalForWindow:[self window] delegate:nil didPresentSelector:NULL contextInfo:NULL];
+//            
+//        }
+//        
+//    } else if ([typeName isEqualToString:NSFilenamesPboardType]) {
+//        NSArray *filenames = [pasteboard propertyListForType:NSFilenamesPboardType];
+//        if ([filenames count] == 1) {
+//            NSString *filename = [filenames objectAtIndex:0];
+//            if ([self makeNewImageFromContentsOfFile:filename atPoint:NSMakePoint(50, 50)]) {
+//                [[self undoManager] setActionName:NSLocalizedStringFromTable(@"Paste", @"UndoStrings", @"Action name for paste.")];
+//            }
+//        }
+//    } else if ([self makeNewImageFromPasteboard:pasteboard atPoint:NSMakePoint(50, 50)]) {
+//        [[self undoManager] setActionName:NSLocalizedStringFromTable(@"Paste", @"UndoStrings", @"Action name for paste.")];
+//    }
     
 }
 
@@ -1376,7 +1371,7 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
     _undoSelectionIndexes = [[NSMutableIndexSet alloc] init];
     
     // Do the regular Cocoa thing. Unfortunately, before you saw this there was no easy way for you know what "the regular Cocoa thing" is, but now you know: NSWindow has -undo: and -redo: methods, and is usually the object in the responder chain that performs these actions when the user chooses the corresponding items in the Edit menu. It would be more correct to write this as [[self nextResponder] tryToPerform:_cmd with:sender], because perhaps someday this class will be reused in a situation where the superview has opinions of its own about what should be done during undoing. We message the window directly just to be consistent with what we do in our implementation of -validateMenuItem:, where we have no choice.
-    [[self window] undo:sender];
+//    [[self window] undo:sender];
     
     // Were graphics added or changed by undoing?
     if ([_undoSelectionIndexes count]>0) {
@@ -1387,7 +1382,6 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
     } // else apparently nothing happening while undoing except maybe the removal of graphics, so we leave the selection alone.
     
     // Don't leak, and don't let -observeValueForKeyPath:ofObject:change:context: message a zombie.
-    [_undoSelectionIndexes release];
     _undoSelectionIndexes = nil;
     
     // We overrode this method to find out when undoing is done, instead of observing NSUndoManagerWillUndoChangeNotification and NSUndoManagerDidUndoChangeNotification, because we only want to do what we do here when the user is focused on this view, and those notifications won't tell us the focused view. In Sketch this matters when the user has more than one window open for a document, but the concept applies whenever there are multiple views of the same data. Most of the time actions taken by the user in a view shouldn't affect the selection used in other views of the same data, with the obvious exception that removed items can no longer be selected in any view.
@@ -1398,11 +1392,10 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
 // The same as above, but for redoing instead of undoing. It doesn't look like so much work when you leave out the comments!
 - (IBAction)redo:(id)sender {
     _undoSelectionIndexes = [[NSMutableIndexSet alloc] init];
-    [[self window] redo:sender];
+//    [[self window] redo:sender];
     if ([_undoSelectionIndexes count]>0) {
         [self changeSelectionIndexes:_undoSelectionIndexes];
     }
-    [_undoSelectionIndexes release];
     _undoSelectionIndexes = nil;
 }
 
@@ -1439,8 +1432,8 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
         for (i=1; i<c; i++) {
             curGraphic = [selection objectAtIndex:i];
             curBounds = [curGraphic bounds];
-            if (NSMaxX(curBounds) != NSMaxX(firstBounds)) {
-                curBounds.origin.x = NSMaxX(firstBounds) - curBounds.size.width;
+            if (CGRectGetMaxX(curBounds) != CGRectGetMaxX(firstBounds)) {
+                curBounds.origin.x = CGRectGetMaxX(firstBounds) - curBounds.size.width;
                 [curGraphic setBounds:curBounds];
             }
         }
@@ -1477,8 +1470,8 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
         for (i=1; i<c; i++) {
             curGraphic = [selection objectAtIndex:i];
             curBounds = [curGraphic bounds];
-            if (NSMaxY(curBounds) != NSMaxY(firstBounds)) {
-                curBounds.origin.y = NSMaxY(firstBounds) - curBounds.size.height;
+            if (CGRectGetMaxY(curBounds) != CGRectGetMaxY(firstBounds)) {
+                curBounds.origin.y = CGRectGetMaxY(firstBounds) - curBounds.size.height;
                 [curGraphic setBounds:curBounds];
             }
         }
@@ -1496,8 +1489,8 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
         for (i=1; i<c; i++) {
             curGraphic = [selection objectAtIndex:i];
             curBounds = [curGraphic bounds];
-            if (NSMidX(curBounds) != NSMidX(firstBounds)) {
-                curBounds.origin.x = NSMidX(firstBounds) - (curBounds.size.width / 2.0);
+            if (CGRectGetMidX(curBounds) != CGRectGetMidX(firstBounds)) {
+                curBounds.origin.x = CGRectGetMidX(firstBounds) - (curBounds.size.width / 2.0);
                 [curGraphic setBounds:curBounds];
             }
         }
@@ -1510,13 +1503,13 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
     NSUInteger i, c = [selection count];
     if (c > 1) {
         CGRect firstBounds = [[selection objectAtIndex:0] bounds];
-        LPGateView *curGraphic;
+        LPGate *curGraphic;
         CGRect curBounds;
         for (i=1; i<c; i++) {
             curGraphic = [selection objectAtIndex:i];
             curBounds = [curGraphic bounds];
-            if (NSMidY(curBounds) != NSMidY(firstBounds)) {
-                curBounds.origin.y = NSMidY(firstBounds) - (curBounds.size.height / 2.0);
+            if (CGRectGetMidY(curBounds) != CGRectGetMidY(firstBounds)) {
+                curBounds.origin.y = CGRectGetMidY(firstBounds) - (curBounds.size.height / 2.0);
                 [curGraphic setBounds:curBounds];
             }
         }
@@ -1529,11 +1522,11 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
     NSArray *selection = [self selectedGraphics];
     NSUInteger i, c = [selection count];
     if (c > 0) {
-        LPGateView *curGraphic;
+        LPGate *curGraphic;
         
         for (i=0; i<c; i++) {
             curGraphic = [selection objectAtIndex:i];
-            [curGraphic setBounds:[_grid alignedRect:[curGraphic bounds]]];
+//            [curGraphic setBounds:[_grid alignedRect:[curGraphic bounds]]];
         }
         [[self undoManager] setActionName:NSLocalizedStringFromTable(@"Grid Selected Graphics", @"UndoStrings", @"Action name for grid selected graphics.")];
     }
@@ -1550,7 +1543,6 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
         [self changeSelectionIndexes:insertionIndexes];
         [[self undoManager] setActionName:NSLocalizedStringFromTable(@"Bring To Front", @"UndoStrings", @"Action name for bring to front.")];
     }
-    [selectedObjects release];
 }
 
 
@@ -1565,7 +1557,6 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
         [self changeSelectionIndexes:insertionIndexes];
         [[self undoManager] setActionName:NSLocalizedStringFromTable(@"Send To Back", @"UndoStrings", @"Action name for send to back.")];
     }
-    [selectedObjects release];
 }
 
 
@@ -1638,8 +1629,8 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
 - (IBAction)showOrHideRulers:(id)sender {
     
     // Simple.
-    NSScrollView *enclosingScrollView = [self enclosingScrollView];
-    [enclosingScrollView setRulersVisible:![enclosingScrollView rulersVisible]];
+//    UIScrollView *enclosingScrollView = [self enclosingScrollView];
+//    [enclosingScrollView setRulersVisible:![enclosingScrollView rulersVisible]];
     
 }
 
