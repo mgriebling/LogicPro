@@ -802,7 +802,8 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
     
     // Did we really create a graphic? Don't check with !NSIsEmptyRect(createdGraphicBounds) because the bounds of a perfectly horizontal or vertical line is "empty" but of course we want to let people create those.
     CGRect createdGraphicBounds = [_creatingGate bounds];
-    if (NSWidth(createdGraphicBounds)!=0.0 || NSHeight(createdGraphicBounds)!=0.0) {
+    
+    if (CGRectGetWidth(createdGraphicBounds)!=0.0 || CGRectGetHeight(createdGraphicBounds)!=0.0) {
         
         // Select it.
         [self changeSelectionIndexes:[NSIndexSet indexSetWithIndex:0]];
@@ -1667,7 +1668,7 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
     
     if (graphicClass) {
         [self createGraphicOfClass:graphicClass withEvent:nil];
-        [[LPToolPaletteController sharedToolPaletteController] selectArrowTool];
+//        [[LPToolPaletteController sharedToolPaletteController] selectArrowTool];
     }
 }
 

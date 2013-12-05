@@ -17,12 +17,17 @@ enum {
     LPXNorGate,
     LPBufferGate,
     LPInverterGate,
-    LPLine
+    LPLine,
+    LPMAXGATES
 };
 
 @interface LPToolPaletteController : UICollectionViewController
-@property (nonatomic) Class currentGateClass;
+
 @property (nonatomic, strong)NSArray *gates;
+
++ (id)sharedToolPaletteController;
+- (Class)currentGateClass;
+
 @end
 
-extern NSString *LPSelectedToolDidChangeNotification;
+extern NSString *LPSelectedGateDidChangeNotification;

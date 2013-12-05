@@ -110,18 +110,18 @@
 
 - (IBAction)exitGateSelection:(UIStoryboardSegue *)segue {
     if ([segue.identifier isEqualToString:@"ExitGateSelection"]) {
-        LPToolPaletteController *gateSelection = segue.sourceViewController;
-        if (gateSelection.currentSelection >= 0) {
-            lastGateType = gateSelection.currentSelection;
+//        LPToolPaletteController *gateSelection = segue.sourceViewController;
+//        if (gateSelection.currentSelection >= 0) {
+//            lastGateType = gateSelection.currentSelection;
 //            [self.gateButton setImage:[self imageForGate:lastGateType] forState:UIControlStateNormal];
-        }
+//        }
     }
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"showGates"]) {
         LPToolPaletteController *gateSelection = segue.destinationViewController;
-        gateSelection.currentSelection = lastGateType;
+//        gateSelection.currentSelection = lastGateType;
     }
 }
 

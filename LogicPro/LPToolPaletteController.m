@@ -14,32 +14,43 @@
 
 @end
 
+NSString *LPSelectedToolDidChangeNotification = @"LPSelectedToolDidChange";
+
+static LPToolPaletteController *sharedToolPaletteController = nil;
+
 @implementation LPToolPaletteController {
+    NSUInteger _currentSelection;
 }
 
 + (id)sharedToolPaletteController {
-    static SKTToolPaletteController *sharedToolPaletteController = nil;
-    
     if (!sharedToolPaletteController) {
-        sharedToolPaletteController = [[SKTToolPaletteController allocWithZone:NULL] init];
+        sharedToolPaletteController = [[LPToolPaletteController allocWithZone:NULL] init];
     }
-    
     return sharedToolPaletteController;
 }
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
+- (Class)classForIndex:(NSUInteger)index {
+    //    LPOrGate = 0,
+    //    LPNorGate,
+    //    LPAndGate,
+    //    LPNandGate,
+    //    LPXOrGate,
+    //    LPXNorGate,
+    //    LPBufferGate,
+    //    LPInverterGate,
+    //    LPLine
+    Class theClass = nil;
+    return theClass;
+}
+
+- (Class)currentGateClass {
+    return [self classForIndex:_currentSelection];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+	sharedToolPaletteController = self;
 }
 
 - (void)didReceiveMemoryWarning
@@ -51,7 +62,7 @@
 #pragma mark - UICollectionView Datasource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.gates.count;
+    return LPMAXGATES;
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
@@ -60,12 +71,13 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"GateCell" forIndexPath:indexPath];
-//    LPGateView *gateView = (LPGateView *)[cell viewWithTag:10];
+    LPGateView *gateView = (LPGateView *)[cell viewWithTag:10];
+    LPGate *gate = [[[self classForIndex:indexPath.item] alloc] init];
 //    gateView.scale = 0.6;
 //    LPGate *gate = [[LPGate alloc] initWithGate:indexPath.item andLocation:CGPointMake(25, 5)];
 //    gateView.gates = [[Gates alloc] init];
 //    [gateView.gates.list addObject:gate];
-//    UILabel *label = (UILabel *)[cell viewWithTag:20];
+    UILabel *label = (UILabel *)[cell viewWithTag:20];
 //    label.text = [Gates getNameForGate:indexPath.row];
     return cell;
 }
@@ -73,6 +85,7 @@
 #pragma mark - UICollectionViewDelegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     _currentSelection = indexPath.item;
+    [[NSNotificationCenter defaultCenter] postNotificationName:LPSelectedToolDidChangeNotification object:self];
     [self performSegueWithIdentifier:@"ExitGateSelection" sender:self];
 }
 
