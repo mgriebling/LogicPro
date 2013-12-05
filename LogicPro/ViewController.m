@@ -8,7 +8,7 @@
 
 #import "ViewController.h"
 #import "LPGate.h"
-#import "GateCollectionViewController.h"
+#import "LPToolPaletteController.h"
 #import "LPGateView.h"
 
 @interface ViewController () <UIScrollViewDelegate, UIAlertViewDelegate, UIGestureRecognizerDelegate>
@@ -110,7 +110,7 @@
 
 - (IBAction)exitGateSelection:(UIStoryboardSegue *)segue {
     if ([segue.identifier isEqualToString:@"ExitGateSelection"]) {
-        GateCollectionViewController *gateSelection = segue.sourceViewController;
+        LPToolPaletteController *gateSelection = segue.sourceViewController;
         if (gateSelection.currentSelection >= 0) {
             lastGateType = gateSelection.currentSelection;
 //            [self.gateButton setImage:[self imageForGate:lastGateType] forState:UIControlStateNormal];
@@ -120,7 +120,7 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"showGates"]) {
-        GateCollectionViewController *gateSelection = segue.destinationViewController;
+        LPToolPaletteController *gateSelection = segue.destinationViewController;
         gateSelection.currentSelection = lastGateType;
     }
 }

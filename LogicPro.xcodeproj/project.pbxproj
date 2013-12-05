@@ -27,7 +27,7 @@
 		47B303B216A6BEDB000F5AB0 /* Or.png in Resources */ = {isa = PBXBuildFile; fileRef = 47B303B116A6BEDB000F5AB0 /* Or.png */; };
 		47B303B416A6BEE3000F5AB0 /* Not.png in Resources */ = {isa = PBXBuildFile; fileRef = 47B303B316A6BEE3000F5AB0 /* Not.png */; };
 		47B303B616A6BEF4000F5AB0 /* XOr.png in Resources */ = {isa = PBXBuildFile; fileRef = 47B303B516A6BEF4000F5AB0 /* XOr.png */; };
-		47B303B916A6C0B5000F5AB0 /* GateCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 47B303B816A6C0B5000F5AB0 /* GateCollectionViewController.m */; };
+		47B303B916A6C0B5000F5AB0 /* LPToolPaletteController.m in Sources */ = {isa = PBXBuildFile; fileRef = 47B303B816A6C0B5000F5AB0 /* LPToolPaletteController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -59,8 +59,8 @@
 		47B303B116A6BEDB000F5AB0 /* Or.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Or.png; sourceTree = "<group>"; };
 		47B303B316A6BEE3000F5AB0 /* Not.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Not.png; sourceTree = "<group>"; };
 		47B303B516A6BEF4000F5AB0 /* XOr.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = XOr.png; sourceTree = "<group>"; };
-		47B303B716A6C0B5000F5AB0 /* GateCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GateCollectionViewController.h; sourceTree = "<group>"; };
-		47B303B816A6C0B5000F5AB0 /* GateCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GateCollectionViewController.m; sourceTree = "<group>"; };
+		47B303B716A6C0B5000F5AB0 /* LPToolPaletteController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPToolPaletteController.h; sourceTree = "<group>"; };
+		47B303B816A6C0B5000F5AB0 /* LPToolPaletteController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPToolPaletteController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,8 +111,8 @@
 				478DB60B1615B41A00D69B15 /* AppDelegate.m */,
 				478DB6131615B41A00D69B15 /* MainStoryboard_iPhone.storyboard */,
 				478DB6161615B41A00D69B15 /* MainStoryboard_iPad.storyboard */,
-				47B303B716A6C0B5000F5AB0 /* GateCollectionViewController.h */,
-				47B303B816A6C0B5000F5AB0 /* GateCollectionViewController.m */,
+				47B303B716A6C0B5000F5AB0 /* LPToolPaletteController.h */,
+				47B303B816A6C0B5000F5AB0 /* LPToolPaletteController.m */,
 				478DB6191615B41A00D69B15 /* ViewController.h */,
 				478DB61A1615B41A00D69B15 /* ViewController.m */,
 				2FB22845184CC5CB00E8A24F /* LPDocument.h */,
@@ -223,7 +223,7 @@
 				478DB60C1615B41A00D69B15 /* AppDelegate.m in Sources */,
 				478DB61B1615B41A00D69B15 /* ViewController.m in Sources */,
 				2FB2284B184CC5CB00E8A24F /* LPDocument.m in Sources */,
-				47B303B916A6C0B5000F5AB0 /* GateCollectionViewController.m in Sources */,
+				47B303B916A6C0B5000F5AB0 /* LPToolPaletteController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

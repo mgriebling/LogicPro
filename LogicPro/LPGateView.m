@@ -8,6 +8,7 @@
 
 #import "LPGateView.h"
 #import "LPGate.h"
+#import "LPToolPaletteController.h"
 
 // The names of the bindings supported by this class, in addition to the ones whose support is inherited from NSView.
 NSString *LPGateViewGraphicsBindingName = @"graphics";
@@ -15,10 +16,10 @@ NSString *LPGateViewSelectionIndexesBindingName = @"selectionIndexes";
 NSString *LPGateViewGridBindingName = @"grid";
 
 // The values that are used as contexts by this class' invocations of KVO observer registration methods. When an object like this one receives an -observeValueForKeyPath:ofObject:change:context: message it has to figure out why it's getting the message. It could distinguish based on the observed object and key path, but that's not perfectly safe, because code in the superclass might be observing the same thing for a different reason, and there's a danger of intercepting observer notifications that are meant for superclass code. The way to make sure that doesn't happen is to use a context, and make sure it's unlikely to be used as a context by superclass or subclass code. Strings like these whose pointers are not available to other compiled modules are pretty unlikely to be used by superclass or subclass code. In practice this is not a common problem, especially in a simple application like Sketch, but you should know how to do things like this the perfect way even if you decide it's not worth the hassle in your application.
-static NSString *LPGateViewGraphicsObservationContext = @"com.apple.LPGateView.graphics";
-static NSString *LPGateViewIndividualGraphicObservationContext = @"com.apple.LPGateView.individualGraphic";
-static NSString *LPGateViewSelectionIndexesObservationContext = @"com.apple.LPGateView.selectionIndexes";
-static NSString *LPGateViewAnyGridPropertyObservationContext = @"com.apple.LPGateView.anyGridProperty";
+static NSString *LPGateViewGraphicsObservationContext = @"com.c-inspirations.LPGateView.graphics";
+static NSString *LPGateViewIndividualGraphicObservationContext = @"com.c-inspirations.LPGateView.individualGraphic";
+static NSString *LPGateViewSelectionIndexesObservationContext = @"com.c-inspirations.LPGateView.selectionIndexes";
+static NSString *LPGateViewAnyGridPropertyObservationContext = @"com.c-inspirations.LPGateView.anyGridProperty";
 
 // The type name that this class uses when putting flattened graphics on the pasteboard during cut, copy, and paste operations. The format that's identified by it is not the exact same thing as the native document format used by SKTDocument, because SKTDocuments store NSPrintInfos (and maybe other stuff too in the future). We could easily use the exact same format for pasteboard data and document files if we decide it's worth it, but so far we haven't.
 static NSString *LPGateViewPasteboardType = @"Apple Sketch 2 pasteboard type";
@@ -1639,25 +1640,34 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
     Class graphicClass = nil;
     switch ([sender tag])
     {
-        case SKTRectToolRow:
-            graphicClass = [SKTRectangle class];
-            break;
-        case SKTCircleToolRow:
-            graphicClass = [SKTCircle class];
-            break;
-        case SKTLineToolRow:
-            graphicClass = [SKTLine class];
-            break;
-        case SKTTextToolRow:
-            graphicClass = [SKTText class];
-            break;
+//            LPOrGate = 0,
+//            LPNorGate,
+//            LPAndGate,
+//            LPNandGate,
+//            LPXOrGate,
+//            LPXNorGate,
+//            LPBufferGate,
+//            LPInverterGate,
+//            LPLine
+//        case LPOrGate:
+//            graphicClass = [SKTRectangle class];
+//            break;
+//        case SKTCircleToolRow:
+//            graphicClass = [SKTCircle class];
+//            break;
+//        case SKTLineToolRow:
+//            graphicClass = [SKTLine class];
+//            break;
+//        case SKTTextToolRow:
+//            graphicClass = [SKTText class];
+//            break;
         default:
             break;
     };
     
     if (graphicClass) {
         [self createGraphicOfClass:graphicClass withEvent:nil];
-        [[SKTToolPaletteController sharedToolPaletteController] selectArrowTool];
+        [[LPToolPaletteController sharedToolPaletteController] selectArrowTool];
     }
 }
 

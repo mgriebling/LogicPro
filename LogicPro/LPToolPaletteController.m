@@ -6,15 +6,25 @@
 //  Copyright (c) 2013 Computer Inspirations. All rights reserved.
 //
 
-#import "GateCollectionViewController.h"
+#import "LPToolPaletteController.h"
 #import "LPGate.h"
 #import "LPGateView.h"
 
-@interface GateCollectionViewController () <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
+@interface LPToolPaletteController () <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
 @end
 
-@implementation GateCollectionViewController {
+@implementation LPToolPaletteController {
+}
+
++ (id)sharedToolPaletteController {
+    static SKTToolPaletteController *sharedToolPaletteController = nil;
+    
+    if (!sharedToolPaletteController) {
+        sharedToolPaletteController = [[SKTToolPaletteController allocWithZone:NULL] init];
+    }
+    
+    return sharedToolPaletteController;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
