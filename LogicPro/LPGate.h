@@ -104,6 +104,7 @@ extern CGFloat LPGateHandleHalfWidth;
 - (BOOL)isDrawingStroke;
 - (UIColor *)strokeColor;
 - (CGFloat)strokeWidth;
+- (NSString *)name;
 
 
 #pragma mark *** Drawing ***

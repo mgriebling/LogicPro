@@ -654,7 +654,7 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
     c = [selGraphics count];
     
     lastPoint = [event locationInView:self];
-    CGPoint selOriginOffset = CGPointMake((lastPoint.x - selBounds.origin.x), (lastPoint.y - selBounds.origin.y));
+//    CGPoint selOriginOffset = CGPointMake((lastPoint.x - selBounds.origin.x), (lastPoint.y - selBounds.origin.y));
     if (echoToRulers) {
         [self beginEchoingMoveToRulers:selBounds];
     }
@@ -1634,6 +1634,12 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
 //    UIScrollView *enclosingScrollView = [self enclosingScrollView];
 //    [enclosingScrollView setRulersVisible:![enclosingScrollView rulersVisible]];
     
+}
+
+- (void)insertGateWithClass:(Class)class {
+    if (class) {
+        [self createGraphicOfClass:class withEvent:nil];
+    }
 }
 
 - (IBAction)insertGraphic:(id)sender {

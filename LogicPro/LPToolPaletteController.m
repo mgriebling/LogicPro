@@ -7,8 +7,8 @@
 //
 
 #import "LPToolPaletteController.h"
-#import "LPGate.h"
-#import "LPGateView.h"
+#import "UIBezierPath+Image.h"
+#import "LPAnd.h"
 
 @interface LPToolPaletteController () <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
@@ -30,6 +30,7 @@ static LPToolPaletteController *sharedToolPaletteController = nil;
 }
 
 - (Class)classForIndex:(NSUInteger)index {
+    Class theClass = nil;
     //    LPOrGate = 0,
     //    LPNorGate,
     //    LPAndGate,
@@ -39,7 +40,16 @@ static LPToolPaletteController *sharedToolPaletteController = nil;
     //    LPBufferGate,
     //    LPInverterGate,
     //    LPLine
-    Class theClass = nil;
+    index = LPAndGate;    // force this for now
+    switch (index) {
+        case LPAndGate:
+            theClass = [LPAnd class];
+            break;
+            
+        default:
+            break;
+    }
+
     return theClass;
 }
 
@@ -71,14 +81,14 @@ static LPToolPaletteController *sharedToolPaletteController = nil;
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"GateCell" forIndexPath:indexPath];
-    LPGateView *gateView = (LPGateView *)[cell viewWithTag:10];
+    UIImageView *gateView = (UIImageView *)[cell viewWithTag:10];
     LPGate *gate = [[[self classForIndex:indexPath.item] alloc] init];
-//    gateView.scale = 0.6;
-//    LPGate *gate = [[LPGate alloc] initWithGate:indexPath.item andLocation:CGPointMake(25, 5)];
-//    gateView.gates = [[Gates alloc] init];
-//    [gateView.gates.list addObject:gate];
+    [gate setBounds:gateView.bounds];
+    UIBezierPath *gatePath = [gate bezierPathForDrawing];
+    gateView.image = [gatePath strokeImageWithColor:[UIColor redColor]];
+    
     UILabel *label = (UILabel *)[cell viewWithTag:20];
-//    label.text = [Gates getNameForGate:indexPath.row];
+    label.text = gate.name;
     return cell;
 }
 

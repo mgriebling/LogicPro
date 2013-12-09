@@ -74,6 +74,8 @@
 - (IBAction)showOrHideRulers:(id)sender;
 - (IBAction)insertGraphic:(id)sender;
 
+- (void)insertGateWithClass:(Class)class;
+
 // Used by accessibility
 - (NSArray *)selectedGraphics;
 //

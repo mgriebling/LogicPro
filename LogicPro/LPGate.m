@@ -439,6 +439,10 @@ CGFloat LPGateHandleHalfWidth = 6.0f / 2.0f;
 - (CGFloat)strokeWidth {
     return _strokeWidth;
 }
+- (NSString *)name {
+    // override needed
+    return @"LPGate";
+}
 
 
 #pragma mark *** Drawing ***
