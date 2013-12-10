@@ -23,11 +23,10 @@ enum {
 
 @interface LPToolPaletteController : UICollectionViewController
 
-@property (nonatomic, strong)NSArray *gates;
+@property(nonatomic)NSUInteger currentGate;
 
 + (id)sharedToolPaletteController;
-- (Class)currentGateClass;
++ (Class)classForGate:(NSUInteger)gate;
 
 @end
 
-extern NSString *LPSelectedGateDidChangeNotification;

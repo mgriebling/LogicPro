@@ -10,6 +10,7 @@
 #import "LPGate.h"
 #import "LPToolPaletteController.h"
 #import "LPGateView.h"
+#import "UIBezierPath+Image.h"
 
 @interface ViewController () <UIScrollViewDelegate, UIAlertViewDelegate, UIGestureRecognizerDelegate>
 
@@ -17,20 +18,14 @@
 @property (strong, nonatomic) LPGateView *drawView;
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UITextField *drawingScale;
-@property (strong, nonatomic) LPGate *gates;
 
 @end
 
 @implementation ViewController {
 
-    NSInteger lastGateType;
+    NSUInteger lastGateType;
     LPGate *activeObject;
 }
-
-//- (Gates *)gates {
-//    if (!_gates) _gates = [[Gates alloc] init];
-//    return _gates;
-//}
 
 - (void) setScrollView:(UIScrollView *)scrollView {
     _scrollView = scrollView;
@@ -76,8 +71,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    lastGateType = NAND_GATE;
-//    [self.gateButton setImage:[self imageForGate:lastGateType] forState:UIControlStateNormal];
+    lastGateType = LPNandGate;
+    [self.gateButton setImage:[self imageForGate:lastGateType withSize:self.gateButton.bounds] forState:UIControlStateNormal];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -91,37 +86,30 @@
     self.scrollView.maximumZoomScale = 5.0;
     self.scrollView.zoomScale = 1.0;
     self.drawingScale.text = [NSString stringWithFormat:@"%.0f%%", self.scrollView.zoomScale*100.0];
-//    self.drawView.gates = self.gates;
 }
 
-//- (UIImage *)imageForGate:(GateType)gate {
-//    LPGateView *gateView = [[LPGateView alloc] initWithFrame:self.gateButton.bounds];
-//    gateView.scale = 0.6;
-//    Gate *gateObject = [[Gate alloc] initWithGate:gate andLocation:CGPointMake(15, 5)];
-//    gateView.gates = [[Gates alloc] init];
-//    gateView.backgroundColor = [UIColor whiteColor];
-//    [gateView.gates.list addObject:gateObject];
-//    UIGraphicsBeginImageContext(self.gateButton.bounds.size);
-//    [gateView.layer renderInContext:UIGraphicsGetCurrentContext()];
-//    UIImage *gateImage = UIGraphicsGetImageFromCurrentImageContext();
-//    UIGraphicsEndImageContext();
-//    return gateImage;
-//}
+- (UIImage *)imageForGate:(NSUInteger)gateID withSize:(CGRect)bounds {
+    LPGate *gate = [[[LPToolPaletteController classForGate:gateID] alloc] init];
+    [gate setBounds:bounds];
+    UIBezierPath *gatePath = [gate bezierPathForDrawing];
+    UIImage *image = [gatePath strokeImageWithColor:[UIColor blackColor]];
+    return image;
+}
 
 - (IBAction)exitGateSelection:(UIStoryboardSegue *)segue {
     if ([segue.identifier isEqualToString:@"ExitGateSelection"]) {
-//        LPToolPaletteController *gateSelection = segue.sourceViewController;
-//        if (gateSelection.currentSelection >= 0) {
-//            lastGateType = gateSelection.currentSelection;
-//            [self.gateButton setImage:[self imageForGate:lastGateType] forState:UIControlStateNormal];
-//        }
+        LPToolPaletteController *gateSelection = segue.sourceViewController;
+        if (gateSelection.currentGate != lastGateType) {
+            lastGateType = gateSelection.currentGate;
+            [self.gateButton setImage:[self imageForGate:lastGateType withSize:self.gateButton.bounds] forState:UIControlStateNormal];
+        }
     }
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"showGates"]) {
         LPToolPaletteController *gateSelection = segue.destinationViewController;
-//        gateSelection.currentSelection = lastGateType;
+        gateSelection.currentGate = lastGateType;
     }
 }
 

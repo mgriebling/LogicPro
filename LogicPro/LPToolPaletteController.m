@@ -25,9 +25,7 @@ NSString *LPSelectedToolDidChangeNotification = @"LPSelectedToolDidChange";
 
 static LPToolPaletteController *sharedToolPaletteController = nil;
 
-@implementation LPToolPaletteController {
-    NSUInteger _currentSelection;
-}
+@implementation LPToolPaletteController
 
 + (id)sharedToolPaletteController {
     if (!sharedToolPaletteController) {
@@ -36,17 +34,8 @@ static LPToolPaletteController *sharedToolPaletteController = nil;
     return sharedToolPaletteController;
 }
 
-- (Class)classForIndex:(NSUInteger)index {
++ (Class)classForIndex:(NSUInteger)index {
     Class theClass = nil;
-    //    LPOrGate = 0,
-    //    LPNorGate,
-    //    LPAndGate,
-    //    LPNandGate,
-    //    LPXOrGate,
-    //    LPXNorGate,
-    //    LPBufferGate,
-    //    LPInverterGate,
-    //    LPLine
     switch (index) {
         case LPAndGate:      theClass = [LPAnd class]; break;
         case LPOrGate:       theClass = [LPOr class];  break;
@@ -62,8 +51,8 @@ static LPToolPaletteController *sharedToolPaletteController = nil;
     return theClass;
 }
 
-- (Class)currentGateClass {
-    return [self classForIndex:_currentSelection];
++ (Class)classForGate:(NSUInteger)gate {
+    return [self classForIndex:gate];
 }
 
 - (void)viewDidLoad
@@ -91,7 +80,7 @@ static LPToolPaletteController *sharedToolPaletteController = nil;
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"GateCell" forIndexPath:indexPath];
     UIImageView *gateView = (UIImageView *)[cell viewWithTag:10];
-    LPGate *gate = [[[self classForIndex:indexPath.item] alloc] init];
+    LPGate *gate = [[[LPToolPaletteController classForIndex:indexPath.item] alloc] init];
     [gate setBounds:gateView.bounds];
     UIBezierPath *gatePath = [gate bezierPathForDrawing];
     gateView.image = [gatePath strokeImageWithColor:[UIColor redColor]];
@@ -103,7 +92,7 @@ static LPToolPaletteController *sharedToolPaletteController = nil;
 
 #pragma mark - UICollectionViewDelegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    _currentSelection = indexPath.item;
+    self.currentGate = indexPath.item;
     [[NSNotificationCenter defaultCenter] postNotificationName:LPSelectedToolDidChangeNotification object:self];
     [self performSegueWithIdentifier:@"ExitGateSelection" sender:self];
 }
