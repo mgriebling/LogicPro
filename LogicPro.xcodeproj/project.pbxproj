@@ -31,6 +31,13 @@
 		47B303B416A6BEE3000F5AB0 /* Not.png in Resources */ = {isa = PBXBuildFile; fileRef = 47B303B316A6BEE3000F5AB0 /* Not.png */; };
 		47B303B616A6BEF4000F5AB0 /* XOr.png in Resources */ = {isa = PBXBuildFile; fileRef = 47B303B516A6BEF4000F5AB0 /* XOr.png */; };
 		47B303B916A6C0B5000F5AB0 /* LPToolPaletteController.m in Sources */ = {isa = PBXBuildFile; fileRef = 47B303B816A6C0B5000F5AB0 /* LPToolPaletteController.m */; };
+		47BBB1541857216D000C92F8 /* LPOr.m in Sources */ = {isa = PBXBuildFile; fileRef = 47BBB1531857216D000C92F8 /* LPOr.m */; };
+		47BBB15718572180000C92F8 /* LPXOr.m in Sources */ = {isa = PBXBuildFile; fileRef = 47BBB15618572180000C92F8 /* LPXOr.m */; };
+		47BBB15A18572190000C92F8 /* LPNot.m in Sources */ = {isa = PBXBuildFile; fileRef = 47BBB15918572190000C92F8 /* LPNot.m */; };
+		47BBB15D185721A3000C92F8 /* LPBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 47BBB15C185721A3000C92F8 /* LPBuffer.m */; };
+		47BBB160185721B4000C92F8 /* LPNand.m in Sources */ = {isa = PBXBuildFile; fileRef = 47BBB15F185721B4000C92F8 /* LPNand.m */; };
+		47BBB163185721C3000C92F8 /* LPNor.m in Sources */ = {isa = PBXBuildFile; fileRef = 47BBB162185721C3000C92F8 /* LPNor.m */; };
+		47BBB166185721DA000C92F8 /* LPXNor.m in Sources */ = {isa = PBXBuildFile; fileRef = 47BBB165185721DA000C92F8 /* LPXNor.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -70,6 +77,20 @@
 		47B303B516A6BEF4000F5AB0 /* XOr.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = XOr.png; sourceTree = "<group>"; };
 		47B303B716A6C0B5000F5AB0 /* LPToolPaletteController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPToolPaletteController.h; sourceTree = "<group>"; };
 		47B303B816A6C0B5000F5AB0 /* LPToolPaletteController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPToolPaletteController.m; sourceTree = "<group>"; };
+		47BBB1521857216D000C92F8 /* LPOr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPOr.h; sourceTree = "<group>"; };
+		47BBB1531857216D000C92F8 /* LPOr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPOr.m; sourceTree = "<group>"; };
+		47BBB15518572180000C92F8 /* LPXOr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPXOr.h; sourceTree = "<group>"; };
+		47BBB15618572180000C92F8 /* LPXOr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPXOr.m; sourceTree = "<group>"; };
+		47BBB15818572190000C92F8 /* LPNot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPNot.h; sourceTree = "<group>"; };
+		47BBB15918572190000C92F8 /* LPNot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPNot.m; sourceTree = "<group>"; };
+		47BBB15B185721A3000C92F8 /* LPBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPBuffer.h; sourceTree = "<group>"; };
+		47BBB15C185721A3000C92F8 /* LPBuffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPBuffer.m; sourceTree = "<group>"; };
+		47BBB15E185721B4000C92F8 /* LPNand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPNand.h; sourceTree = "<group>"; };
+		47BBB15F185721B4000C92F8 /* LPNand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPNand.m; sourceTree = "<group>"; };
+		47BBB161185721C3000C92F8 /* LPNor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPNor.h; sourceTree = "<group>"; };
+		47BBB162185721C3000C92F8 /* LPNor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPNor.m; sourceTree = "<group>"; };
+		47BBB164185721DA000C92F8 /* LPXNor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPXNor.h; sourceTree = "<group>"; };
+		47BBB165185721DA000C92F8 /* LPXNor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPXNor.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,8 +149,7 @@
 				478DB61A1615B41A00D69B15 /* ViewController.m */,
 				2FB22845184CC5CB00E8A24F /* LPDocument.h */,
 				2FB22846184CC5CB00E8A24F /* LPDocument.m */,
-				2F12CE7C1855EDBC00A74841 /* LPAnd.h */,
-				2F12CE7D1855EDBC00A74841 /* LPAnd.m */,
+				47BBB167185721F0000C92F8 /* Circuit Elements */,
 				2FC56771185205C2006E1AB3 /* LPMetadata.h */,
 				2FC56772185205C2006E1AB3 /* LPMetadata.m */,
 				2FB22847184CC5CB00E8A24F /* LPGate.h */,
@@ -158,6 +178,29 @@
 				478DB6111615B41A00D69B15 /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		47BBB167185721F0000C92F8 /* Circuit Elements */ = {
+			isa = PBXGroup;
+			children = (
+				2F12CE7C1855EDBC00A74841 /* LPAnd.h */,
+				2F12CE7D1855EDBC00A74841 /* LPAnd.m */,
+				47BBB1521857216D000C92F8 /* LPOr.h */,
+				47BBB1531857216D000C92F8 /* LPOr.m */,
+				47BBB15518572180000C92F8 /* LPXOr.h */,
+				47BBB15618572180000C92F8 /* LPXOr.m */,
+				47BBB15818572190000C92F8 /* LPNot.h */,
+				47BBB15918572190000C92F8 /* LPNot.m */,
+				47BBB15B185721A3000C92F8 /* LPBuffer.h */,
+				47BBB15C185721A3000C92F8 /* LPBuffer.m */,
+				47BBB15E185721B4000C92F8 /* LPNand.h */,
+				47BBB15F185721B4000C92F8 /* LPNand.m */,
+				47BBB161185721C3000C92F8 /* LPNor.h */,
+				47BBB162185721C3000C92F8 /* LPNor.m */,
+				47BBB164185721DA000C92F8 /* LPXNor.h */,
+				47BBB165185721DA000C92F8 /* LPXNor.m */,
+			);
+			name = "Circuit Elements";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -235,13 +278,20 @@
 				2F12CE7E1855EDBC00A74841 /* LPAnd.m in Sources */,
 				2F12CE811855F9CA00A74841 /* UIBezierPath+Image.m in Sources */,
 				2FB2284D184CC5CB00E8A24F /* LPGateView.m in Sources */,
+				47BBB15718572180000C92F8 /* LPXOr.m in Sources */,
 				2FB2284C184CC5CB00E8A24F /* LPGate.m in Sources */,
+				47BBB15D185721A3000C92F8 /* LPBuffer.m in Sources */,
+				47BBB166185721DA000C92F8 /* LPXNor.m in Sources */,
+				47BBB160185721B4000C92F8 /* LPNand.m in Sources */,
 				478DB6081615B41A00D69B15 /* main.m in Sources */,
 				478DB60C1615B41A00D69B15 /* AppDelegate.m in Sources */,
 				2FC56773185205C2006E1AB3 /* LPMetadata.m in Sources */,
 				478DB61B1615B41A00D69B15 /* ViewController.m in Sources */,
 				2FB2284B184CC5CB00E8A24F /* LPDocument.m in Sources */,
+				47BBB15A18572190000C92F8 /* LPNot.m in Sources */,
+				47BBB163185721C3000C92F8 /* LPNor.m in Sources */,
 				47B303B916A6C0B5000F5AB0 /* LPToolPaletteController.m in Sources */,
+				47BBB1541857216D000C92F8 /* LPOr.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

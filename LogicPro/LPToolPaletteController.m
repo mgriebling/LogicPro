@@ -9,6 +9,13 @@
 #import "LPToolPaletteController.h"
 #import "UIBezierPath+Image.h"
 #import "LPAnd.h"
+#import "LPOr.h"
+#import "LPXOr.h"
+#import "LPNand.h"
+#import "LPNor.h"
+#import "LPBuffer.h"
+#import "LPNot.h"
+#import "LPXNor.h"
 
 @interface LPToolPaletteController () <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
@@ -40,14 +47,16 @@ static LPToolPaletteController *sharedToolPaletteController = nil;
     //    LPBufferGate,
     //    LPInverterGate,
     //    LPLine
-    index = LPAndGate;    // force this for now
     switch (index) {
-        case LPAndGate:
-            theClass = [LPAnd class];
-            break;
-            
-        default:
-            break;
+        case LPAndGate:      theClass = [LPAnd class]; break;
+        case LPOrGate:       theClass = [LPOr class];  break;
+        case LPXOrGate:      theClass = [LPXOr class]; break;
+        case LPNandGate:     theClass = [LPNand class]; break;
+        case LPNorGate:      theClass = [LPNor class];  break;
+        case LPXNorGate:     theClass = [LPXNor class]; break;
+        case LPBufferGate:   theClass = [LPBuffer class];  break;
+        case LPInverterGate: theClass = [LPNot class]; break;
+        default: break;
     }
 
     return theClass;
@@ -88,7 +97,7 @@ static LPToolPaletteController *sharedToolPaletteController = nil;
     gateView.image = [gatePath strokeImageWithColor:[UIColor redColor]];
     
     UILabel *label = (UILabel *)[cell viewWithTag:20];
-    label.text = gate.name;
+    label.text = gate.description;
     return cell;
 }
 
