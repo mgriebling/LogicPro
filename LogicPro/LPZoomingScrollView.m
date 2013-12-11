@@ -27,16 +27,16 @@ NSString *LPZoomingScrollViewFactor = @"factor";
     
     //The default implementation of key-value binding is informing this object that the value to which our "factor" property is bound has changed. Record the value, and apply the zoom factor by fooling with the bounds of the clip view that every scroll view has. (We leave its frame alone.)
     _factor = factor;
-    UIView *clipView = [[self documentView] superview];
-    CGSize clipViewFrameSize = [clipView frame].size;
-    [clipView setBoundsSize:CGMakeSize((clipViewFrameSize.width / factor), (clipViewFrameSize.height / factor))];
-    
+    self.zoomScale = factor;
 }
 
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
+        self.minimumZoomScale = 0.5;
+        self.maximumZoomScale = 2.0;
+        self.zoomScale = 1.0;
     }
     return self;
 }

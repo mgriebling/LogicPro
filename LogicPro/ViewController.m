@@ -15,7 +15,7 @@
 @interface ViewController () <UIScrollViewDelegate, UIAlertViewDelegate, UIGestureRecognizerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIButton *gateButton;
-@property (strong, nonatomic) LPGateView *drawView;
+@property (strong, nonatomic) LPGateView *gateView;
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UITextField *drawingScale;
 
@@ -30,8 +30,8 @@
 - (void) setScrollView:(UIScrollView *)scrollView {
     _scrollView = scrollView;
     _scrollView.delegate = self;
-    [_scrollView addSubview:self.drawView];
-    _scrollView.contentSize = self.drawView.frame.size;
+    [_scrollView addSubview:self.gateView];
+    _scrollView.contentSize = self.gateView.frame.size;
     
     // panning with two fingers
     UIPanGestureRecognizer *panGR = _scrollView.panGestureRecognizer;
@@ -60,13 +60,17 @@
     [_scrollView addGestureRecognizer:swipGesture];
 }
 
-- (LPGateView *)drawView {
-    if (!_drawView) {
-        _drawView = [[LPGateView alloc] init];
-        _drawView.frame = (CGRect){.origin=CGPointMake(0, 0), .size=CGSizeMake(1000, 1000)};
-        _drawView.backgroundColor = [UIColor whiteColor];
+//- (void) setGateView:(LPGateView *)gateView {
+//    _gateView = gateView;
+//    _gateView.bounds = self.view.bounds;
+//    _gateView.backgroundColor = [UIColor whiteColor];
+//}
+
+- (LPGateView *)gateView {
+    if (!_gateView) {
+        _gateView = [[LPGateView alloc] initWithFrame:CGRectMake(0, 0, 500.0, 500.0)];
     }
-    return _drawView;
+    return _gateView;
 }
 
 - (void)viewDidLoad {
@@ -118,7 +122,7 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if ([alertView cancelButtonIndex] != buttonIndex) {
 //        [self.gates.list removeObject:activeObject];
-        [self.drawView setNeedsDisplay];
+        [self.gateView setNeedsDisplay];
         activeObject = nil;
     }
 }
@@ -136,19 +140,10 @@
 }
 
 - (void)tappedView:(UITapGestureRecognizer *)sender {
-//    CGPoint position = [sender locationInView:self.drawView];
-    LPGate *gate = nil;  //[self.gates findMatch:position];
-    
-    if (gate == nil) {
-        gate = [[LPGate alloc] init];
-//        [self.gates.list addObject:gate];
-//        gate.selected = YES;
-    } else {
-//        gate.selected = !gate.selected;
-    }
+    [self.gateView insertGateWithClass:[LPToolPaletteController classForGate:lastGateType] andEvent:sender];
 
 //    if (gate.selected) activeObject = gate;
-    [self.drawView setNeedsDisplay];
+    [self.gateView setNeedsDisplay];
 }
 
 - (void)dragInView:(UIPanGestureRecognizer *)sender {
@@ -156,18 +151,18 @@
 //        CGPoint position = [sender locationInView:self.drawView];
         if (activeObject) {
 //            activeObject.location = position;
-            [self.drawView setNeedsDisplay];
+            [self.gateView setNeedsDisplay];
         }
     } else if (sender.state == UIGestureRecognizerStateEnded) {
 //        activeObject.selected = NO;
         activeObject = nil;
-        [self.drawView setNeedsDisplay];
+        [self.gateView setNeedsDisplay];
     }
 }
 
 #pragma mark - UIScrollView Delegate methods
 - (UIView*)viewForZoomingInScrollView:(UIScrollView *)scrollView {
-    return self.drawView;
+    return self.gateView;
 }
 
 - (void)scrollViewDidZoom:(UIScrollView *)scrollView {

@@ -74,7 +74,7 @@
 - (IBAction)showOrHideRulers:(id)sender;
 - (IBAction)insertGraphic:(id)sender;
 
-- (void)insertGateWithClass:(Class)class;
+- (void)insertGateWithClass:(Class)class andEvent:(UIGestureRecognizer *)gesture;
 
 // Used by accessibility
 - (NSArray *)selectedGraphics;

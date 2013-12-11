@@ -17,8 +17,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="TCa-SI-fn6">
-                                <rect key="frame" x="0.0" y="0.0" width="768" height="1034"/>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="TCa-SI-fn6" customClass="LPZoomingScrollView">
+                                <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </scrollView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NNS-9K-JAu">
@@ -61,16 +61,13 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="TCa-SI-fn6" firstAttribute="leading" secondItem="zBG-Go-aqc" secondAttribute="leading" id="1n5-ed-JjE"/>
-                            <constraint firstAttribute="trailing" secondItem="NNS-9K-JAu" secondAttribute="trailing" id="AUg-kO-xIz"/>
-                            <constraint firstItem="TCa-SI-fn6" firstAttribute="leading" secondItem="NNS-9K-JAu" secondAttribute="leading" id="BAe-YV-8O8"/>
-                            <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="TCa-SI-fn6" secondAttribute="bottom" constant="-10" id="MtY-aS-xLc"/>
-                            <constraint firstItem="TCa-SI-fn6" firstAttribute="top" secondItem="zBG-Go-aqc" secondAttribute="top" id="Pah-k5-j0R"/>
-                            <constraint firstItem="NNS-9K-JAu" firstAttribute="trailing" secondItem="TCa-SI-fn6" secondAttribute="trailing" id="Tev-hS-esT"/>
-                            <constraint firstItem="NNS-9K-JAu" firstAttribute="leading" secondItem="zBG-Go-aqc" secondAttribute="leading" id="egV-GY-JSq"/>
-                            <constraint firstAttribute="bottom" secondItem="NNS-9K-JAu" secondAttribute="bottom" id="f2m-Ri-6Sk"/>
-                            <constraint firstAttribute="bottom" secondItem="TCa-SI-fn6" secondAttribute="bottom" constant="-10" id="f8k-e8-QJK"/>
-                            <constraint firstAttribute="trailing" secondItem="TCa-SI-fn6" secondAttribute="trailing" id="m0i-rB-5dv"/>
+                            <constraint firstItem="TCa-SI-fn6" firstAttribute="top" secondItem="zBG-Go-aqc" secondAttribute="top" id="64A-So-yJx"/>
+                            <constraint firstAttribute="trailing" secondItem="TCa-SI-fn6" secondAttribute="trailing" id="E8k-2q-LNr"/>
+                            <constraint firstItem="NNS-9K-JAu" firstAttribute="leading" secondItem="zBG-Go-aqc" secondAttribute="leading" id="KzW-f7-VqA"/>
+                            <constraint firstItem="TCa-SI-fn6" firstAttribute="bottom" secondItem="NNS-9K-JAu" secondAttribute="bottom" id="RKx-Kl-YoV"/>
+                            <constraint firstItem="TCa-SI-fn6" firstAttribute="leading" secondItem="zBG-Go-aqc" secondAttribute="leading" id="YcU-6k-XrR"/>
+                            <constraint firstAttribute="trailing" secondItem="NNS-9K-JAu" secondAttribute="trailing" id="mN0-dN-Uwv"/>
+                            <constraint firstAttribute="bottom" secondItem="NNS-9K-JAu" secondAttribute="bottom" id="rKd-Qc-aE3"/>
                         </constraints>
                     </view>
                     <toolbarItems/>

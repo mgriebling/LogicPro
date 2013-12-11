@@ -98,7 +98,7 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
 - (NSMutableArray *)mutableGraphics {
     
     // Get a mutable array of graphics from the bound-to object (an array controller, in Sketch's case). The bound-to object is responsible for being KVO-compliant enough that all observers of the bound-to property get notified of whatever mutation we perform on the returned array. Trying to mutate the graphics of a graphic view whose graphics aren't bound to anything is a programming error.
-    NSAssert((_graphicsContainer && _graphicsKeyPath), @"An LPGateView's 'graphics' property is not bound to anything.");
+//    NSAssert((_graphicsContainer && _graphicsKeyPath), @"An LPGateView's 'graphics' property is not bound to anything.");
     NSMutableArray *mutableGraphics = [_graphicsContainer mutableArrayValueForKeyPath:_graphicsKeyPath];
     return mutableGraphics;
     
@@ -761,7 +761,7 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
     [undoManager beginUndoGrouping];
     
     // Clear the selection.
-    [self changeSelectionIndexes:[NSIndexSet indexSet]];
+//    [self changeSelectionIndexes:[NSIndexSet indexSet]];
     
     CGPoint graphicOrigin;
     CGSize graphicSize;
@@ -1636,9 +1636,9 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
     
 }
 
-- (void)insertGateWithClass:(Class)class {
+- (void)insertGateWithClass:(Class)class andEvent:(UIGestureRecognizer *)gesture {
     if (class) {
-        [self createGraphicOfClass:class withEvent:nil];
+        [self createGraphicOfClass:class withEvent:gesture];
     }
 }
 
