@@ -14,7 +14,7 @@
 @private
     
     // Information that is recorded when the "graphics" and "selectionIndexes" bindings are established. Notice that we don't keep around copies of the actual graphics array and selection indexes. Those would just be unnecessary (as far as we know, so far, without having ever done any relevant performance measurement) caches of values that really live in the bound-to objects.
-    NSObject *_graphicsContainer;
+//    NSObject *_graphicsContainer;
     NSString *_graphicsKeyPath;
     NSObject *_selectionIndexesContainer;
     NSString *_selectionIndexesKeyPath;

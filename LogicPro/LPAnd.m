@@ -26,7 +26,7 @@
     [path addCurveToPoint:CGPointMake(x+173.0*scale, y+217.0*scale) controlPoint1:CGPointMake(x, y+216.0*scale) controlPoint2:CGPointMake(x+173.0*scale, y+217.0*scale)];
     [path addCurveToPoint:CGPointMake(x+275.0*scale, y+106.0*scale) controlPoint1:CGPointMake(x+231.0*scale, y+217.0*scale) controlPoint2:CGPointMake(x+277.0*scale, y+156.0*scale)];
     [path addCurveToPoint:CGPointMake(x+174.0*scale, y) controlPoint1:CGPointMake(x+271.0*scale, y+83.75*scale) controlPoint2:CGPointMake(x+249.0*scale, y+11.0*scale)];
-    [path addCurveToPoint:CGPointMake(x-7.0*scale, y) controlPoint1:CGPointMake(x+174.0*scale, y) controlPoint2:CGPointMake(x-7.0*scale, y)];
+    [path addCurveToPoint:CGPointMake(x, y) controlPoint1:CGPointMake(x+174.0*scale, y) controlPoint2:CGPointMake(x, y)];
     
     return path;
     

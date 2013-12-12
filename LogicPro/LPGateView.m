@@ -29,8 +29,9 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
 
 
 // Some methods that are invoked by methods above them in this file.
-@interface LPGateView(LPForwardDeclarations)
-- (NSArray *)graphics;
+@interface LPGateView()
+@property (nonatomic, strong) NSMutableArray *graphics;
+// - (NSArray *)graphics;
 - (void)stopEditing;
 - (void)stopObservingGraphics:(NSArray *)graphics;
 @end
@@ -86,23 +87,22 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
 - (NSArray *)graphics {
     
     // A graphic view doesn't hold onto an array of the graphics it's presenting. That would be a cache that hasn't been justified by performance measurement (not yet anyway). Get the array of graphics from the bound-to object (an array controller, in Sketch's case). It's poor practice for a method that returns a collection to return nil, so never return nil.
-    NSArray *graphics = [_graphicsContainer valueForKeyPath:_graphicsKeyPath];
-    if (!graphics) {
-        graphics = [NSArray array];
+    if (!_graphics) {
+        _graphics = [NSMutableArray array];
     }
-    return graphics;
+    return _graphics;
     
 }
 
 
-- (NSMutableArray *)mutableGraphics {
-    
-    // Get a mutable array of graphics from the bound-to object (an array controller, in Sketch's case). The bound-to object is responsible for being KVO-compliant enough that all observers of the bound-to property get notified of whatever mutation we perform on the returned array. Trying to mutate the graphics of a graphic view whose graphics aren't bound to anything is a programming error.
-//    NSAssert((_graphicsContainer && _graphicsKeyPath), @"An LPGateView's 'graphics' property is not bound to anything.");
-    NSMutableArray *mutableGraphics = [_graphicsContainer mutableArrayValueForKeyPath:_graphicsKeyPath];
-    return mutableGraphics;
-    
-}
+//- (NSMutableArray *)mutableGraphics {
+//    
+//    // Get a mutable array of graphics from the bound-to object (an array controller, in Sketch's case). The bound-to object is responsible for being KVO-compliant enough that all observers of the bound-to property get notified of whatever mutation we perform on the returned array. Trying to mutate the graphics of a graphic view whose graphics aren't bound to anything is a programming error.
+////    NSAssert((_graphicsContainer && _graphicsKeyPath), @"An LPGateView's 'graphics' property is not bound to anything.");
+//    NSMutableArray *mutableGraphics = [self.graphics mutableCopy];  // [_graphicsContainer mutableArrayValueForKeyPath:_graphicsKeyPath];
+//    return mutableGraphics;
+//    
+//}
 
 
 - (NSIndexSet *)selectionIndexes {
@@ -180,58 +180,58 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
 
 
 // An override of the NSObject(NSKeyValueBindingCreation) method.
-- (void)bind:(NSString *)bindingName toObject:(id)observableObject withKeyPath:(NSString *)observableKeyPath options:(NSDictionary *)options {
-    
-    // LPGateView supports several different bindings.
-    if ([bindingName isEqualToString:LPGateViewGraphicsBindingName]) {
-        
-        // We don't have any options to support for our custom "graphics" binding.
-        NSAssert(([options count]==0), @"LPGateView doesn't support any options for the 'graphics' binding.");
-        
-        // Rebinding is just as valid as resetting.
-        if (_graphicsContainer || _graphicsKeyPath) {
-            [self unbind:LPGateViewGraphicsBindingName];
-        }
-        
-        // Record the information about the binding.
-        _graphicsContainer = observableObject;
-        _graphicsKeyPath = [observableKeyPath copy];
-        
-        // Start observing changes to the array of graphics to which we're bound, and also start observing properties of the graphics themselves that might require redrawing.
-        [_graphicsContainer addObserver:self forKeyPath:_graphicsKeyPath options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) context:(__bridge void *)(LPGateViewGraphicsObservationContext)];
-        [self startObservingGraphics:[_graphicsContainer valueForKeyPath:_graphicsKeyPath]];
-        
-        // Redraw the whole view to make the binding take immediate visual effect. We could be much cleverer about this and just redraw the part of the view that needs it, but in typical usage the view isn't even visible yet, so that would probably be a waste of time (the programmer's and the computer's). If this view ever gets reused in some wildly dynamic situation where the bindings come and go we can reconsider optimization decisions like this then.
-        [self setNeedsDisplay];
-        
-    } else if ([bindingName isEqualToString:LPGateViewSelectionIndexesBindingName]) {
-        
-        // We don't have any options to support for our custom "selectionIndexes" binding either. Maybe in the future someone will imagine a use for a value transformer on this, and we'll add support for it then.
-        NSAssert(([options count]==0), @"LPGateView doesn't support any options for the 'selectionIndexes' binding.");
-        
-        // Rebinding is just as valid as resetting.
-        if (_selectionIndexesContainer || _selectionIndexesKeyPath) {
-            [self unbind:LPGateViewSelectionIndexesBindingName];
-        }
-        
-        // Record the information about the binding.
-        _selectionIndexesContainer = observableObject;
-        _selectionIndexesKeyPath = [observableKeyPath copy];
-        
-        // Start observing changes to the selection indexes to which we're bound.
-        [_selectionIndexesContainer addObserver:self forKeyPath:_selectionIndexesKeyPath options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) context:(__bridge void *)(LPGateViewSelectionIndexesObservationContext)];
-        
-        // Same comment as above.
-        [self setNeedsDisplay];
-        
-    } else {
-        
-        // For every binding except "graphics" and "selectionIndexes" just use NSObject's default implementation. It will start observing the bound-to property. When a KVO notification is sent for the bound-to property, this object will be sent a [self setValue:theNewValue forKey:theBindingName] message, so this class just has to be KVC-compliant for a key that is the same as the binding name, like "grid." That's why this class has a -setGrid: method. Also, NSView supports a few simple bindings of its own, and there's no reason to get in the way of those.
-//        [super bind:bindingName toObject:observableObject withKeyPath:observableKeyPath options:options];
-        
-    }
-    
-}
+//- (void)bind:(NSString *)bindingName toObject:(id)observableObject withKeyPath:(NSString *)observableKeyPath options:(NSDictionary *)options {
+//    
+//    // LPGateView supports several different bindings.
+//    if ([bindingName isEqualToString:LPGateViewGraphicsBindingName]) {
+//        
+//        // We don't have any options to support for our custom "graphics" binding.
+//        NSAssert(([options count]==0), @"LPGateView doesn't support any options for the 'graphics' binding.");
+//        
+//        // Rebinding is just as valid as resetting.
+//        if (_graphicsContainer || _graphicsKeyPath) {
+//            [self unbind:LPGateViewGraphicsBindingName];
+//        }
+//        
+//        // Record the information about the binding.
+//        _graphicsContainer = observableObject;
+//        _graphicsKeyPath = [observableKeyPath copy];
+//        
+//        // Start observing changes to the array of graphics to which we're bound, and also start observing properties of the graphics themselves that might require redrawing.
+//        [_graphicsContainer addObserver:self forKeyPath:_graphicsKeyPath options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) context:(__bridge void *)(LPGateViewGraphicsObservationContext)];
+//        [self startObservingGraphics:[_graphicsContainer valueForKeyPath:_graphicsKeyPath]];
+//        
+//        // Redraw the whole view to make the binding take immediate visual effect. We could be much cleverer about this and just redraw the part of the view that needs it, but in typical usage the view isn't even visible yet, so that would probably be a waste of time (the programmer's and the computer's). If this view ever gets reused in some wildly dynamic situation where the bindings come and go we can reconsider optimization decisions like this then.
+//        [self setNeedsDisplay];
+//        
+//    } else if ([bindingName isEqualToString:LPGateViewSelectionIndexesBindingName]) {
+//        
+//        // We don't have any options to support for our custom "selectionIndexes" binding either. Maybe in the future someone will imagine a use for a value transformer on this, and we'll add support for it then.
+//        NSAssert(([options count]==0), @"LPGateView doesn't support any options for the 'selectionIndexes' binding.");
+//        
+//        // Rebinding is just as valid as resetting.
+//        if (_selectionIndexesContainer || _selectionIndexesKeyPath) {
+//            [self unbind:LPGateViewSelectionIndexesBindingName];
+//        }
+//        
+//        // Record the information about the binding.
+//        _selectionIndexesContainer = observableObject;
+//        _selectionIndexesKeyPath = [observableKeyPath copy];
+//        
+//        // Start observing changes to the selection indexes to which we're bound.
+//        [_selectionIndexesContainer addObserver:self forKeyPath:_selectionIndexesKeyPath options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) context:(__bridge void *)(LPGateViewSelectionIndexesObservationContext)];
+//        
+//        // Same comment as above.
+//        [self setNeedsDisplay];
+//        
+//    } else {
+//        
+//        // For every binding except "graphics" and "selectionIndexes" just use NSObject's default implementation. It will start observing the bound-to property. When a KVO notification is sent for the bound-to property, this object will be sent a [self setValue:theNewValue forKey:theBindingName] message, so this class just has to be KVC-compliant for a key that is the same as the binding name, like "grid." That's why this class has a -setGrid: method. Also, NSView supports a few simple bindings of its own, and there's no reason to get in the way of those.
+////        [super bind:bindingName toObject:observableObject withKeyPath:observableKeyPath options:options];
+//        
+//    }
+//    
+//}
 
 
 // An override of the NSObject(NSKeyValueBindingCreation) method.
@@ -240,8 +240,8 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
     // LPGateView supports several different bindings. For the ones that don't use NSObject's default implementation of key-value binding, undo what we do in -bind:toObject:withKeyPath:options:, and then redraw the whole view to make the unbinding take immediate visual effect.
     if ([bindingName isEqualToString:LPGateViewGraphicsBindingName]) {
         [self stopObservingGraphics:[self graphics]];
-        [_graphicsContainer removeObserver:self forKeyPath:_graphicsKeyPath];
-        _graphicsContainer = nil;
+//        [_graphicsContainer removeObserver:self forKeyPath:_graphicsKeyPath];
+//        _graphicsContainer = nil;
         _graphicsKeyPath = nil;
         [self setNeedsDisplay];
     } else if ([bindingName isEqualToString:LPGateViewSelectionIndexesBindingName]) {
@@ -768,7 +768,7 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
     if (event!=nil) {
         // Where is the mouse pointer as graphic creation is starting? Should the location be constrained to the grid?
         graphicOrigin = [event locationInView:self];
-        graphicSize = CGSizeMake(0.0f, 0.0f);
+        graphicSize = CGSizeMake(75.0f, 50.0f);
 //        if (_grid) {
 //            graphicOrigin = [_grid constrainedPoint:graphicOrigin];
 //        }
@@ -790,8 +790,7 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
     [_creatingGate setBounds:CGRectMake(graphicOrigin.x, graphicOrigin.y, graphicSize.width, graphicSize.height)];
     
     // Add it to the set of graphics right away so that it will show up in other views of the same array of graphics as the user sizes it.
-    NSMutableArray *mutableGraphics = [self mutableGraphics];
-    [mutableGraphics insertObject:_creatingGate atIndex:0];
+    [self.graphics insertObject:_creatingGate atIndex:0];
     
     // If this was triggered by a user event then allow the user size the new graphic until they let go of the mouse. Because different kinds of graphics have different kinds of handles, first ask the graphic class what handle the user is dragging during this initial sizing.
     if (event) {
@@ -806,7 +805,7 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
     if (CGRectGetWidth(createdGraphicBounds)!=0.0 || CGRectGetHeight(createdGraphicBounds)!=0.0) {
         
         // Select it.
-        [self changeSelectionIndexes:[NSIndexSet indexSetWithIndex:0]];
+//        [self changeSelectionIndexes:[NSIndexSet indexSetWithIndex:0]];
         
         // The graphic wasn't sized to nothing during mouse tracking. Present its editing interface it if it's that kind of graphic (like Sketch's SKTTexts). Invokers of the method we're in right now should have already cleared out _editingView.
         [self startEditingGraphic:_creatingGate];
@@ -831,6 +830,7 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
     
     // Balance the invocation of -[NSUndoManager setGroupsByEvent:] that we did up above. We're careful to restore the old value instead of merely invoking -setGroupsByEvent:YES because we don't know that the method we're in right now won't in the future be invoked by some other method that plays its own NSUndoManager games.
     [undoManager setGroupsByEvent:undoManagerWasGroupingByEvent];
+    [self setNeedsDisplay];
     
     // Done.
     _creatingGate = nil;
@@ -1023,7 +1023,7 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
 - (IBAction)delete:(id)sender {
     
     // Pretty simple.
-    [[self mutableGraphics] removeObjectsAtIndexes:[self selectionIndexes]];
+    [self.graphics removeObjectsAtIndexes:[self selectionIndexes]];
     [[self undoManager] setActionName:NSLocalizedStringFromTable(@"Delete", @"UndoStrings", @"Action name for deletions.")];
     
 }
@@ -1100,7 +1100,7 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
 
 
 - (BOOL)makeNewImageFromContentsOfFile:(NSString *)filename atPoint:(CGPoint)point {
-    NSString *extension = [filename pathExtension];
+//    NSString *extension = [filename pathExtension];
 //    if ([[UIImage imageFileTypes] containsObject:extension]) {
 //        UIImage *contents = [[UIImage alloc] initWithContentsOfFile:filename];
 //        if (contents) {
@@ -1538,10 +1538,10 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
     NSArray *selectedObjects = [[self selectedGraphics] copy];
     NSIndexSet *selectionIndexes = [self selectionIndexes];
     if ([selectionIndexes count]>0) {
-        NSMutableArray *mutableGraphics = [self mutableGraphics];
-        [mutableGraphics removeObjectsAtIndexes:selectionIndexes];
+//        NSMutableArray *mutableGraphics = [self mutableGraphics];
+        [self.graphics removeObjectsAtIndexes:selectionIndexes];
         NSIndexSet *insertionIndexes = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [selectedObjects count])];
-        [mutableGraphics insertObjects:selectedObjects atIndexes:insertionIndexes];
+        [self.graphics insertObjects:selectedObjects atIndexes:insertionIndexes];
         [self changeSelectionIndexes:insertionIndexes];
         [[self undoManager] setActionName:NSLocalizedStringFromTable(@"Bring To Front", @"UndoStrings", @"Action name for bring to front.")];
     }
@@ -1552,10 +1552,10 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
     NSArray *selectedObjects = [[self selectedGraphics] copy];
     NSIndexSet *selectionIndexes = [self selectionIndexes];
     if ([selectionIndexes count]>0) {
-        NSMutableArray *mutableGraphics = [self mutableGraphics];
-        [mutableGraphics removeObjectsAtIndexes:selectionIndexes];
-        NSIndexSet *insertionIndexes = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange([mutableGraphics count], [selectedObjects count])];
-        [mutableGraphics insertObjects:selectedObjects atIndexes:insertionIndexes];
+//        NSMutableArray *mutableGraphics = [self mutableGraphics];
+        [self.graphics removeObjectsAtIndexes:selectionIndexes];
+        NSIndexSet *insertionIndexes = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange([self.graphics count], [selectedObjects count])];
+        [self.graphics insertObjects:selectedObjects atIndexes:insertionIndexes];
         [self changeSelectionIndexes:insertionIndexes];
         [[self undoManager] setActionName:NSLocalizedStringFromTable(@"Send To Back", @"UndoStrings", @"Action name for send to back.")];
     }

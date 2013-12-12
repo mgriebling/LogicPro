@@ -89,7 +89,19 @@ CGFloat LPGateHandleWidth = 6.0f;
 CGFloat LPGateHandleHalfWidth = 6.0f / 2.0f;
 
 
-@implementation LPGate
+@implementation LPGate {
+    // The values underlying some of the key-value coding (KVC) and observing (KVO) compliance described below. Any corresponding getter or setter methods are there for invocation by code in subclasses, not for KVC or KVO compliance. KVC's direct instance variable access, KVO's autonotifying, and KVO's property dependency mechanism makes them unnecessary for the latter purpose.
+    // If you look closely, you'll notice that LPGate itself never touches these instance variables directly except in initializers, -copyWithZone:, and public accessors. LPGate is following a good rule: if a class publishes getters and setters it should itself invoke them, because people who override methods to customize behavior are right to expect their overrides to actually be invoked.
+    CGRect  _bounds;
+    BOOL    _isDrawingFill;
+    UIColor *_fillColor;
+    BOOL    _isDrawingStroke;
+    UIColor *_strokeColor;
+    CGFloat _strokeWidth;
+    
+    // The object that contains the graphic (unretained), from the point of view of scriptability. This is here only for use by this class' override of scripting's -objectSpecifier method. In Sketch this is an SKTDocument.
+    NSObject *_scriptingContainer;
+}
 
 // An override of the superclass' designated initializer.
 - (id)init {
@@ -105,6 +117,7 @@ CGFloat LPGateHandleHalfWidth = 6.0f / 2.0f;
         _isDrawingStroke = YES;
         _strokeColor = [UIColor blackColor];
         _strokeWidth = 1.0f;
+        NSLog(@"Stroke colour init = %@; Fill colour init = %@", _strokeColor, _fillColor);
         
     }
     return self;
@@ -434,6 +447,7 @@ CGFloat LPGateHandleHalfWidth = 6.0f / 2.0f;
     return _isDrawingStroke;
 }
 - (UIColor *)strokeColor {
+    NSLog(@"Using stroke colour = %@", _strokeColor);
     return _strokeColor;
 }
 - (CGFloat)strokeWidth {

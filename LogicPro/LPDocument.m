@@ -27,7 +27,7 @@ static NSString *LPDocumentTypeName = @"com.c-inspirations.LogicPro";
 // More keys, and a version number, which are just used in Sketch's property-list-based file format.
 static NSString *LPDocumentVersionKey = @"version";
 static NSString *LPDocumentPrintInfoKey = @"printInfo";
-static NSInteger LPDocumentCurrentVersion = 1;
+// static NSInteger LPDocumentCurrentVersion = 1;
 
 
 // Some methods are invoked by methods above them in this file.

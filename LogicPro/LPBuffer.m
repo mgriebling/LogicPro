@@ -24,7 +24,7 @@
     [path moveToPoint:point];
     [path addLineToPoint:CGPointMake(x, y+180.0*scale)];
     [path addLineToPoint:CGPointMake(x+132.5*scale, y+90.0*scale)];
-    [path addLineToPoint:CGPointMake(x-5.0*scale, y-5.0*scale)];
+    [path addLineToPoint:point];
     return path;
     
 }

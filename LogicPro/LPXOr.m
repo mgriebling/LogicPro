@@ -33,7 +33,7 @@
     [path addCurveToPoint:CGPointMake(x+141.1*scale, y+220.3*scale) controlPoint1:CGPointMake(x+142.0*scale, y+215.0*scale) controlPoint2:CGPointMake(x+0.5*scale, y+221.1*scale)];
     [path addCurveToPoint:CGPointMake(x+303.0*scale, y+111.0*scale) controlPoint1:CGPointMake(x+218.0*scale, y+214.0*scale) controlPoint2:CGPointMake(x+301.0*scale, y+135.5*scale)];
     [path addCurveToPoint:CGPointMake(x+141.0*scale, y+4.0*scale) controlPoint1:CGPointMake(x+284.5*scale, y+69.5*scale) controlPoint2:CGPointMake(x+214.0*scale, y+14.5*scale)];
-    [path addCurveToPoint:CGPointMake(x-5.0*scale, y) controlPoint1:CGPointMake(x+141.0*scale, y) controlPoint2:CGPointMake(x-5.0*scale, y)];
+    [path addCurveToPoint:CGPointMake(x, y) controlPoint1:CGPointMake(x+141.0*scale, y) controlPoint2:CGPointMake(x, y)];
     
     // draw shield portion of XOr
     [path moveToPoint:CGPointMake(x-50.0*scale, y)];
