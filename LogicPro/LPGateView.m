@@ -788,6 +788,7 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
     // Create the new graphic and set what little we know of its location.
     _creatingGate = [[graphicClass alloc] init];
     [_creatingGate setBounds:CGRectMake(graphicOrigin.x, graphicOrigin.y, graphicSize.width, graphicSize.height)];
+    if ([_creatingGate canMakeNaturalSize]) [_creatingGate makeNaturalSize];
     
     // Add it to the set of graphics right away so that it will show up in other views of the same array of graphics as the user sizes it.
     [self.graphics insertObject:_creatingGate atIndex:0];

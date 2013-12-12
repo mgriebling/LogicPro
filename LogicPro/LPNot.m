@@ -10,6 +10,17 @@
 
 @implementation LPNot
 
+const CGFloat IWIDTH = 185.0;
+const CGFloat IHEIGHT = 180.0;
+
+- (BOOL)canMakeNaturalSize {
+    return YES;
+}
+
+- (void)makeNaturalSize {
+    [self setBounds:CGRectMake(self.bounds.origin.x, self.bounds.origin.y, IWIDTH/5, IHEIGHT/5)];
+}
+
 - (UIBezierPath *)bezierPathForDrawing {
     
     UIBezierPath *path = [UIBezierPath bezierPath];
@@ -18,15 +29,7 @@
     CGFloat y = point.y;
     CGFloat w = self.bounds.size.width;
     CGFloat h = self.bounds.size.height;
-    CGFloat scale = MIN(w/132.5, h/180.0);
-    
-    //    CGContextAddEllipseInRect(context, CGRectMake(point.x, point.y, 50*scale, 50*scale));
-    //    CGContextDrawPath(context, kCGPathStroke);
-    
-    //    CGContextMoveToPoint(context, point.x, point.y);    
-    //    CGContextAddLineToPoint(context, point.x,             point.y+180.0*scale);
-    //    CGContextAddLineToPoint(context, point.x+132.5*scale, point.y+90.0*scale);
-    //    CGContextAddLineToPoint(context, point.x-5.0*scale,   point.y-5.0*scale);
+    CGFloat scale = MIN(w/IWIDTH, h/IHEIGHT);
     
     [path setLineWidth:[self strokeWidth]];
     [path moveToPoint:point];

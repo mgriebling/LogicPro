@@ -117,7 +117,6 @@ CGFloat LPGateHandleHalfWidth = 6.0f / 2.0f;
         _isDrawingStroke = YES;
         _strokeColor = [UIColor blackColor];
         _strokeWidth = 1.0f;
-        NSLog(@"Stroke colour init = %@; Fill colour init = %@", _strokeColor, _fillColor);
         
     }
     return self;
@@ -617,7 +616,6 @@ CGFloat LPGateHandleHalfWidth = 6.0f / 2.0f;
     
     // Just check against the graphic's bounds.
     return CGRectContainsPoint([self bounds], point);
-//    return CGPointInRect(point, [self bounds]);
     
 }
 

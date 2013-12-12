@@ -10,17 +10,16 @@
 
 @implementation LPOr
 
-//- (void)drawOrInContext:(CGContextRef)context atPoint:(CGPoint)point withScale:(CGFloat)scale {
-//    CGContextMoveToPoint(context,     point.x,             point.y);
-//    CGContextAddCurveToPoint(context, point.x+15.5*scale,  point.y+24.5*scale,  point.x+34.0*scale,  point.y+73.5*scale,  point.x+31.0*scale,  point.y+112.0*scale);
-//    CGContextAddCurveToPoint(context, point.x+38.0*scale,  point.y+145.5*scale, point.x+11.0*scale,  point.y+205.5*scale, point.x+1.0*scale,   point.y+218.0*scale);
-//    CGContextAddCurveToPoint(context, point.x+0.5*scale,   point.y+221.1*scale, point.x+141.1*scale, point.y+220.3*scale, point.x+142.0*scale, point.y+215.0*scale);
-//    CGContextAddCurveToPoint(context, point.x+218.0*scale, point.y+214.0*scale, point.x+301.0*scale, point.y+135.5*scale, point.x+303.0*scale, point.y+111.0*scale);
-//    CGContextAddCurveToPoint(context, point.x+284.5*scale, point.y+69.5*scale,  point.x+214.0*scale, point.y+14.5*scale,  point.x+141.0*scale, point.y+4.0*scale);
+const CGFloat IWIDTH = 303.0;
+const CGFloat IHEIGHT = 221.1;
 
-//    CGContextAddCurveToPoint(context, point.x+141.0*scale, point.y,             point.x-5.0*scale,   point.y,             point.x-5.0*scale,   point.y);
-//    CGContextDrawPath(context, kCGPathStroke);
-//}
+- (BOOL)canMakeNaturalSize {
+    return YES;
+}
+
+- (void)makeNaturalSize {
+    [self setBounds:CGRectMake(self.bounds.origin.x, self.bounds.origin.y, IWIDTH/5, IHEIGHT/5)];
+}
 
 - (UIBezierPath *)bezierPathForDrawing {
     
@@ -30,7 +29,7 @@
     CGFloat y = point.y;
     CGFloat w = self.bounds.size.width;
     CGFloat h = self.bounds.size.height;
-    CGFloat scale = MIN(w/277.0, h/217.0);
+    CGFloat scale = MIN(w/IWIDTH, h/IHEIGHT);
     
     [path setLineWidth:[self strokeWidth]];
     [path moveToPoint:point];

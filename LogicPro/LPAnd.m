@@ -10,6 +10,17 @@
 
 @implementation LPAnd
 
+const CGFloat IWIDTH = 277.0;
+const CGFloat IHEIGHT = 217.0;
+
+- (BOOL)canMakeNaturalSize {
+    return YES;
+}
+
+- (void)makeNaturalSize {
+    [self setBounds:CGRectMake(self.bounds.origin.x, self.bounds.origin.y, IWIDTH/5, IHEIGHT/5)];
+}
+
 - (UIBezierPath *)bezierPathForDrawing {
     
     UIBezierPath *path = [UIBezierPath bezierPath];
@@ -18,7 +29,7 @@
     CGFloat y = point.y;
     CGFloat w = self.bounds.size.width;
     CGFloat h = self.bounds.size.height;
-    CGFloat scale = MIN(w/277.0, h/217.0);
+    CGFloat scale = MIN(w/IWIDTH, h/IHEIGHT);
     
     [path setLineWidth:[self strokeWidth]];
     [path moveToPoint:point];
