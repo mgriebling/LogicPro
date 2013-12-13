@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @class LPGate;
+@class LPGrid;
 
 @interface LPGateView : UIView {
 @private
@@ -20,7 +21,7 @@
     NSString *_selectionIndexesKeyPath;
     
     // The grid that is drawn in the view and used to constrain graphics as they're created and moved. In Sketch this is just a cache of a value that canonically lives in the SKTWindowController to which this view's grid property is bound (see SKTWindowController's comments for an explanation of why the grid lives there).
-//    SKTGrid *_grid;
+    LPGrid *_grid;
     
     // The bounds of moved objects that is echoed in the ruler, if objects are being moved right now.
     CGRect _rulerEchoedBounds;

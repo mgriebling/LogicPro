@@ -446,7 +446,6 @@ CGFloat LPGateHandleHalfWidth = 6.0f / 2.0f;
     return _isDrawingStroke;
 }
 - (UIColor *)strokeColor {
-    NSLog(@"Using stroke colour = %@", _strokeColor);
     return _strokeColor;
 }
 - (CGFloat)strokeWidth {
@@ -590,7 +589,7 @@ CGFloat LPGateHandleHalfWidth = 6.0f / 2.0f;
 - (BOOL)canSetDrawingFill {
     
     // The default implementation of -drawContentsInView: can draw fills.
-    return YES;
+    return NO;
     
 }
 

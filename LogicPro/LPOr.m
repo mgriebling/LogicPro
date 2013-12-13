@@ -10,15 +10,15 @@
 
 @implementation LPOr
 
-const CGFloat IWIDTH = 303.0;
-const CGFloat IHEIGHT = 221.1;
+const CGFloat IWIDTH_OR = 303.0;
+const CGFloat IHEIGHT_OR = 221.1;
 
 - (BOOL)canMakeNaturalSize {
     return YES;
 }
 
 - (void)makeNaturalSize {
-    [self setBounds:CGRectMake(self.bounds.origin.x, self.bounds.origin.y, IWIDTH/5, IHEIGHT/5)];
+    [self setBounds:CGRectMake(self.bounds.origin.x, self.bounds.origin.y, IWIDTH_OR/5, IHEIGHT_OR/5)];
 }
 
 - (UIBezierPath *)bezierPathForDrawing {
@@ -29,7 +29,7 @@ const CGFloat IHEIGHT = 221.1;
     CGFloat y = point.y;
     CGFloat w = self.bounds.size.width;
     CGFloat h = self.bounds.size.height;
-    CGFloat scale = MIN(w/IWIDTH, h/IHEIGHT);
+    CGFloat scale = MIN(w/IWIDTH_OR, h/IHEIGHT_OR);
     
     [path setLineWidth:[self strokeWidth]];
     [path moveToPoint:point];

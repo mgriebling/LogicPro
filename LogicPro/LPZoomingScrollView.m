@@ -34,9 +34,7 @@ NSString *LPZoomingScrollViewFactor = @"factor";
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
-        self.minimumZoomScale = 0.5;
-        self.maximumZoomScale = 2.0;
-        self.zoomScale = 1.0;
+
     }
     return self;
 }

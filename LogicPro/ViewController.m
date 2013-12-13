@@ -11,12 +11,13 @@
 #import "LPToolPaletteController.h"
 #import "LPGateView.h"
 #import "UIBezierPath+Image.h"
+#import "LPZoomingScrollView.h"
 
 @interface ViewController () <UIScrollViewDelegate, UIAlertViewDelegate, UIGestureRecognizerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIButton *gateButton;
 @property (strong, nonatomic) LPGateView *gateView;
-@property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (strong, nonatomic) IBOutlet LPZoomingScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UITextField *drawingScale;
 
 @end
@@ -28,7 +29,10 @@
 }
 
 - (void) setScrollView:(UIScrollView *)scrollView {
-    _scrollView = scrollView;
+    _scrollView = (LPZoomingScrollView *)scrollView;
+    _scrollView.minimumZoomScale = 0.5;
+    _scrollView.maximumZoomScale = 2.0;
+    _scrollView.zoomScale = 1.0;
     _scrollView.delegate = self;
     [_scrollView addSubview:self.gateView];
     _scrollView.contentSize = self.gateView.frame.size;
@@ -60,15 +64,9 @@
     [_scrollView addGestureRecognizer:swipGesture];
 }
 
-//- (void) setGateView:(LPGateView *)gateView {
-//    _gateView = gateView;
-//    _gateView.bounds = self.view.bounds;
-//    _gateView.backgroundColor = [UIColor whiteColor];
-//}
-
 - (LPGateView *)gateView {
     if (!_gateView) {
-        _gateView = [[LPGateView alloc] initWithFrame:CGRectMake(0, 0, 500.0, 500.0)];
+        _gateView = [[LPGateView alloc] initWithFrame:CGRectMake(0, 0, 1000.0, 1000.0)];
     }
     return _gateView;
 }

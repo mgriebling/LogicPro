@@ -9,6 +9,7 @@
 #import "LPGateView.h"
 #import "LPGate.h"
 #import "LPToolPaletteController.h"
+#import "LPGrid.h"
 
 // The names of the bindings supported by this class, in addition to the ones whose support is inherited from NSView.
 NSString *LPGateViewGraphicsBindingName = @"graphics";
@@ -53,6 +54,7 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
         _pasteboardChangeCount = -1;
         _pasteCascadeNumber = 0;
         _pasteCascadeDelta = CGPointMake(LPGateViewDefaultPasteCascadeDelta, LPGateViewDefaultPasteCascadeDelta);
+        _grid = [[LPGrid alloc] init];
         
     }
     return self;
@@ -68,13 +70,14 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
     [self stopEditing];
     
     // Stop observing grid changes.
-//    [_grid removeObserver:self forKeyPath:SKTGridAnyKey];
+    [_grid removeObserver:self forKeyPath:LPGridAnyKey];
     
     // Stop observing objects for the bindings whose support isn't implemented using NSObject's default implementations.
     [self unbind:LPGateViewGraphicsBindingName];
     [self unbind:LPGateViewSelectionIndexesBindingName];
     
     // Do the regular Cocoa thing.
+    _grid = nil;
 //    [_grid release];
 //    [super dealloc];
     
@@ -137,24 +140,23 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
 }
 
 
-//- (void)setGrid:(SKTGrid *)grid {
-//    
-//    // Weed out redundant invocations.
-//    if (grid!=_grid) {
-//        
-//        // Stop observing changes in the old grid.
-//        [_grid removeObserver:self forKeyPath:SKTGridAnyKey];
-//        
-//        // Do the regular Cocoa thing.
-//        [_grid release];
-//        _grid = [grid retain];
-//        
-//        // Start observing changes in the new grid so we know when to redraw it.
-//        [_grid addObserver:self forKeyPath:SKTGridAnyKey options:0 context:LPGateViewAnyGridPropertyObservationContext];
-//        
-//    }
-//    
-//}
+- (void)setGrid:(LPGrid *)grid {
+    
+    // Weed out redundant invocations.
+    if (grid!=_grid) {
+        
+        // Stop observing changes in the old grid.
+        [_grid removeObserver:self forKeyPath:LPGridAnyKey];
+        
+        // Do the regular Cocoa thing.
+        _grid = grid;
+        
+        // Start observing changes in the new grid so we know when to redraw it.
+//        [_grid addObserver:self forKeyPath:LPGridAnyKey options:0 context:LPGateViewAnyGridPropertyObservationContext];
+        
+    }
+    
+}
 
 
 - (void)startObservingGraphics:(NSArray *)graphics {
@@ -401,7 +403,7 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
     UIRectFill(rect);
     
     // Draw the grid.
-//    [_grid drawRect:rect inView:self];
+    [_grid drawRect:rect inView:self];
     
     // Draw every graphic that intersects the rectangle to be drawn. In Sketch the frontmost graphics have the lowest indexes.
     CGContextRef currentContext = UIGraphicsGetCurrentContext();
@@ -654,7 +656,7 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
     c = [selGraphics count];
     
     lastPoint = [event locationInView:self];
-//    CGPoint selOriginOffset = CGPointMake((lastPoint.x - selBounds.origin.x), (lastPoint.y - selBounds.origin.y));
+    CGPoint selOriginOffset = CGPointMake((lastPoint.x - selBounds.origin.x), (lastPoint.y - selBounds.origin.y));
     if (echoToRulers) {
         [self beginEchoingMoveToRulers:selBounds];
     }
@@ -668,14 +670,14 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
             _isHidingHandles = YES;
         }
         if (isMoving) {
-//            if (_grid) {
-//                CGPoint boundsOrigin;
-//                boundsOrigin.x = curPoint.x - selOriginOffset.x;
-//                boundsOrigin.y = curPoint.y - selOriginOffset.y;
-//                boundsOrigin  = [_grid constrainedPoint:boundsOrigin];
-//                curPoint.x = boundsOrigin.x + selOriginOffset.x;
-//                curPoint.y = boundsOrigin.y + selOriginOffset.y;
-//            }
+            if (_grid) {
+                CGPoint boundsOrigin;
+                boundsOrigin.x = curPoint.x - selOriginOffset.x;
+                boundsOrigin.y = curPoint.y - selOriginOffset.y;
+                boundsOrigin  = [_grid constrainedPoint:boundsOrigin];
+                curPoint.x = boundsOrigin.x + selOriginOffset.x;
+                curPoint.y = boundsOrigin.y + selOriginOffset.y;
+            }
             if (!CGPointEqualToPoint(lastPoint, curPoint)) {
                 [[LPGateView class] translateGraphics:selGraphics byX:(curPoint.x - lastPoint.x) y:(curPoint.y - lastPoint.y)];
                 didMove = YES;
@@ -718,9 +720,9 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
 //        event = [[self window] nextEventMatchingMask:(NSLeftMouseDraggedMask | NSLeftMouseUpMask)];
 //        [self autoscroll:event];
         CGPoint handleLocation = [event locationInView:self];
-//        if (_grid) {
-//            handleLocation = [_grid constrainedPoint:handleLocation];
-//        }
+        if (_grid) {
+            handleLocation = [_grid constrainedPoint:handleLocation];
+        }
         handle = [graphic resizeByMovingHandle:handle toPoint:handleLocation];
         if (echoToRulers) {
             [self continueEchoingMoveToRulers:[graphic bounds]];
@@ -769,20 +771,20 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
         // Where is the mouse pointer as graphic creation is starting? Should the location be constrained to the grid?
         graphicOrigin = [event locationInView:self];
         graphicSize = CGSizeMake(75.0f, 50.0f);
-//        if (_grid) {
-//            graphicOrigin = [_grid constrainedPoint:graphicOrigin];
-//        }
+        if (_grid) {
+            graphicOrigin = [_grid constrainedPoint:graphicOrigin];
+        }
     } else {
         // If there is no event, then automatically add a graphic at (10,10). Should the location and size be constrained to the grid?
         graphicOrigin = CGPointMake(10.0f, 10.0f);
         graphicSize = CGSizeMake(100.0f, 100.0f);
         
-//        if (_grid) {
-//            graphicOrigin = [_grid constrainedPoint:graphicOrigin];
-//            
-//            CGPoint graphicEndPoint = [_grid constrainedPoint:NSMakePoint(graphicOrigin.x+graphicSize.width, graphicOrigin.y+graphicSize.height)];
-//            graphicSize = CGSizeMake(graphicEndPoint.x - graphicOrigin.x, graphicEndPoint.y - graphicOrigin.y);
-//        }
+        if (_grid) {
+            graphicOrigin = [_grid constrainedPoint:graphicOrigin];
+            
+            CGPoint graphicEndPoint = [_grid constrainedPoint:CGPointMake(graphicOrigin.x+graphicSize.width, graphicOrigin.y+graphicSize.height)];
+            graphicSize = CGSizeMake(graphicEndPoint.x - graphicOrigin.x, graphicEndPoint.y - graphicOrigin.y);
+        }
     }
     
     // Create the new graphic and set what little we know of its location.
@@ -1529,7 +1531,7 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
         
         for (i=0; i<c; i++) {
             curGraphic = [selection objectAtIndex:i];
-//            [curGraphic setBounds:[_grid alignedRect:[curGraphic bounds]]];
+            [curGraphic setBounds:[_grid alignedRect:[curGraphic bounds]]];
         }
         [[self undoManager] setActionName:NSLocalizedStringFromTable(@"Grid Selected Graphics", @"UndoStrings", @"Action name for grid selected graphics.")];
     }

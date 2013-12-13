@@ -39,6 +39,7 @@
 		47BBB160185721B4000C92F8 /* LPNand.m in Sources */ = {isa = PBXBuildFile; fileRef = 47BBB15F185721B4000C92F8 /* LPNand.m */; };
 		47BBB163185721C3000C92F8 /* LPNor.m in Sources */ = {isa = PBXBuildFile; fileRef = 47BBB162185721C3000C92F8 /* LPNor.m */; };
 		47BBB166185721DA000C92F8 /* LPXNor.m in Sources */ = {isa = PBXBuildFile; fileRef = 47BBB165185721DA000C92F8 /* LPXNor.m */; };
+		47D6387A185B2537002BFEB4 /* LPGrid.m in Sources */ = {isa = PBXBuildFile; fileRef = 47D63879185B2537002BFEB4 /* LPGrid.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -94,6 +95,8 @@
 		47BBB162185721C3000C92F8 /* LPNor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPNor.m; sourceTree = "<group>"; };
 		47BBB164185721DA000C92F8 /* LPXNor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPXNor.h; sourceTree = "<group>"; };
 		47BBB165185721DA000C92F8 /* LPXNor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPXNor.m; sourceTree = "<group>"; };
+		47D63878185B2537002BFEB4 /* LPGrid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPGrid.h; sourceTree = "<group>"; };
+		47D63879185B2537002BFEB4 /* LPGrid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPGrid.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,6 +157,8 @@
 				478DB61A1615B41A00D69B15 /* ViewController.m */,
 				2FB22845184CC5CB00E8A24F /* LPDocument.h */,
 				2FB22846184CC5CB00E8A24F /* LPDocument.m */,
+				47D63878185B2537002BFEB4 /* LPGrid.h */,
+				47D63879185B2537002BFEB4 /* LPGrid.m */,
 				47BBB167185721F0000C92F8 /* Circuit Elements */,
 				2FC56771185205C2006E1AB3 /* LPMetadata.h */,
 				2FC56772185205C2006E1AB3 /* LPMetadata.m */,
@@ -292,6 +297,7 @@
 				478DB60C1615B41A00D69B15 /* AppDelegate.m in Sources */,
 				2FC56773185205C2006E1AB3 /* LPMetadata.m in Sources */,
 				478DB61B1615B41A00D69B15 /* ViewController.m in Sources */,
+				47D6387A185B2537002BFEB4 /* LPGrid.m in Sources */,
 				2FB2284B184CC5CB00E8A24F /* LPDocument.m in Sources */,
 				47BBB15A18572190000C92F8 /* LPNot.m in Sources */,
 				47BBB163185721C3000C92F8 /* LPNor.m in Sources */,
