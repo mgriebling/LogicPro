@@ -15,10 +15,12 @@
 
 @interface ViewController () <UIScrollViewDelegate, UIAlertViewDelegate, UIGestureRecognizerDelegate>
 
+
 @property (weak, nonatomic) IBOutlet UIButton *gateButton;
 @property (strong, nonatomic) LPGateView *gateView;
 @property (strong, nonatomic) IBOutlet LPZoomingScrollView *scrollView;
-@property (weak, nonatomic) IBOutlet UITextField *drawingScale;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *textScaleButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *titleButton;
 
 @end
 
@@ -38,10 +40,10 @@
     _scrollView.contentSize = self.gateView.frame.size;
     
     // panning with two fingers
-    UIPanGestureRecognizer *panGR = _scrollView.panGestureRecognizer;
-    panGR.minimumNumberOfTouches = 2;
-    panGR.maximumNumberOfTouches = 2;
-    _scrollView.pagingEnabled = NO;
+//    UIPanGestureRecognizer *panGR = _scrollView.panGestureRecognizer;
+//    panGR.minimumNumberOfTouches = 2;
+//    panGR.maximumNumberOfTouches = 2;
+//    _scrollView.pagingEnabled = NO;
     
     // tap gesture for selecting and creating objects
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tappedView:)];
@@ -50,11 +52,11 @@
     [_scrollView addGestureRecognizer:tapGesture];
     
     // single-finger pan to move active objects
-    UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(dragInView:)];
-    panGesture.minimumNumberOfTouches = 1;
-    panGesture.maximumNumberOfTouches = 1;
-    panGesture.delegate = self;
-    [_scrollView addGestureRecognizer:panGesture];
+//    UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(dragInView:)];
+//    panGesture.minimumNumberOfTouches = 1;
+//    panGesture.maximumNumberOfTouches = 1;
+//    panGesture.delegate = self;
+//    [_scrollView addGestureRecognizer:panGesture];
     
     // stroke gesture to delete object
     UISwipeGestureRecognizer *swipGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swippedView:)];
@@ -67,6 +69,8 @@
 - (LPGateView *)gateView {
     if (!_gateView) {
         _gateView = [[LPGateView alloc] initWithFrame:CGRectMake(0, 0, 1000.0, 1000.0)];
+        [_gateView setContentMode:UIViewContentModeRedraw];
+        [_gateView setContentScaleFactor:1.0];
     }
     return _gateView;
 }
@@ -74,28 +78,28 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     lastGateType = LPNandGate;
-    [self.gateButton setImage:[self imageForGate:lastGateType withSize:self.gateButton.bounds] forState:UIControlStateNormal];
+    [self.gateButton setImage:[self imageForGate:lastGateType] forState:UIControlStateNormal];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    CGRect scrollViewFrame = self.scrollView.frame;
-    CGFloat scaleWidth = scrollViewFrame.size.width / self.scrollView.contentSize.width;
-    CGFloat scaleHeight = scrollViewFrame.size.height / self.scrollView.contentSize.height;
-    CGFloat minScale = MIN(scaleHeight, scaleWidth);
-    self.scrollView.minimumZoomScale = minScale;
-    
-    self.scrollView.maximumZoomScale = 5.0;
+//    CGRect scrollViewFrame = self.scrollView.frame;
+//    CGFloat scaleWidth = scrollViewFrame.size.width / self.scrollView.contentSize.width;
+//    CGFloat scaleHeight = scrollViewFrame.size.height / self.scrollView.contentSize.height;
+//    CGFloat minScale = MIN(scaleHeight, scaleWidth);
+    self.scrollView.minimumZoomScale = 0.25;
+    self.scrollView.maximumZoomScale = 12.0;
     self.scrollView.zoomScale = 1.0;
-    self.drawingScale.text = [NSString stringWithFormat:@"%.0f%%", self.scrollView.zoomScale*100.0];
+    [self scrollViewDidZoom:self.scrollView];
+//    self.drawingScale.text = [NSString stringWithFormat:@"%.0f%%", self.scrollView.zoomScale*100.0];
+    self.titleButton.title = [NSString stringWithFormat:@"LogicPro™ (%@)", @"Unnamed"];
 }
 
-- (UIImage *)imageForGate:(NSUInteger)gateID withSize:(CGRect)bounds {
+- (UIImage *)imageForGate:(NSUInteger)gateID {
+    CGRect gateSize = CGRectMake(0, 0, 50, 25);
     LPGate *gate = [[[LPToolPaletteController classForGate:gateID] alloc] init];
-    [gate setBounds:bounds];
-    UIBezierPath *gatePath = [gate bezierPathForDrawing];
-    UIImage *image = [gatePath strokeImageWithColor:[UIColor blackColor]];
-    return image;
+    [gate setBounds:gateSize];
+    return [[gate bezierPathForDrawing] strokeImageWithColor:[UIColor blackColor]];
 }
 
 - (IBAction)exitGateSelection:(UIStoryboardSegue *)segue {
@@ -103,7 +107,7 @@
         LPToolPaletteController *gateSelection = segue.sourceViewController;
         if (gateSelection.currentGate != lastGateType) {
             lastGateType = gateSelection.currentGate;
-            [self.gateButton setImage:[self imageForGate:lastGateType withSize:self.gateButton.bounds] forState:UIControlStateNormal];
+            [self.gateButton setImage:[self imageForGate:lastGateType] forState:UIControlStateNormal];
         }
     }
 }
@@ -112,6 +116,8 @@
     if ([segue.identifier isEqualToString:@"showGates"]) {
         LPToolPaletteController *gateSelection = segue.destinationViewController;
         gateSelection.currentGate = lastGateType;
+    } else if ([segue.identifier isEqualToString:@"showScales"]) {
+        
     }
 }
 
@@ -164,8 +170,8 @@
 }
 
 - (void)scrollViewDidZoom:(UIScrollView *)scrollView {
-    self.drawingScale.text = [NSString stringWithFormat:@"%.0f%%", scrollView.zoomScale*100.0];
-//    self.drawView.scale = scrollView.zoomScale;
+    self.textScaleButton.title = [NSString stringWithFormat:@"%.0f%%", scrollView.zoomScale*100.0];
+    [self.gateView setContentScaleFactor:scrollView.zoomScale];
 }
 
 - (BOOL)scrollViewShouldScrollToTop:(UIScrollView *)scrollView {

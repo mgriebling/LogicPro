@@ -21,6 +21,15 @@ const CGFloat IHEIGHT_XNOR = 221.0;
     [self setBounds:CGRectMake(self.bounds.origin.x, self.bounds.origin.y, IWIDTH_XNOR/5, IHEIGHT_XNOR/5)];
 }
 
+- (CGRect)drawingBounds {
+    CGRect bounds = [super drawingBounds];
+    CGFloat scale = MIN(bounds.size.width/IWIDTH_XNOR, bounds.size.height/IHEIGHT_XNOR);
+    
+    // adjust bounds to account for shield
+    bounds = CGRectInset(bounds, -50.0*scale, 0.0);
+    return bounds;
+}
+
 - (UIBezierPath *)bezierPathForDrawing {
     
     UIBezierPath *path = [UIBezierPath bezierPath];
