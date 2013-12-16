@@ -16,7 +16,7 @@
     
     // Information that is recorded when the "graphics" and "selectionIndexes" bindings are established. Notice that we don't keep around copies of the actual graphics array and selection indexes. Those would just be unnecessary (as far as we know, so far, without having ever done any relevant performance measurement) caches of values that really live in the bound-to objects.
 //    NSObject *_graphicsContainer;
-    NSString *_graphicsKeyPath;
+    NSString *_gatesKeyPath;
     NSObject *_selectionIndexesContainer;
     NSString *_selectionIndexesKeyPath;
     
@@ -39,10 +39,10 @@
     CGRect _marqueeSelectionBounds;
     
     // Whether or not selection handles are being hidden while the user moves graphics.
-    BOOL _isHidingHandles;
+    BOOL _isHidingPins;
     
     // Sometimes we temporarily hide the selection handles when the user moves graphics using the keyboard. When we do that this is the timer to start showing them again.
-    NSTimer *_handleShowingTimer;
+    NSTimer *_pinShowingTimer;
     
     // The state of the cascading of graphics that we do during repeated pastes.
     NSInteger _pasteboardChangeCount;
@@ -73,12 +73,12 @@
 - (IBAction)paste:(id)sender;
 - (IBAction)sendToBack:(id)sender;
 - (IBAction)showOrHideRulers:(id)sender;
-- (IBAction)insertGraphic:(id)sender;
+- (IBAction)insertGate:(id)sender;
 
 - (void)insertGateWithClass:(Class)class andEvent:(UIGestureRecognizer *)gesture;
 
 // Used by accessibility
-- (NSArray *)selectedGraphics;
+- (NSArray *)selectedGates;
 //
 //@property (strong, nonatomic) Gates *gates;
 //@property (nonatomic) CGFloat scale;

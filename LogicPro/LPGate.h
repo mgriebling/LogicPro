@@ -25,22 +25,22 @@ extern NSString *LPGateDrawingBoundsKey;
 extern NSString *LPGateDrawingContentsKey;
 extern NSString *LPGateKeysForValuesToObserveForUndoKey;
 
-// The value that is returned by -handleUnderPoint: to indicate that no selection handle is under the point.
-extern const NSInteger LPGateNoHandle;
+// The value that is returned by -PinUnderPoint: to indicate that no selection Pin is under the point.
+extern const NSInteger LPGateNoPin;
 
 enum {
-    LPGateUpperLeftHandle = 1,
-    LPGateUpperMiddleHandle = 2,
-    LPGateUpperRightHandle = 3,
-    LPGateMiddleLeftHandle = 4,
-    LPGateMiddleRightHandle = 5,
-    LPGateLowerLeftHandle = 6,
-    LPGateLowerMiddleHandle = 7,
-    LPGateLowerRightHandle = 8,
+    LPGateUpperLeftPin = 1,
+    LPGateUpperMiddlePin = 2,
+    LPGateUpperRightPin = 3,
+    LPGateMiddleLeftPin = 4,
+    LPGateMiddleRightPin = 5,
+    LPGateLowerLeftPin = 6,
+    LPGateLowerMiddlePin = 7,
+    LPGateLowerRightPin = 8,
 };
 
-extern CGFloat LPGateHandleWidth;
-extern CGFloat LPGateHandleHalfWidth;
+extern CGFloat LPGatePinWidth;
+extern CGFloat LPGatePinHalfWidth;
 
 @interface LPGate : NSObject <NSCopying, NSCoding>
 
@@ -49,36 +49,36 @@ extern CGFloat LPGateHandleHalfWidth;
 /* You can override these class methods in your subclass of LPGate, but it would be a waste of time, because no one invokes these on any class other than LPGate itself. Really these could just be functions if we didn't have such a syntactic sweet tooth. */
 
 // Move each graphic in the array by the same amount.
-+ (void)translateGraphics:(NSArray *)graphics byX:(CGFloat)deltaX y:(CGFloat)deltaY;
++ (void)translateGates:(NSArray *)gates byX:(CGFloat)deltaX y:(CGFloat)deltaY;
 
 // Return the total "bounds" of all of the graphics in the array.
-+ (CGRect)boundsOfGraphics:(NSArray *)graphics;
++ (CGRect)boundsOfGates:(NSArray *)gates;
 
 // Return the total drawing bounds of all of the graphics in the array.
-+ (CGRect)drawingBoundsOfGraphics:(NSArray *)graphics;
++ (CGRect)drawingBoundsOfGates:(NSArray *)gates;
 
 #pragma mark *** Persistence ***
 
 /* You can override these class methods in your subclass of LPGate, but it would be a waste of time, because no one invokes these on any class other than LPGate itself. Really these could just be functions if we didn't have such a syntactic sweet tooth. */
 
 // Return an array of graphics created from flattened data of the sort returned by +pasteboardDataWithGraphics: or, if that's not possible, return nil and set *outError to an NSError that can be presented to the user to explain what went wrong.
-+ (NSArray *)graphicsWithPasteboardData:(NSData *)data error:(NSError **)outError;
++ (NSArray *)gatesWithPasteboardData:(NSData *)data error:(NSError **)outError;
 
 // Given an array of property list dictionaries whose validity has not been determined, return an array of graphics.
-+ (NSArray *)graphicsWithProperties:(NSArray *)propertiesArray;
++ (NSArray *)gatesWithProperties:(NSArray *)propertiesArray;
 
 // Return the array of graphics as flattened data that is appropriate for passing to +graphicsWithPasteboardData:error:.
-+ (NSData *)pasteboardDataWithGraphics:(NSArray *)graphics;
++ (NSData *)pasteboardDataWithGates:(NSArray *)gates;
 
 // Given an array of graphics, return an array of property list dictionaries.
-//+ (NSArray *)propertiesWithGraphics:(NSArray *)graphics;
+//+ (NSArray *)propertiesWithGates:(NSArray *)gates;
 
 /* Subclasses of LPGate might have reason to override any of the rest of this class' methods, starting here. */
 
 // Given a dictionary having the sort of entries that would be in a dictionary returned by -properties, but whose validity has not been determined, initialize, setting the values of as many properties as possible from it. Ignore unrecognized dictionary entries. Use default values for missing dictionary entries. This is not the designated initializer for this class (-init is).
 //- (id)initWithProperties:(NSDictionary *)properties;
 
-// Return a dictionary that can be used as property list object and contains enough information to recreate the graphic (except for its class, which is handled by +propertiesWithGraphics:). The returned dictionary must be mutable so that it can be added to efficiently, but the receiver must ignore any mutations made to it after it's been returned.
+// Return a dictionary that can be used as property list object and contains enough information to recreate the graphic (except for its class, which is Pind by +propertiesWithGraphics:). The returned dictionary must be mutable so that it can be added to efficiently, but the receiver must ignore any mutations made to it after it's been returned.
 //- (NSMutableDictionary *)properties;
 
 #pragma mark *** Simple Property Getting ***
@@ -98,7 +98,7 @@ extern CGFloat LPGateHandleHalfWidth;
 + (NSSet *)keyPathsForValuesAffectingDrawingBounds;
 + (NSSet *)keyPathsForValuesAffectingDrawingContents;
 
-// Return the bounding box of everything the receiver might draw when sent a -draw...InView: message. The default implementation of this method returns a bounds that assumes the default implementations of -drawContentsInView: and -drawHandlesInView:. Subclasses that override this probably have to override +keyPathsForValuesAffectingDrawingBounds too.
+// Return the bounding box of everything the receiver might draw when sent a -draw...InView: message. The default implementation of this method returns a bounds that assumes the default implementations of -drawContentsInView: and -drawPinsInView:. Subclasses that override this probably have to override +keyPathsForValuesAffectingDrawingBounds too.
 - (CGRect)drawingBounds;
 
 // Draw the contents the receiver in a specific view. Use isBeingCreatedOrEditing if the graphic draws differently during its creation or while it's being edited. The default implementation of this method just draws the result of invoking -bezierPathForDrawing using the current fill and stroke parameters. Subclasses have to override either this method or -bezierPathForDrawing. Subclasses that override this may have to override +keyPathsForValuesAffectingDrawingBounds, +keyPathsForValuesAffectingDrawingContents, and -drawingBounds too.
@@ -107,11 +107,11 @@ extern CGFloat LPGateHandleHalfWidth;
 // Return a bezier path that can be stroked and filled to draw the graphic, if the graphic can be drawn so simply, nil otherwise. The default implementation of this method returns nil. Subclasses have to override either this method or -drawContentsInView:. Any returned bezier path should already have the graphic's current stroke width set in it.
 - (UIBezierPath *)bezierPathForDrawing;
 
-// Draw the handles of the receiver in a specific view. The default implementation of this method just invokes -drawHandleInView:atPoint: for each point at the corners and on the sides of the rectangle returned by -bounds. Subclasses that override this probably have to override -handleUnderPoint: too.
-- (void)drawHandlesInView:(UIView *)view;
+// Draw the pins of the receiver in a specific view. The default implementation of this method just invokes -drawPinInView:atPoint: for each point at the corners and on the sides of the rectangle returned by -bounds. Subclasses that override this probably have to override -PinUnderPoint: too.
+- (void)drawPinsInView:(UIView *)view;
 
-// Draw handle at a specific point in a specific view. Subclasses that override -drawHandlesInView: can invoke this to easily draw handles whereever they like.
-- (void)drawHandleInView:(UIView *)view atPoint:(CGPoint)point;
+// Draw pin at a specific point in a specific view. Subclasses that override -drawPinsInView: can invoke this to easily draw Pins whereever they like.
+- (void)drawPinInView:(UIView *)view atPoint:(CGPoint)point;
 
 
 #pragma mark *** Editing ***
@@ -119,8 +119,8 @@ extern CGFloat LPGateHandleHalfWidth;
 // Return a cursor that can be used when the user has clicked using the creation tool and is dragging the mouse to size a new instance of the receiving class.
 //+ (NSCursor *)creationCursor;
 
-// Return the number of the handle that the user is dragging when they move the mouse after clicking to create a new instance of the receiving class. The default implementation of this method returns a number that corresponds to one of the corners of the graphic's bounds. Subclasses that override this should probably override -resizeByMovingHandle:toPoint: too.
-+ (NSInteger)creationSizingHandle;
+// Return the number of the Pin that the user is dragging when they move the mouse after clicking to create a new instance of the receiving class. The default implementation of this method returns a number that corresponds to one of the corners of the graphic's bounds. Subclasses that override this should probably override -resizeByMovingPin:toPoint: too.
++ (NSInteger)creationSizingPin;
 
 // Return YES if it's useful to let the user toggle drawing of the fill or stroke, NO otherwise. The default implementations of these methods return YES.
 - (BOOL)canSetDrawingFill;
@@ -132,16 +132,16 @@ extern CGFloat LPGateHandleHalfWidth;
 // Return YES if the point is in the contents of the receiver, NO otherwise. The default implementation of this method returns YES if the point is inside [self bounds].
 - (BOOL)isContentsUnderPoint:(CGPoint)point;
 
-// If the point is in one of the handles of the receiver return its number, LPGateNoHandle otherwise. The default implementation of this method invokes -isHandleAtPoint:underPoint: for the corners and on the sides of the rectangle returned by -bounds. Subclasses that override this probably have to override several other methods too.
-- (NSInteger)handleUnderPoint:(CGPoint)point;
+// If the point is in one of the Pins of the receiver return its number, LPGateNoPin otherwise. The default implementation of this method invokes -isPinAtPoint:underPoint: for the corners and on the sides of the rectangle returned by -bounds. Subclasses that override this probably have to override several other methods too.
+- (NSInteger)pinUnderPoint:(CGPoint)point;
 
-// Return YES if the handle at a point is under another point. Subclasses that override -handleUnderPoint: can invoke this to hit-test the sort of handles that would be drawn by -drawHandleInView:atPoint:.
-- (BOOL)isHandleAtPoint:(CGPoint)handlePoint underPoint:(CGPoint)point;
+// Return YES if the Pin at a point is under another point. Subclasses that override -PinUnderPoint: can invoke this to hit-test the sort of Pins that would be drawn by -drawPinInView:atPoint:.
+- (BOOL)isPinAtPoint:(CGPoint)PinPoint underPoint:(CGPoint)point;
 
-// Given that one of the receiver's handles has been dragged by the user, resize to match, and return the handle number that should be passed into subsequent invocations of this same method. The default implementation of this method assumes that the passed-in handle number was returned by a previous invocation of +creationSizingHandle or -handleUnderPoint:, so subclasses that override this should probably override +creationSizingHandle and -handleUnderPoint: too. It also invokes -flipHorizontally and -flipVertically when the user flips the graphic.
-- (NSInteger)resizeByMovingHandle:(NSInteger)handle toPoint:(CGPoint)point;
+// Given that one of the receiver's Pins has been dragged by the user, resize to match, and return the Pin number that should be passed into subsequent invocations of this same method. The default implementation of this method assumes that the passed-in Pin number was returned by a previous invocation of +creationSizingPin or -PinUnderPoint:, so subclasses that override this should probably override +creationSizingPin and -PinUnderPoint: too. It also invokes -flipHorizontally and -flipVertically when the user flips the graphic.
+- (NSInteger)resizeByMovingPin:(NSInteger)Pin toPoint:(CGPoint)point;
 
-// Given that -resizeByMovingHandle:toPoint: is being invoked and sensed that the user has flipped the graphic one way or the other, change the graphic to accomodate, whatever that means. Subclasses that represent asymmetrical graphics can override these to accomodate the user's dragging of handles without having to override and mostly reimplement -resizeByMovingHandle:toPoint:.
+// Given that -resizeByMovingPin:toPoint: is being invoked and sensed that the user has flipped the graphic one way or the other, change the graphic to accomodate, whatever that means. Subclasses that represent asymmetrical graphics can override these to accomodate the user's dragging of Pins without having to override and mostly reimplement -resizeByMovingPin:toPoint:.
 - (void)flipHorizontally;
 - (void)flipVertically;
 

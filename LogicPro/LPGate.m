@@ -67,26 +67,26 @@ NSString *LPGateDrawingContentsKey = @"drawingContents";
 NSString *LPGateKeysForValuesToObserveForUndoKey = @"keysForValuesToObserveForUndo";
 
 // Another constant that's declared in the header.
-const NSInteger LPGateNoHandle = 0;
+const NSInteger LPGateNoPin = 0;
 
 // A key that's used in Sketch's property-list-based file and pasteboard formats.
 static NSString *LPGateClassNameKey = @"className";
 
-// The values that might be returned by -[LPGate creationSizingHandle] and -[LPGate handleUnderPoint:], and that are understood by -[LPGate resizeByMovingHandle:toPoint:]. We provide specific indexes in this enumeration so make sure none of them are zero (that's LPGateNoHandle) and to make sure the flipping arrays in -[LPGate resizeByMovingHandle:toPoint:] work.
+// The values that might be returned by -[LPGate creationSizingPin] and -[LPGate PinUnderPoint:], and that are understood by -[LPGate resizeByMovingPin:toPoint:]. We provide specific indexes in this enumeration so make sure none of them are zero (that's LPGateNoPin) and to make sure the flipping arrays in -[LPGate resizeByMovingPin:toPoint:] work.
 /*enum {
- LPGateUpperLeftHandle = 1,
- LPGateUpperMiddleHandle = 2,
- LPGateUpperRightHandle = 3,
- LPGateMiddleLeftHandle = 4,
- LPGateMiddleRightHandle = 5,
- LPGateLowerLeftHandle = 6,
- LPGateLowerMiddleHandle = 7,
- LPGateLowerRightHandle = 8,
+ LPGateUpperLeftPin = 1,
+ LPGateUpperMiddlePin = 2,
+ LPGateUpperRightPin = 3,
+ LPGateMiddleLeftPin = 4,
+ LPGateMiddleRightPin = 5,
+ LPGateLowerLeftPin = 6,
+ LPGateLowerMiddlePin = 7,
+ LPGateLowerRightPin = 8,
  };*/
 
-// The handles that graphics draw on themselves are 6 point by 6 point rectangles.
-CGFloat LPGateHandleWidth = 6.0f;
-CGFloat LPGateHandleHalfWidth = 6.0f / 2.0f;
+// The Pins that graphics draw on themselves are 6 point by 6 point rectangles.
+CGFloat LPGatePinWidth = 6.0f;
+CGFloat LPGatePinHalfWidth = 6.0f / 2.0f;
 
 
 @implementation LPGate {
@@ -215,15 +215,15 @@ CGFloat LPGateHandleHalfWidth = 6.0f / 2.0f;
 #pragma mark *** Convenience ***
 
 
-+ (CGRect)boundsOfGraphics:(NSArray *)graphics {
++ (CGRect)boundsOfGates:(NSArray *)gates {
     
     // The bounds of an array of graphics is the union of all of their bounds.
     CGRect bounds = CGRectZero;
-    NSUInteger graphicCount = [graphics count];
-    if (graphicCount>0) {
-        bounds = [[graphics objectAtIndex:0] bounds];
-        for (NSUInteger index = 1; index<graphicCount; index++) {
-            bounds = CGRectUnion(bounds, [[graphics objectAtIndex:index] bounds]);
+    NSUInteger gateCount = [gates count];
+    if (gateCount>0) {
+        bounds = [[gates objectAtIndex:0] bounds];
+        for (NSUInteger index = 1; index<gateCount; index++) {
+            bounds = CGRectUnion(bounds, [[gates objectAtIndex:index] bounds]);
         }
     }
     return bounds;
@@ -231,15 +231,15 @@ CGFloat LPGateHandleHalfWidth = 6.0f / 2.0f;
 }
 
 
-+ (CGRect)drawingBoundsOfGraphics:(NSArray *)graphics {
++ (CGRect)drawingBoundsOfGates:(NSArray *)gates {
     
     // The drawing bounds of an array of graphics is the union of all of their drawing bounds.
     CGRect drawingBounds = CGRectZero;
-    NSUInteger graphicCount = [graphics count];
-    if (graphicCount>0) {
-        drawingBounds = [[graphics objectAtIndex:0] drawingBounds];
-        for (NSUInteger index = 1; index<graphicCount; index++) {
-            drawingBounds = CGRectUnion(drawingBounds, [[graphics objectAtIndex:index] drawingBounds]);
+    NSUInteger gateCount = [gates count];
+    if (gateCount>0) {
+        drawingBounds = [[gates objectAtIndex:0] drawingBounds];
+        for (NSUInteger index = 1; index<gateCount; index++) {
+            drawingBounds = CGRectUnion(drawingBounds, [[gates objectAtIndex:index] drawingBounds]);
         }
     }
     return drawingBounds;
@@ -247,13 +247,13 @@ CGFloat LPGateHandleHalfWidth = 6.0f / 2.0f;
 }
 
 
-+ (void)translateGraphics:(NSArray *)graphics byX:(CGFloat)deltaX y:(CGFloat)deltaY {
++ (void)translateGates:(NSArray *)gates byX:(CGFloat)deltaX y:(CGFloat)deltaY {
     
     // Pretty simple.
-    NSUInteger graphicCount = [graphics count];
-    for (NSUInteger index = 0; index<graphicCount; index++) {
-        LPGate *graphic = [graphics objectAtIndex:index];
-        [graphic setBounds:CGRectOffset([graphic bounds], deltaX, deltaY)];
+    NSUInteger gateCount = [gates count];
+    for (NSUInteger index = 0; index<gateCount; index++) {
+        LPGate *gate = [gates objectAtIndex:index];
+        [gate setBounds:CGRectOffset([gate bounds], deltaX, deltaY)];
     }
     
 }
@@ -262,10 +262,10 @@ CGFloat LPGateHandleHalfWidth = 6.0f / 2.0f;
 #pragma mark *** Persistence ***
 
 
-+ (NSArray *)graphicsWithPasteboardData:(NSData *)data error:(NSError **)outError {
++ (NSArray *)gatesWithPasteboardData:(NSData *)data error:(NSError **)outError {
     
     // Because this data may have come from outside this process, don't assume that any property list object we get back is the right type.
-    NSArray *graphics = nil;
+    NSArray *gates = nil;
     NSArray *propertiesArray = [NSPropertyListSerialization propertyListFromData:data mutabilityOption:NSPropertyListImmutable format:NULL errorDescription:NULL];
     if (![propertiesArray isKindOfClass:[NSArray class]]) {
         propertiesArray = nil;
@@ -273,7 +273,7 @@ CGFloat LPGateHandleHalfWidth = 6.0f / 2.0f;
     if (propertiesArray) {
         
         // Convert the array of graphic property dictionaries into an array of graphics.
-        graphics = [self graphicsWithProperties:propertiesArray];
+        gates = [self gatesWithProperties:propertiesArray];
         
     } else if (outError) {
         
@@ -281,16 +281,16 @@ CGFloat LPGateHandleHalfWidth = 6.0f / 2.0f;
 //        *outError = SKTErrorWithCode(SKTUnknownPasteboardReadError);
         
     }
-    return graphics;
+    return gates;
     
 }
 
 
-+ (NSArray *)graphicsWithProperties:(NSArray *)propertiesArray {
++ (NSArray *)gatesWithProperties:(NSArray *)propertiesArray {
     
     // Convert the array of graphic property dictionaries into an array of graphics. Again, don't assume that property list objects are the right type.
     NSUInteger graphicCount = [propertiesArray count];
-    NSMutableArray *graphics = [[NSMutableArray alloc] initWithCapacity:graphicCount];
+    NSMutableArray *gates = [[NSMutableArray alloc] initWithCapacity:graphicCount];
     for (NSUInteger index = 0; index<graphicCount; index++) {
         NSDictionary *properties = [propertiesArray objectAtIndex:index];
         if ([properties isKindOfClass:[NSDictionary class]]) {
@@ -301,9 +301,9 @@ CGFloat LPGateHandleHalfWidth = 6.0f / 2.0f;
                 Class class = NSClassFromString(className);
                 if (class) {
                     // Create a new graphic. If it doesn't work then just do nothing. We could return an NSError, but doing things this way 1) means that a user might be able to rescue graphics from a partially corrupted document, and 2) is easier.
-                    LPGate *graphic = [[class alloc] initWithProperties:properties];
-                    if (graphic) {
-                        [graphics addObject:graphic];
+                    LPGate *gate = [[class alloc] initWithProperties:properties];
+                    if (gate) {
+                        [gates addObject:gate];
                     }
                     
                 }
@@ -312,12 +312,12 @@ CGFloat LPGateHandleHalfWidth = 6.0f / 2.0f;
             
         }
     }
-    return graphics;
+    return gates;
     
 }
 
 
-+ (NSData *)pasteboardDataWithGraphics:(NSArray *)graphics {
++ (NSData *)pasteboardDataWithGates:(NSArray *)gates {
     
     // Convert the contents of the document to a property list and then flatten the property list.
 //    return [NSPropertyListSerialization dataFromPropertyList:[self propertiesWithGraphics:graphics] format:NSPropertyListBinaryFormat_v1_0 errorDescription:NULL];
@@ -325,7 +325,7 @@ CGFloat LPGateHandleHalfWidth = 6.0f / 2.0f;
 }
 
 
-//+ (NSArray *)propertiesWithGraphics:(NSArray *)graphics {
+//+ (NSArray *)propertiesWithGates:(NSArray *)gates {
 //    
 //    // Convert the array of graphics dictionaries into an array of graphic property dictionaries.
 //    NSUInteger graphicCount = [graphics count];
@@ -478,8 +478,8 @@ CGFloat LPGateHandleHalfWidth = 6.0f / 2.0f;
 
 - (CGRect)drawingBounds {
     
-    // Assume that -[LPGate drawContentsInView:] and -[LPGate drawHandlesInView:] will be doing the drawing. Start with the plain bounds of the graphic, then take drawing of handles at the corners of the bounds into account, then optional stroke drawing.
-    CGFloat outset = LPGateHandleHalfWidth;
+    // Assume that -[LPGate drawContentsInView:] and -[LPGate drawPinsInView:] will be doing the drawing. Start with the plain bounds of the graphic, then take drawing of Pins at the corners of the bounds into account, then optional stroke drawing.
+    CGFloat outset = LPGatePinHalfWidth;
     if ([self isDrawingStroke]) {
         CGFloat strokeOutset = [self strokeWidth] / 2.0f;
         if (strokeOutset>outset) {
@@ -489,7 +489,7 @@ CGFloat LPGateHandleHalfWidth = 6.0f / 2.0f;
     CGFloat inset = 0.0f - outset;
     CGRect drawingBounds = CGRectInset([self bounds], inset, inset);
     
-    // -drawHandleInView:atPoint: draws a one-unit drop shadow too.
+    // -drawPinInView:atPoint: draws a one-unit drop shadow too.
     drawingBounds.size.width += 1.0f;
     drawingBounds.size.height += 1.0f;
     return drawingBounds;
@@ -523,40 +523,40 @@ CGFloat LPGateHandleHalfWidth = 6.0f / 2.0f;
 }
 
 
-- (void)drawHandlesInView:(UIView *)view {
+- (void)drawPinsInView:(UIView *)view {
     
-    // Draw handles at the corners and on the sides.
+    // Draw Pins at the corners and on the sides.
     CGRect bounds = [self bounds];
-    [self drawHandleInView:view atPoint:CGPointMake(CGRectGetMinX(bounds), CGRectGetMinY(bounds))];
-    [self drawHandleInView:view atPoint:CGPointMake(CGRectGetMidX(bounds), CGRectGetMinY(bounds))];
-    [self drawHandleInView:view atPoint:CGPointMake(CGRectGetMaxX(bounds), CGRectGetMinY(bounds))];
-    [self drawHandleInView:view atPoint:CGPointMake(CGRectGetMinX(bounds), CGRectGetMidY(bounds))];
-    [self drawHandleInView:view atPoint:CGPointMake(CGRectGetMaxX(bounds), CGRectGetMidY(bounds))];
-    [self drawHandleInView:view atPoint:CGPointMake(CGRectGetMinX(bounds), CGRectGetMaxY(bounds))];
-    [self drawHandleInView:view atPoint:CGPointMake(CGRectGetMidX(bounds), CGRectGetMaxY(bounds))];
-    [self drawHandleInView:view atPoint:CGPointMake(CGRectGetMaxX(bounds), CGRectGetMaxY(bounds))];
+    [self drawPinInView:view atPoint:CGPointMake(CGRectGetMinX(bounds), CGRectGetMinY(bounds))];
+    [self drawPinInView:view atPoint:CGPointMake(CGRectGetMidX(bounds), CGRectGetMinY(bounds))];
+    [self drawPinInView:view atPoint:CGPointMake(CGRectGetMaxX(bounds), CGRectGetMinY(bounds))];
+    [self drawPinInView:view atPoint:CGPointMake(CGRectGetMinX(bounds), CGRectGetMidY(bounds))];
+    [self drawPinInView:view atPoint:CGPointMake(CGRectGetMaxX(bounds), CGRectGetMidY(bounds))];
+    [self drawPinInView:view atPoint:CGPointMake(CGRectGetMinX(bounds), CGRectGetMaxY(bounds))];
+    [self drawPinInView:view atPoint:CGPointMake(CGRectGetMidX(bounds), CGRectGetMaxY(bounds))];
+    [self drawPinInView:view atPoint:CGPointMake(CGRectGetMaxX(bounds), CGRectGetMaxY(bounds))];
     
 }
 
 
-- (void)drawHandleInView:(UIView *)view atPoint:(CGPoint)point {
+- (void)drawPinInView:(UIView *)view atPoint:(CGPoint)point {
     
     // Figure out a rectangle that's centered on the point but lined up with device pixels.
-    CGRect handleBounds;
-    handleBounds.origin.x = point.x - LPGateHandleHalfWidth;
-    handleBounds.origin.y = point.y - LPGateHandleHalfWidth;
-    handleBounds.size.width = LPGateHandleWidth;
-    handleBounds.size.height = LPGateHandleWidth;
-//    handleBounds = [view centerScanRect:handleBounds];
+    CGRect PinBounds;
+    PinBounds.origin.x = point.x - LPGatePinHalfWidth;
+    PinBounds.origin.y = point.y - LPGatePinHalfWidth;
+    PinBounds.size.width = LPGatePinWidth;
+    PinBounds.size.height = LPGatePinWidth;
+//    PinBounds = [view centerScanRect:PinBounds];
     
-    // Draw the shadow of the handle.
-    CGRect handleShadowBounds = CGRectOffset(handleBounds, 1.0f, 1.0f);
+    // Draw the shadow of the Pin.
+    CGRect PinShadowBounds = CGRectOffset(PinBounds, 1.0f, 1.0f);
     [[UIColor darkGrayColor] set];   // [UIColor controlDarkShadowColor] set];
-    UIRectFill(handleShadowBounds);
+    UIRectFill(PinShadowBounds);
     
-    // Draw the handle itself.
+    // Draw the Pin itself.
     [[UIColor redColor] set];
-    UIRectFill(handleBounds);
+    UIRectFill(PinBounds);
     
 }
 
@@ -578,10 +578,10 @@ CGFloat LPGateHandleHalfWidth = 6.0f / 2.0f;
 //}
 
 
-+ (NSInteger)creationSizingHandle {
++ (NSInteger)creationSizingPin {
     
-    // Return the number of the handle for the lower-right corner. If the user drags it so that it's no longer in the lower-right, -resizeByMovingHandle:toPoint: will deal with it.
-    return LPGateLowerRightHandle;
+    // Return the number of the Pin for the lower-right corner. If the user drags it so that it's no longer in the lower-right, -resizeByMovingPin:toPoint: will deal with it.
+    return LPGateLowerRightPin;
     
 }
 
@@ -619,59 +619,59 @@ CGFloat LPGateHandleHalfWidth = 6.0f / 2.0f;
 }
 
 
-- (NSInteger)handleUnderPoint:(CGPoint)point {
+- (NSInteger)pinUnderPoint:(CGPoint)point {
     
-    // Check handles at the corners and on the sides.
-    NSInteger handle = LPGateNoHandle;
+    // Check Pins at the corners and on the sides.
+    NSInteger Pin = LPGateNoPin;
     CGRect bounds = [self bounds];
-    if ([self isHandleAtPoint:CGPointMake(CGRectGetMinX(bounds), CGRectGetMinY(bounds)) underPoint:point]) {
-        handle = LPGateUpperLeftHandle;
-    } else if ([self isHandleAtPoint:CGPointMake(CGRectGetMidX(bounds), CGRectGetMinY(bounds)) underPoint:point]) {
-        handle = LPGateUpperMiddleHandle;
-    } else if ([self isHandleAtPoint:CGPointMake(CGRectGetMaxX(bounds), CGRectGetMinY(bounds)) underPoint:point]) {
-        handle = LPGateUpperRightHandle;
-    } else if ([self isHandleAtPoint:CGPointMake(CGRectGetMinX(bounds), CGRectGetMidY(bounds)) underPoint:point]) {
-        handle = LPGateMiddleLeftHandle;
-    } else if ([self isHandleAtPoint:CGPointMake(CGRectGetMaxX(bounds), CGRectGetMidY(bounds)) underPoint:point]) {
-        handle = LPGateMiddleRightHandle;
-    } else if ([self isHandleAtPoint:CGPointMake(CGRectGetMinX(bounds), CGRectGetMaxY(bounds)) underPoint:point]) {
-        handle = LPGateLowerLeftHandle;
-    } else if ([self isHandleAtPoint:CGPointMake(CGRectGetMidX(bounds), CGRectGetMaxY(bounds)) underPoint:point]) {
-        handle = LPGateLowerMiddleHandle;
-    } else if ([self isHandleAtPoint:CGPointMake(CGRectGetMaxX(bounds), CGRectGetMaxY(bounds)) underPoint:point]) {
-        handle = LPGateLowerRightHandle;
+    if ([self isPinAtPoint:CGPointMake(CGRectGetMinX(bounds), CGRectGetMinY(bounds)) underPoint:point]) {
+        Pin = LPGateUpperLeftPin;
+    } else if ([self isPinAtPoint:CGPointMake(CGRectGetMidX(bounds), CGRectGetMinY(bounds)) underPoint:point]) {
+        Pin = LPGateUpperMiddlePin;
+    } else if ([self isPinAtPoint:CGPointMake(CGRectGetMaxX(bounds), CGRectGetMinY(bounds)) underPoint:point]) {
+        Pin = LPGateUpperRightPin;
+    } else if ([self isPinAtPoint:CGPointMake(CGRectGetMinX(bounds), CGRectGetMidY(bounds)) underPoint:point]) {
+        Pin = LPGateMiddleLeftPin;
+    } else if ([self isPinAtPoint:CGPointMake(CGRectGetMaxX(bounds), CGRectGetMidY(bounds)) underPoint:point]) {
+        Pin = LPGateMiddleRightPin;
+    } else if ([self isPinAtPoint:CGPointMake(CGRectGetMinX(bounds), CGRectGetMaxY(bounds)) underPoint:point]) {
+        Pin = LPGateLowerLeftPin;
+    } else if ([self isPinAtPoint:CGPointMake(CGRectGetMidX(bounds), CGRectGetMaxY(bounds)) underPoint:point]) {
+        Pin = LPGateLowerMiddlePin;
+    } else if ([self isPinAtPoint:CGPointMake(CGRectGetMaxX(bounds), CGRectGetMaxY(bounds)) underPoint:point]) {
+        Pin = LPGateLowerRightPin;
     }
-    return handle;
+    return Pin;
     
 }
 
 
-- (BOOL)isHandleAtPoint:(CGPoint)handlePoint underPoint:(CGPoint)point {
+- (BOOL)isPinAtPoint:(CGPoint)pinPoint underPoint:(CGPoint)point {
     
-    // Check a handle-sized rectangle that's centered on the handle point.
-    CGRect handleBounds;
-    handleBounds.origin.x = handlePoint.x - LPGateHandleHalfWidth;
-    handleBounds.origin.y = handlePoint.y - LPGateHandleHalfWidth;
-    handleBounds.size.width = LPGateHandleWidth;
-    handleBounds.size.height = LPGateHandleWidth;
-    return CGRectContainsPoint(handleBounds, point); // CGPointInRect(point, handleBounds);
+    // Check a Pin-sized rectangle that's centered on the Pin point.
+    CGRect pinBounds;
+    pinBounds.origin.x = pinPoint.x - LPGatePinHalfWidth;
+    pinBounds.origin.y = pinPoint.y - LPGatePinHalfWidth;
+    pinBounds.size.width = LPGatePinWidth;
+    pinBounds.size.height = LPGatePinWidth;
+    return CGRectContainsPoint(pinBounds, point);
     
 }
 
 
-- (NSInteger)resizeByMovingHandle:(NSInteger)handle toPoint:(CGPoint)point {
+- (NSInteger)resizeByMovingPin:(NSInteger)pin toPoint:(CGPoint)point {
     
     // Start with the original bounds.
     CGRect bounds = [self bounds];
     
     // Is the user changing the width of the graphic?
-    if (handle==LPGateUpperLeftHandle || handle==LPGateMiddleLeftHandle || handle==LPGateLowerLeftHandle) {
+    if (pin==LPGateUpperLeftPin || pin==LPGateMiddleLeftPin || pin==LPGateLowerLeftPin) {
         
         // Change the left edge of the graphic.
         bounds.size.width = CGRectGetMaxX(bounds) - point.x;
         bounds.origin.x = point.x;
         
-    } else if (handle==LPGateUpperRightHandle || handle==LPGateMiddleRightHandle || handle==LPGateLowerRightHandle) {
+    } else if (pin==LPGateUpperRightPin || pin==LPGateMiddleRightPin || pin==LPGateLowerRightPin) {
         
         // Change the right edge of the graphic.
         bounds.size.width = point.x - bounds.origin.x;
@@ -681,21 +681,21 @@ CGFloat LPGateHandleHalfWidth = 6.0f / 2.0f;
     // Did the user actually flip the graphic over?
     if (bounds.size.width<0.0f) {
         
-        // The handle is now playing a different role relative to the graphic.
+        // The Pin is now playing a different role relative to the graphic.
         static NSInteger flippings[9];
         static BOOL flippingsInitialized = NO;
         if (!flippingsInitialized) {
-            flippings[LPGateUpperLeftHandle] = LPGateUpperRightHandle;
-            flippings[LPGateUpperMiddleHandle] = LPGateUpperMiddleHandle;
-            flippings[LPGateUpperRightHandle] = LPGateUpperLeftHandle;
-            flippings[LPGateMiddleLeftHandle] = LPGateMiddleRightHandle;
-            flippings[LPGateMiddleRightHandle] = LPGateMiddleLeftHandle;
-            flippings[LPGateLowerLeftHandle] = LPGateLowerRightHandle;
-            flippings[LPGateLowerMiddleHandle] = LPGateLowerMiddleHandle;
-            flippings[LPGateLowerRightHandle] = LPGateLowerLeftHandle;
+            flippings[LPGateUpperLeftPin] = LPGateUpperRightPin;
+            flippings[LPGateUpperMiddlePin] = LPGateUpperMiddlePin;
+            flippings[LPGateUpperRightPin] = LPGateUpperLeftPin;
+            flippings[LPGateMiddleLeftPin] = LPGateMiddleRightPin;
+            flippings[LPGateMiddleRightPin] = LPGateMiddleLeftPin;
+            flippings[LPGateLowerLeftPin] = LPGateLowerRightPin;
+            flippings[LPGateLowerMiddlePin] = LPGateLowerMiddlePin;
+            flippings[LPGateLowerRightPin] = LPGateLowerLeftPin;
             flippingsInitialized = YES;
         }
-        handle = flippings[handle];
+        pin = flippings[pin];
         
         // Make the graphic's width positive again.
         bounds.size.width = 0.0f - bounds.size.width;
@@ -707,13 +707,13 @@ CGFloat LPGateHandleHalfWidth = 6.0f / 2.0f;
     }
     
     // Is the user changing the height of the graphic?
-    if (handle==LPGateUpperLeftHandle || handle==LPGateUpperMiddleHandle || handle==LPGateUpperRightHandle) {
+    if (pin==LPGateUpperLeftPin || pin==LPGateUpperMiddlePin || pin==LPGateUpperRightPin) {
         
         // Change the top edge of the graphic.
         bounds.size.height = CGRectGetMaxY(bounds) - point.y;
         bounds.origin.y = point.y;
         
-    } else if (handle==LPGateLowerLeftHandle || handle==LPGateLowerMiddleHandle || handle==LPGateLowerRightHandle) {
+    } else if (pin==LPGateLowerLeftPin || pin==LPGateLowerMiddlePin || pin==LPGateLowerRightPin) {
         
         // Change the bottom edge of the graphic.
         bounds.size.height = point.y - bounds.origin.y;
@@ -723,21 +723,21 @@ CGFloat LPGateHandleHalfWidth = 6.0f / 2.0f;
     // Did the user actually flip the graphic upside down?
     if (bounds.size.height<0.0f) {
         
-        // The handle is now playing a different role relative to the graphic.
+        // The Pin is now playing a different role relative to the graphic.
         static NSInteger flippings[9];
         static BOOL flippingsInitialized = NO;
         if (!flippingsInitialized) {
-            flippings[LPGateUpperLeftHandle] = LPGateLowerLeftHandle;
-            flippings[LPGateUpperMiddleHandle] = LPGateLowerMiddleHandle;
-            flippings[LPGateUpperRightHandle] = LPGateLowerRightHandle;
-            flippings[LPGateMiddleLeftHandle] = LPGateMiddleLeftHandle;
-            flippings[LPGateMiddleRightHandle] = LPGateMiddleRightHandle;
-            flippings[LPGateLowerLeftHandle] = LPGateUpperLeftHandle;
-            flippings[LPGateLowerMiddleHandle] = LPGateUpperMiddleHandle;
-            flippings[LPGateLowerRightHandle] = LPGateUpperRightHandle;
+            flippings[LPGateUpperLeftPin] = LPGateLowerLeftPin;
+            flippings[LPGateUpperMiddlePin] = LPGateLowerMiddlePin;
+            flippings[LPGateUpperRightPin] = LPGateLowerRightPin;
+            flippings[LPGateMiddleLeftPin] = LPGateMiddleLeftPin;
+            flippings[LPGateMiddleRightPin] = LPGateMiddleRightPin;
+            flippings[LPGateLowerLeftPin] = LPGateUpperLeftPin;
+            flippings[LPGateLowerMiddlePin] = LPGateUpperMiddlePin;
+            flippings[LPGateLowerRightPin] = LPGateUpperRightPin;
             flippingsInitialized = YES;
         }
-        handle = flippings[handle];
+        pin = flippings[pin];
         
         // Make the graphic's height positive again.
         bounds.size.height = 0.0f - bounds.size.height;
@@ -750,7 +750,7 @@ CGFloat LPGateHandleHalfWidth = 6.0f / 2.0f;
     
     // Done.
     [self setBounds:bounds];
-    return handle;
+    return pin;
     
 }
 
