@@ -523,6 +523,10 @@ CGFloat LPGatePinHalfWidth = 6.0f / 2.0f;
 }
 
 
+- (NSArray *)pins {
+    return _pins;
+}
+
 - (void)drawPinsInView:(UIView *)view {
     
     // Draw Pins at the corners and on the sides.
@@ -542,48 +546,26 @@ CGFloat LPGatePinHalfWidth = 6.0f / 2.0f;
 - (void)drawPinInView:(UIView *)view atPoint:(CGPoint)point {
     
     // Figure out a rectangle that's centered on the point but lined up with device pixels.
-    CGRect PinBounds;
-    PinBounds.origin.x = point.x - LPGatePinHalfWidth;
-    PinBounds.origin.y = point.y - LPGatePinHalfWidth;
-    PinBounds.size.width = LPGatePinWidth;
-    PinBounds.size.height = LPGatePinWidth;
+    CGRect pinBounds;
+    pinBounds.origin.x = point.x - LPGatePinHalfWidth;
+    pinBounds.origin.y = point.y - LPGatePinHalfWidth;
+    pinBounds.size.width = LPGatePinWidth;
+    pinBounds.size.height = LPGatePinWidth;
 //    PinBounds = [view centerScanRect:PinBounds];
     
     // Draw the shadow of the Pin.
-    CGRect PinShadowBounds = CGRectOffset(PinBounds, 1.0f, 1.0f);
+    CGRect pinShadowBounds = CGRectOffset(pinBounds, 1.0f, 1.0f);
     [[UIColor darkGrayColor] set];   // [UIColor controlDarkShadowColor] set];
-    UIRectFill(PinShadowBounds);
+    UIRectFill(pinShadowBounds);
     
     // Draw the Pin itself.
     [[UIColor redColor] set];
-    UIRectFill(PinBounds);
+    UIRectFill(pinBounds);
     
 }
 
 
 #pragma mark *** Editing ***
-
-
-//+ (NSCursor *)creationCursor {
-//    
-//    // By default we use the crosshairs cursor.
-//    static NSCursor *crosshairsCursor = nil;
-//    if (!crosshairsCursor) {
-//        NSImage *crosshairsImage = [NSImage imageNamed:@"Cross"];
-//        NSSize crosshairsImageSize = [crosshairsImage size];
-//        crosshairsCursor = [[NSCursor alloc] initWithImage:crosshairsImage hotSpot:CGPointMake((crosshairsImageSize.width / 2.0), (crosshairsImageSize.height / 2.0))];
-//    }
-//    return crosshairsCursor;
-//    
-//}
-
-
-+ (NSInteger)creationSizingPin {
-    
-    // Return the number of the Pin for the lower-right corner. If the user drags it so that it's no longer in the lower-right, -resizeByMovingPin:toPoint: will deal with it.
-    return LPGateLowerRightPin;
-    
-}
 
 
 - (BOOL)canSetDrawingFill {
@@ -622,26 +604,26 @@ CGFloat LPGatePinHalfWidth = 6.0f / 2.0f;
 - (NSInteger)pinUnderPoint:(CGPoint)point {
     
     // Check Pins at the corners and on the sides.
-    NSInteger Pin = LPGateNoPin;
-    CGRect bounds = [self bounds];
-    if ([self isPinAtPoint:CGPointMake(CGRectGetMinX(bounds), CGRectGetMinY(bounds)) underPoint:point]) {
-        Pin = LPGateUpperLeftPin;
-    } else if ([self isPinAtPoint:CGPointMake(CGRectGetMidX(bounds), CGRectGetMinY(bounds)) underPoint:point]) {
-        Pin = LPGateUpperMiddlePin;
-    } else if ([self isPinAtPoint:CGPointMake(CGRectGetMaxX(bounds), CGRectGetMinY(bounds)) underPoint:point]) {
-        Pin = LPGateUpperRightPin;
-    } else if ([self isPinAtPoint:CGPointMake(CGRectGetMinX(bounds), CGRectGetMidY(bounds)) underPoint:point]) {
-        Pin = LPGateMiddleLeftPin;
-    } else if ([self isPinAtPoint:CGPointMake(CGRectGetMaxX(bounds), CGRectGetMidY(bounds)) underPoint:point]) {
-        Pin = LPGateMiddleRightPin;
-    } else if ([self isPinAtPoint:CGPointMake(CGRectGetMinX(bounds), CGRectGetMaxY(bounds)) underPoint:point]) {
-        Pin = LPGateLowerLeftPin;
-    } else if ([self isPinAtPoint:CGPointMake(CGRectGetMidX(bounds), CGRectGetMaxY(bounds)) underPoint:point]) {
-        Pin = LPGateLowerMiddlePin;
-    } else if ([self isPinAtPoint:CGPointMake(CGRectGetMaxX(bounds), CGRectGetMaxY(bounds)) underPoint:point]) {
-        Pin = LPGateLowerRightPin;
-    }
-    return Pin;
+    NSInteger pin = LPGateNoPin;
+//    CGRect bounds = [self bounds];
+//    if ([self isPinAtPoint:CGPointMake(CGRectGetMinX(bounds), CGRectGetMinY(bounds)) underPoint:point]) {
+//        Pin = LPGateUpperLeftPin;
+//    } else if ([self isPinAtPoint:CGPointMake(CGRectGetMidX(bounds), CGRectGetMinY(bounds)) underPoint:point]) {
+//        Pin = LPGateUpperMiddlePin;
+//    } else if ([self isPinAtPoint:CGPointMake(CGRectGetMaxX(bounds), CGRectGetMinY(bounds)) underPoint:point]) {
+//        Pin = LPGateUpperRightPin;
+//    } else if ([self isPinAtPoint:CGPointMake(CGRectGetMinX(bounds), CGRectGetMidY(bounds)) underPoint:point]) {
+//        Pin = LPGateMiddleLeftPin;
+//    } else if ([self isPinAtPoint:CGPointMake(CGRectGetMaxX(bounds), CGRectGetMidY(bounds)) underPoint:point]) {
+//        Pin = LPGateMiddleRightPin;
+//    } else if ([self isPinAtPoint:CGPointMake(CGRectGetMinX(bounds), CGRectGetMaxY(bounds)) underPoint:point]) {
+//        Pin = LPGateLowerLeftPin;
+//    } else if ([self isPinAtPoint:CGPointMake(CGRectGetMidX(bounds), CGRectGetMaxY(bounds)) underPoint:point]) {
+//        Pin = LPGateLowerMiddlePin;
+//    } else if ([self isPinAtPoint:CGPointMake(CGRectGetMaxX(bounds), CGRectGetMaxY(bounds)) underPoint:point]) {
+//        Pin = LPGateLowerRightPin;
+//    }
+    return pin;
     
 }
 
@@ -659,100 +641,100 @@ CGFloat LPGatePinHalfWidth = 6.0f / 2.0f;
 }
 
 
-- (NSInteger)resizeByMovingPin:(NSInteger)pin toPoint:(CGPoint)point {
-    
-    // Start with the original bounds.
-    CGRect bounds = [self bounds];
-    
-    // Is the user changing the width of the graphic?
-    if (pin==LPGateUpperLeftPin || pin==LPGateMiddleLeftPin || pin==LPGateLowerLeftPin) {
-        
-        // Change the left edge of the graphic.
-        bounds.size.width = CGRectGetMaxX(bounds) - point.x;
-        bounds.origin.x = point.x;
-        
-    } else if (pin==LPGateUpperRightPin || pin==LPGateMiddleRightPin || pin==LPGateLowerRightPin) {
-        
-        // Change the right edge of the graphic.
-        bounds.size.width = point.x - bounds.origin.x;
-        
-    }
-    
-    // Did the user actually flip the graphic over?
-    if (bounds.size.width<0.0f) {
-        
-        // The Pin is now playing a different role relative to the graphic.
-        static NSInteger flippings[9];
-        static BOOL flippingsInitialized = NO;
-        if (!flippingsInitialized) {
-            flippings[LPGateUpperLeftPin] = LPGateUpperRightPin;
-            flippings[LPGateUpperMiddlePin] = LPGateUpperMiddlePin;
-            flippings[LPGateUpperRightPin] = LPGateUpperLeftPin;
-            flippings[LPGateMiddleLeftPin] = LPGateMiddleRightPin;
-            flippings[LPGateMiddleRightPin] = LPGateMiddleLeftPin;
-            flippings[LPGateLowerLeftPin] = LPGateLowerRightPin;
-            flippings[LPGateLowerMiddlePin] = LPGateLowerMiddlePin;
-            flippings[LPGateLowerRightPin] = LPGateLowerLeftPin;
-            flippingsInitialized = YES;
-        }
-        pin = flippings[pin];
-        
-        // Make the graphic's width positive again.
-        bounds.size.width = 0.0f - bounds.size.width;
-        bounds.origin.x -= bounds.size.width;
-        
-        // Tell interested subclass code what just happened.
-        [self flipHorizontally];
-        
-    }
-    
-    // Is the user changing the height of the graphic?
-    if (pin==LPGateUpperLeftPin || pin==LPGateUpperMiddlePin || pin==LPGateUpperRightPin) {
-        
-        // Change the top edge of the graphic.
-        bounds.size.height = CGRectGetMaxY(bounds) - point.y;
-        bounds.origin.y = point.y;
-        
-    } else if (pin==LPGateLowerLeftPin || pin==LPGateLowerMiddlePin || pin==LPGateLowerRightPin) {
-        
-        // Change the bottom edge of the graphic.
-        bounds.size.height = point.y - bounds.origin.y;
-        
-    }
-    
-    // Did the user actually flip the graphic upside down?
-    if (bounds.size.height<0.0f) {
-        
-        // The Pin is now playing a different role relative to the graphic.
-        static NSInteger flippings[9];
-        static BOOL flippingsInitialized = NO;
-        if (!flippingsInitialized) {
-            flippings[LPGateUpperLeftPin] = LPGateLowerLeftPin;
-            flippings[LPGateUpperMiddlePin] = LPGateLowerMiddlePin;
-            flippings[LPGateUpperRightPin] = LPGateLowerRightPin;
-            flippings[LPGateMiddleLeftPin] = LPGateMiddleLeftPin;
-            flippings[LPGateMiddleRightPin] = LPGateMiddleRightPin;
-            flippings[LPGateLowerLeftPin] = LPGateUpperLeftPin;
-            flippings[LPGateLowerMiddlePin] = LPGateUpperMiddlePin;
-            flippings[LPGateLowerRightPin] = LPGateUpperRightPin;
-            flippingsInitialized = YES;
-        }
-        pin = flippings[pin];
-        
-        // Make the graphic's height positive again.
-        bounds.size.height = 0.0f - bounds.size.height;
-        bounds.origin.y -= bounds.size.height;
-        
-        // Tell interested subclass code what just happened.
-        [self flipVertically];
-        
-    }
-    
-    // Done.
-    [self setBounds:bounds];
-    return pin;
-    
-}
+//- (NSInteger)resizeByMovingPin:(NSInteger)pin toPoint:(CGPoint)point {
+//    
+//    // Start with the original bounds.
+//    CGRect bounds = [self bounds];
+//    
+//    // Is the user changing the width of the graphic?
+//    if (pin==LPGateUpperLeftPin || pin==LPGateMiddleLeftPin || pin==LPGateLowerLeftPin) {
+//        
+//        // Change the left edge of the graphic.
+//        bounds.size.width = CGRectGetMaxX(bounds) - point.x;
+//        bounds.origin.x = point.x;
+//        
+//    } else if (pin==LPGateUpperRightPin || pin==LPGateMiddleRightPin || pin==LPGateLowerRightPin) {
+//        
+//        // Change the right edge of the graphic.
+//        bounds.size.width = point.x - bounds.origin.x;
+//        
+//    }
+//    
+//    // Did the user actually flip the graphic over?
+//    if (bounds.size.width<0.0f) {
+//        
+//        // The Pin is now playing a different role relative to the graphic.
+//        static NSInteger flippings[9];
+//        static BOOL flippingsInitialized = NO;
+//        if (!flippingsInitialized) {
+//            flippings[LPGateUpperLeftPin] = LPGateUpperRightPin;
+//            flippings[LPGateUpperMiddlePin] = LPGateUpperMiddlePin;
+//            flippings[LPGateUpperRightPin] = LPGateUpperLeftPin;
+//            flippings[LPGateMiddleLeftPin] = LPGateMiddleRightPin;
+//            flippings[LPGateMiddleRightPin] = LPGateMiddleLeftPin;
+//            flippings[LPGateLowerLeftPin] = LPGateLowerRightPin;
+//            flippings[LPGateLowerMiddlePin] = LPGateLowerMiddlePin;
+//            flippings[LPGateLowerRightPin] = LPGateLowerLeftPin;
+//            flippingsInitialized = YES;
+//        }
+//        pin = flippings[pin];
+//        
+//        // Make the graphic's width positive again.
+//        bounds.size.width = 0.0f - bounds.size.width;
+//        bounds.origin.x -= bounds.size.width;
+//        
+//        // Tell interested subclass code what just happened.
+//        [self flipHorizontally];
+//        
+//    }
+//    
+//    // Is the user changing the height of the graphic?
+//    if (pin==LPGateUpperLeftPin || pin==LPGateUpperMiddlePin || pin==LPGateUpperRightPin) {
+//        
+//        // Change the top edge of the graphic.
+//        bounds.size.height = CGRectGetMaxY(bounds) - point.y;
+//        bounds.origin.y = point.y;
+//        
+//    } else if (pin==LPGateLowerLeftPin || pin==LPGateLowerMiddlePin || pin==LPGateLowerRightPin) {
+//        
+//        // Change the bottom edge of the graphic.
+//        bounds.size.height = point.y - bounds.origin.y;
+//        
+//    }
+//    
+//    // Did the user actually flip the graphic upside down?
+//    if (bounds.size.height<0.0f) {
+//        
+//        // The Pin is now playing a different role relative to the graphic.
+//        static NSInteger flippings[9];
+//        static BOOL flippingsInitialized = NO;
+//        if (!flippingsInitialized) {
+//            flippings[LPGateUpperLeftPin] = LPGateLowerLeftPin;
+//            flippings[LPGateUpperMiddlePin] = LPGateLowerMiddlePin;
+//            flippings[LPGateUpperRightPin] = LPGateLowerRightPin;
+//            flippings[LPGateMiddleLeftPin] = LPGateMiddleLeftPin;
+//            flippings[LPGateMiddleRightPin] = LPGateMiddleRightPin;
+//            flippings[LPGateLowerLeftPin] = LPGateUpperLeftPin;
+//            flippings[LPGateLowerMiddlePin] = LPGateUpperMiddlePin;
+//            flippings[LPGateLowerRightPin] = LPGateUpperRightPin;
+//            flippingsInitialized = YES;
+//        }
+//        pin = flippings[pin];
+//        
+//        // Make the graphic's height positive again.
+//        bounds.size.height = 0.0f - bounds.size.height;
+//        bounds.origin.y -= bounds.size.height;
+//        
+//        // Tell interested subclass code what just happened.
+//        [self flipVertically];
+//        
+//    }
+//    
+//    // Done.
+//    [self setBounds:bounds];
+//    return pin;
+//    
+//}
 
 
 - (void)flipHorizontally {

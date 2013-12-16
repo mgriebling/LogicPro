@@ -28,17 +28,6 @@ extern NSString *LPGateKeysForValuesToObserveForUndoKey;
 // The value that is returned by -PinUnderPoint: to indicate that no selection Pin is under the point.
 extern const NSInteger LPGateNoPin;
 
-enum {
-    LPGateUpperLeftPin = 1,
-    LPGateUpperMiddlePin = 2,
-    LPGateUpperRightPin = 3,
-    LPGateMiddleLeftPin = 4,
-    LPGateMiddleRightPin = 5,
-    LPGateLowerLeftPin = 6,
-    LPGateLowerMiddlePin = 7,
-    LPGateLowerRightPin = 8,
-};
-
 extern CGFloat LPGatePinWidth;
 extern CGFloat LPGatePinHalfWidth;
 
@@ -94,6 +83,8 @@ extern CGFloat LPGatePinHalfWidth;
 
 #pragma mark *** Drawing ***
 
+@property (nonatomic, strong)NSArray *pins;
+
 // Return the keys of all of the properties whose values affect the appearance of an instance of the receiving subclass of LPGate (even properties declared in a superclass). The first method should return the keys for such properties that affect the drawing bounds of graphics. The second method should return the keys for such properties that do not. Most subclasses of LPGate should override one or both of these, and be KVO-compliant for the properties identified by keys in the returned set. Implementations of these methods don't have to be fast, at least not in the context of Sketch, because their results are cached. In Mac OS 10.5 and later these methods are invoked automatically by KVO because their names match the result of applying to "drawingBounds" and "drawingContents" the naming pattern used by the default implementation of +[NSObject(NSKeyValueObservingCustomization) keyPathsForValuesAffectingValueForKey:].
 + (NSSet *)keyPathsForValuesAffectingDrawingBounds;
 + (NSSet *)keyPathsForValuesAffectingDrawingContents;
@@ -116,12 +107,6 @@ extern CGFloat LPGatePinHalfWidth;
 
 #pragma mark *** Editing ***
 
-// Return a cursor that can be used when the user has clicked using the creation tool and is dragging the mouse to size a new instance of the receiving class.
-//+ (NSCursor *)creationCursor;
-
-// Return the number of the Pin that the user is dragging when they move the mouse after clicking to create a new instance of the receiving class. The default implementation of this method returns a number that corresponds to one of the corners of the graphic's bounds. Subclasses that override this should probably override -resizeByMovingPin:toPoint: too.
-+ (NSInteger)creationSizingPin;
-
 // Return YES if it's useful to let the user toggle drawing of the fill or stroke, NO otherwise. The default implementations of these methods return YES.
 - (BOOL)canSetDrawingFill;
 - (BOOL)canSetDrawingStroke;
@@ -137,9 +122,6 @@ extern CGFloat LPGatePinHalfWidth;
 
 // Return YES if the Pin at a point is under another point. Subclasses that override -PinUnderPoint: can invoke this to hit-test the sort of Pins that would be drawn by -drawPinInView:atPoint:.
 - (BOOL)isPinAtPoint:(CGPoint)PinPoint underPoint:(CGPoint)point;
-
-// Given that one of the receiver's Pins has been dragged by the user, resize to match, and return the Pin number that should be passed into subsequent invocations of this same method. The default implementation of this method assumes that the passed-in Pin number was returned by a previous invocation of +creationSizingPin or -PinUnderPoint:, so subclasses that override this should probably override +creationSizingPin and -PinUnderPoint: too. It also invokes -flipHorizontally and -flipVertically when the user flips the graphic.
-- (NSInteger)resizeByMovingPin:(NSInteger)Pin toPoint:(CGPoint)point;
 
 // Given that -resizeByMovingPin:toPoint: is being invoked and sensed that the user has flipped the graphic one way or the other, change the graphic to accomodate, whatever that means. Subclasses that represent asymmetrical graphics can override these to accomodate the user's dragging of Pins without having to override and mostly reimplement -resizeByMovingPin:toPoint:.
 - (void)flipHorizontally;
