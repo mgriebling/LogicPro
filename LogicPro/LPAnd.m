@@ -7,6 +7,7 @@
 //
 
 #import "LPAnd.h"
+#import "LPGraphicPrimitives.h"
 
 @implementation LPAnd
 
@@ -24,20 +25,10 @@ const CGFloat IHEIGHT_AND = 217.0;
 - (UIBezierPath *)bezierPathForDrawing {
     
     UIBezierPath *path = [UIBezierPath bezierPath];
-    CGPoint point = self.bounds.origin;
-    CGFloat x = point.x;
-    CGFloat y = point.y;
-    CGFloat w = self.bounds.size.width;
-    CGFloat h = self.bounds.size.height;
-    CGFloat scale = MIN(w/IWIDTH_AND, h/IHEIGHT_AND);
+    CGFloat scale = MIN(self.bounds.size.width/IWIDTH_AND, self.bounds.size.height/IHEIGHT_AND);
     
     [path setLineWidth:[self strokeWidth]];
-    [path moveToPoint:point];
-    [path addCurveToPoint:CGPointMake(x, y+216.0*scale) controlPoint1:point controlPoint2:CGPointMake(x, y+216.0*scale)];
-    [path addCurveToPoint:CGPointMake(x+173.0*scale, y+217.0*scale) controlPoint1:CGPointMake(x, y+216.0*scale) controlPoint2:CGPointMake(x+173.0*scale, y+217.0*scale)];
-    [path addCurveToPoint:CGPointMake(x+275.0*scale, y+106.0*scale) controlPoint1:CGPointMake(x+231.0*scale, y+217.0*scale) controlPoint2:CGPointMake(x+277.0*scale, y+156.0*scale)];
-    [path addCurveToPoint:CGPointMake(x+174.0*scale, y) controlPoint1:CGPointMake(x+271.0*scale, y+83.75*scale) controlPoint2:CGPointMake(x+249.0*scale, y+11.0*scale)];
-    [path addCurveToPoint:CGPointMake(x, y) controlPoint1:CGPointMake(x+174.0*scale, y) controlPoint2:CGPointMake(x, y)];
+    [LPGraphicPrimitives drawAndAtPoint:self.bounds.origin withPath:path atScale:scale];
     
     return path;
     

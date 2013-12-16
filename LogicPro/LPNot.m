@@ -7,6 +7,7 @@
 //
 
 #import "LPNot.h"
+#import "LPGraphicPrimitives.h"
 
 @implementation LPNot
 
@@ -24,25 +25,13 @@ const CGFloat IHEIGHT_NOT = 180.0;
 - (UIBezierPath *)bezierPathForDrawing {
     
     UIBezierPath *path = [UIBezierPath bezierPath];
-    CGPoint point = self.bounds.origin;
-    CGFloat x = point.x;
-    CGFloat y = point.y;
-    CGFloat w = self.bounds.size.width;
-    CGFloat h = self.bounds.size.height;
-    CGFloat scale = MIN(w/IWIDTH_NOT, h/IHEIGHT_NOT);
+    CGFloat scale = MIN(self.bounds.size.width/IWIDTH_NOT, self.bounds.size.height/IHEIGHT_NOT);
     
     [path setLineWidth:[self strokeWidth]];
-    [path moveToPoint:point];
-    [path addLineToPoint:CGPointMake(x, y+180.0*scale)];
-    [path addLineToPoint:CGPointMake(x+132.5*scale, y+90.0*scale)];
-    [path addLineToPoint:point];
+    [LPGraphicPrimitives drawBufferAtPoint:self.bounds.origin withPath:path atScale:scale];
     
     //    [self drawNotInContext:context atPoint:CGPointMake(point.x+135.0*scale, point.y+65.0*scale) withScale:scale];
-    CGPathRef circle = path.CGPath;
-    CGMutablePathRef mcircle = CGPathCreateMutableCopy(circle);
-    CGPathAddEllipseInRect(mcircle, NULL, CGRectMake(x+135.0*scale, y+65.0*scale, 50*scale, 50*scale));
-    path.CGPath = mcircle;
-    CGPathRelease(mcircle);
+    [LPGraphicPrimitives drawNotAtPoint:CGPointMake(self.bounds.origin.x+135.0*scale, self.bounds.origin.y+65.0*scale) withPath:path atScale:scale];
     return path;
     
 }

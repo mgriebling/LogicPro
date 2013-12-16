@@ -14,6 +14,7 @@
 		2FB2284C184CC5CB00E8A24F /* LPGate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FB22848184CC5CB00E8A24F /* LPGate.m */; };
 		2FB2284D184CC5CB00E8A24F /* LPGateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FB2284A184CC5CB00E8A24F /* LPGateView.m */; };
 		2FC56773185205C2006E1AB3 /* LPMetadata.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FC56772185205C2006E1AB3 /* LPMetadata.m */; };
+		4729F6DC185DF465000FCB59 /* LPScalingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4729F6DB185DF465000FCB59 /* LPScalingViewController.m */; };
 		478DB5FC1615B41A00D69B15 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 478DB5FB1615B41A00D69B15 /* UIKit.framework */; };
 		478DB5FE1615B41A00D69B15 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 478DB5FD1615B41A00D69B15 /* Foundation.framework */; };
 		478DB6001615B41A00D69B15 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 478DB5FF1615B41A00D69B15 /* CoreGraphics.framework */; };
@@ -39,6 +40,7 @@
 		47BBB160185721B4000C92F8 /* LPNand.m in Sources */ = {isa = PBXBuildFile; fileRef = 47BBB15F185721B4000C92F8 /* LPNand.m */; };
 		47BBB163185721C3000C92F8 /* LPNor.m in Sources */ = {isa = PBXBuildFile; fileRef = 47BBB162185721C3000C92F8 /* LPNor.m */; };
 		47BBB166185721DA000C92F8 /* LPXNor.m in Sources */ = {isa = PBXBuildFile; fileRef = 47BBB165185721DA000C92F8 /* LPXNor.m */; };
+		47CC62F7185F166A0076A65F /* LPGraphicPrimitives.m in Sources */ = {isa = PBXBuildFile; fileRef = 47CC62F6185F166A0076A65F /* LPGraphicPrimitives.m */; };
 		47D6387A185B2537002BFEB4 /* LPGrid.m in Sources */ = {isa = PBXBuildFile; fileRef = 47D63879185B2537002BFEB4 /* LPGrid.m */; };
 /* End PBXBuildFile section */
 
@@ -57,6 +59,8 @@
 		2FB2284A184CC5CB00E8A24F /* LPGateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPGateView.m; sourceTree = "<group>"; };
 		2FC56771185205C2006E1AB3 /* LPMetadata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPMetadata.h; sourceTree = "<group>"; };
 		2FC56772185205C2006E1AB3 /* LPMetadata.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPMetadata.m; sourceTree = "<group>"; };
+		4729F6DA185DF465000FCB59 /* LPScalingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPScalingViewController.h; sourceTree = "<group>"; };
+		4729F6DB185DF465000FCB59 /* LPScalingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPScalingViewController.m; sourceTree = "<group>"; };
 		478DB5F71615B41A00D69B15 /* LogicPro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LogicPro.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		478DB5FB1615B41A00D69B15 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		478DB5FD1615B41A00D69B15 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -95,6 +99,8 @@
 		47BBB162185721C3000C92F8 /* LPNor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPNor.m; sourceTree = "<group>"; };
 		47BBB164185721DA000C92F8 /* LPXNor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPXNor.h; sourceTree = "<group>"; };
 		47BBB165185721DA000C92F8 /* LPXNor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPXNor.m; sourceTree = "<group>"; };
+		47CC62F5185F166A0076A65F /* LPGraphicPrimitives.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPGraphicPrimitives.h; sourceTree = "<group>"; };
+		47CC62F6185F166A0076A65F /* LPGraphicPrimitives.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPGraphicPrimitives.m; sourceTree = "<group>"; };
 		47D63878185B2537002BFEB4 /* LPGrid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPGrid.h; sourceTree = "<group>"; };
 		47D63879185B2537002BFEB4 /* LPGrid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPGrid.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -146,6 +152,8 @@
 				478DB60A1615B41A00D69B15 /* AppDelegate.h */,
 				478DB60B1615B41A00D69B15 /* AppDelegate.m */,
 				478DB6131615B41A00D69B15 /* MainStoryboard_iPhone.storyboard */,
+				4729F6DA185DF465000FCB59 /* LPScalingViewController.h */,
+				4729F6DB185DF465000FCB59 /* LPScalingViewController.m */,
 				478DB6161615B41A00D69B15 /* MainStoryboard_iPad.storyboard */,
 				2F12CE8518574A2900A74841 /* LPZoomingScrollView.h */,
 				2F12CE8618574A2900A74841 /* LPZoomingScrollView.m */,
@@ -209,6 +217,8 @@
 				47BBB162185721C3000C92F8 /* LPNor.m */,
 				47BBB164185721DA000C92F8 /* LPXNor.h */,
 				47BBB165185721DA000C92F8 /* LPXNor.m */,
+				47CC62F5185F166A0076A65F /* LPGraphicPrimitives.h */,
+				47CC62F6185F166A0076A65F /* LPGraphicPrimitives.m */,
 			);
 			name = "Circuit Elements";
 			sourceTree = "<group>";
@@ -289,6 +299,7 @@
 				2F12CE811855F9CA00A74841 /* UIBezierPath+Image.m in Sources */,
 				2FB2284D184CC5CB00E8A24F /* LPGateView.m in Sources */,
 				47BBB15718572180000C92F8 /* LPXOr.m in Sources */,
+				47CC62F7185F166A0076A65F /* LPGraphicPrimitives.m in Sources */,
 				2FB2284C184CC5CB00E8A24F /* LPGate.m in Sources */,
 				47BBB15D185721A3000C92F8 /* LPBuffer.m in Sources */,
 				47BBB166185721DA000C92F8 /* LPXNor.m in Sources */,
@@ -301,6 +312,7 @@
 				2FB2284B184CC5CB00E8A24F /* LPDocument.m in Sources */,
 				47BBB15A18572190000C92F8 /* LPNot.m in Sources */,
 				47BBB163185721C3000C92F8 /* LPNor.m in Sources */,
+				4729F6DC185DF465000FCB59 /* LPScalingViewController.m in Sources */,
 				47B303B916A6C0B5000F5AB0 /* LPToolPaletteController.m in Sources */,
 				47BBB1541857216D000C92F8 /* LPOr.m in Sources */,
 				2F12CE8718574A2900A74841 /* LPZoomingScrollView.m in Sources */,

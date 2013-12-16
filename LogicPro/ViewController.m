@@ -12,6 +12,7 @@
 #import "LPGateView.h"
 #import "UIBezierPath+Image.h"
 #import "LPZoomingScrollView.h"
+#import "LPScalingViewController.h"
 
 @interface ViewController () <UIScrollViewDelegate, UIAlertViewDelegate, UIGestureRecognizerDelegate>
 
@@ -21,6 +22,7 @@
 @property (strong, nonatomic) IBOutlet LPZoomingScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *textScaleButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *titleButton;
+@property (weak, nonatomic) IBOutlet UIToolbar *toolBar;
 
 @end
 
@@ -32,9 +34,6 @@
 
 - (void) setScrollView:(UIScrollView *)scrollView {
     _scrollView = (LPZoomingScrollView *)scrollView;
-    _scrollView.minimumZoomScale = 0.5;
-    _scrollView.maximumZoomScale = 2.0;
-    _scrollView.zoomScale = 1.0;
     _scrollView.delegate = self;
     [_scrollView addSubview:self.gateView];
     _scrollView.contentSize = self.gateView.frame.size;
@@ -77,8 +76,20 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.scrollView.minimumZoomScale = 0.25;
+    self.scrollView.maximumZoomScale = 12.0;
+    self.scrollView.zoomScale = 1.0;
+    [self scrollViewDidZoom:self.scrollView];
     lastGateType = LPNandGate;
     [self.gateButton setImage:[self imageForGate:lastGateType] forState:UIControlStateNormal];
+}
+
+- (void)setTitle:(NSString *)title {
+    if (self.titleButton) {
+        self.titleButton.title = [NSString stringWithFormat:@"LogicPro™ (%@)", title];
+    } else {
+        self.navigationItem.title = [NSString stringWithFormat:@"LogicPro™ (%@)", title];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -87,19 +98,21 @@
 //    CGFloat scaleWidth = scrollViewFrame.size.width / self.scrollView.contentSize.width;
 //    CGFloat scaleHeight = scrollViewFrame.size.height / self.scrollView.contentSize.height;
 //    CGFloat minScale = MIN(scaleHeight, scaleWidth);
-    self.scrollView.minimumZoomScale = 0.25;
-    self.scrollView.maximumZoomScale = 12.0;
-    self.scrollView.zoomScale = 1.0;
-    [self scrollViewDidZoom:self.scrollView];
 //    self.drawingScale.text = [NSString stringWithFormat:@"%.0f%%", self.scrollView.zoomScale*100.0];
-    self.titleButton.title = [NSString stringWithFormat:@"LogicPro™ (%@)", @"Unnamed"];
+    [self setTitle:@"Unnamed1"];
 }
 
 - (UIImage *)imageForGate:(NSUInteger)gateID {
     CGRect gateSize = CGRectMake(0, 0, 50, 25);
     LPGate *gate = [[[LPToolPaletteController classForGate:gateID] alloc] init];
     [gate setBounds:gateSize];
-    return [[gate bezierPathForDrawing] strokeImageWithColor:[UIColor blackColor]];
+    UIColor *tint = self.textScaleButton.tintColor;
+    if (self.toolBar) {
+        tint = self.toolBar.tintColor;
+    } else {
+        tint = self.navigationController.navigationBar.tintColor;
+    }
+    return [[gate bezierPathForDrawing] strokeImageWithColor:tint];
 }
 
 - (IBAction)exitGateSelection:(UIStoryboardSegue *)segue {
@@ -108,6 +121,16 @@
         if (gateSelection.currentGate != lastGateType) {
             lastGateType = gateSelection.currentGate;
             [self.gateButton setImage:[self imageForGate:lastGateType] forState:UIControlStateNormal];
+        }
+    }
+}
+
+- (IBAction)exitScaleSelection:(UIStoryboardSegue *)segue {
+    if ([segue.identifier isEqualToString:@"ExitScaleSelection"]) {
+        LPScalingViewController *scaleSelection = segue.sourceViewController;
+        if (scaleSelection.scaling != self.scrollView.zoomScale) {
+            self.scrollView.zoomScale = scaleSelection.scaling;
+            [self scrollViewDidZoom:self.scrollView];
         }
     }
 }

@@ -7,6 +7,7 @@
 //
 
 #import "LPBuffer.h"
+#import "LPGraphicPrimitives.h"
 
 @implementation LPBuffer
 
@@ -24,18 +25,11 @@ const CGFloat IHEIGHT_BUFFER = 180.0;
 - (UIBezierPath *)bezierPathForDrawing {
     
     UIBezierPath *path = [UIBezierPath bezierPath];
-    CGPoint point = self.bounds.origin;
-    CGFloat x = point.x;
-    CGFloat y = point.y;
-    CGFloat w = self.bounds.size.width;
-    CGFloat h = self.bounds.size.height;
-    CGFloat scale = MIN(w/IWIDTH_BUFFER, h/IHEIGHT_BUFFER);
+    CGFloat scale = MIN(self.bounds.size.width/IWIDTH_BUFFER, self.bounds.size.height/IHEIGHT_BUFFER);
     
     [path setLineWidth:[self strokeWidth]];
-    [path moveToPoint:point];
-    [path addLineToPoint:CGPointMake(x, y+180.0*scale)];
-    [path addLineToPoint:CGPointMake(x+132.5*scale, y+90.0*scale)];
-    [path addLineToPoint:point];
+    [LPGraphicPrimitives drawBufferAtPoint:self.bounds.origin withPath:path atScale:scale];
+
     return path;
     
 }
