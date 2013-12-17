@@ -25,8 +25,10 @@ extern NSString *LPGateDrawingBoundsKey;
 extern NSString *LPGateDrawingContentsKey;
 extern NSString *LPGateKeysForValuesToObserveForUndoKey;
 
+@class LPPin;
+
 // The value that is returned by -PinUnderPoint: to indicate that no selection Pin is under the point.
-extern const NSInteger LPGateNoPin;
+extern const LPPin *LPGateNoPin;
 
 extern CGFloat LPGatePinWidth;
 extern CGFloat LPGatePinHalfWidth;
@@ -118,7 +120,7 @@ extern CGFloat LPGatePinHalfWidth;
 - (BOOL)isContentsUnderPoint:(CGPoint)point;
 
 // If the point is in one of the Pins of the receiver return its number, LPGateNoPin otherwise. The default implementation of this method invokes -isPinAtPoint:underPoint: for the corners and on the sides of the rectangle returned by -bounds. Subclasses that override this probably have to override several other methods too.
-- (NSInteger)pinUnderPoint:(CGPoint)point;
+- (LPPin *)pinUnderPoint:(CGPoint)point;
 
 // Return YES if the Pin at a point is under another point. Subclasses that override -PinUnderPoint: can invoke this to hit-test the sort of Pins that would be drawn by -drawPinInView:atPoint:.
 - (BOOL)isPinAtPoint:(CGPoint)PinPoint underPoint:(CGPoint)point;

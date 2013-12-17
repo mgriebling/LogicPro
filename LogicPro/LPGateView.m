@@ -408,7 +408,7 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
     // Draw every Gate that intersects the rectangle to be drawn. In Sketch the frontmost Gates have the lowest indexes.
     CGContextRef currentContext = UIGraphicsGetCurrentContext();
     NSArray *gates = [self gates];
-    NSIndexSet *selectionIndexes = [self selectionIndexes];
+//    NSIndexSet *selectionIndexes = [self selectionIndexes];
     NSInteger gateCount = [gates count];
     for (NSInteger index = gateCount - 1; index>=0; index--) {
         LPGate *gate = [gates objectAtIndex:index];
@@ -418,10 +418,10 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
             // Figure out whether or not to draw selection Pins on the Gate. Selection Pins are drawn for all selected objects except:
             // - While the selected objects are being moved.
             // - For the object actually being created or edited, if there is one.
-            BOOL drawSelectionPins = NO;
-            if (!_isHidingPins && gate!=_creatingGate && gate!=_editingGate) {
-                drawSelectionPins = [selectionIndexes containsIndex:index];
-            }
+            BOOL drawSelectionPins = YES;
+//            if (!_isHidingPins && gate!=_creatingGate && gate!=_editingGate) {
+//                drawSelectionPins = [selectionIndexes containsIndex:index];
+//            }
             
             // Draw the Gate, possibly with selection Pins.
             CGContextSaveGState(currentContext);
@@ -584,7 +584,7 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
 #pragma mark *** Mouse Event Handling ***
 
 
-- (LPGate *)GateUnderPoint:(CGPoint)point index:(NSUInteger *)outIndex isSelected:(BOOL *)outIsSelected Pin:(NSInteger *)outPin {
+- (LPGate *)gateUnderPoint:(CGPoint)point index:(NSUInteger *)outIndex isSelected:(BOOL *)outIsSelected pin:(LPPin **)outPin {
     
     // We don't touch *outIndex, *outIsSelected, or *outPin if we return nil. Those values are undefined if we don't return a match.
     
@@ -602,7 +602,7 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
             // Check the Gate's selection Pins first, because they take precedence when they overlap the Gate's contents.
             BOOL gateIsSelected = [selectionIndexes containsIndex:index];
             if (gateIsSelected) {
-                NSInteger pin = [gate pinUnderPoint:point];
+                LPPin *pin = [gate pinUnderPoint:point];
                 if (pin!=LPGateNoPin) {
                     
                     // The user clicked on a Pin of a selected Gate.
@@ -620,7 +620,7 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
                     // The user clicked on the contents of a Gate.
                     gateToReturn =gate;
                     if (outPin) {
-                        *outPin = LPGateNoPin;
+                        *outPin = (LPPin *)LPGateNoPin;
                     }
                     
                 }
@@ -709,33 +709,33 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
 }
 
 
-- (void)resizeGate:(LPGate *)Gate usingPin:(NSInteger)pin withEvent:(id)event {
-    
-    BOOL echoToRulers = NO; // [[self enclosingScrollView] rulersVisible];
-    if (echoToRulers) {
-        [self beginEchoingMoveToRulers:[Gate bounds]];
-    }
-    
-    if ([event isKindOfClass:[UIPanGestureRecognizer class]]) {
-//        event = [[self window] nextEventMatchingMask:(NSLeftMouseDraggedMask | NSLeftMouseUpMask)];
-//        [self autoscroll:event];
-        CGPoint pinLocation = [event locationInView:self];
-        if (_grid) {
-            pinLocation = [_grid constrainedPoint:pinLocation];
-        }
-        pin = [Gate resizeByMovingPin:pin toPoint:pinLocation];
-        if (echoToRulers) {
-            [self continueEchoingMoveToRulers:[Gate bounds]];
-        }
-    }
-    
-    if (echoToRulers) {
-        [self stopEchoingMoveToRulers];
-    }
-    
-    [[self undoManager] setActionName:NSLocalizedStringFromTable(@"Resize", @"UndoStrings", @"Action name for resizes.")];
-    
-}
+//- (void)resizeGate:(LPGate *)Gate usingPin:(NSInteger)pin withEvent:(id)event {
+//    
+//    BOOL echoToRulers = NO; // [[self enclosingScrollView] rulersVisible];
+//    if (echoToRulers) {
+//        [self beginEchoingMoveToRulers:[Gate bounds]];
+//    }
+//    
+//    if ([event isKindOfClass:[UIPanGestureRecognizer class]]) {
+////        event = [[self window] nextEventMatchingMask:(NSLeftMouseDraggedMask | NSLeftMouseUpMask)];
+////        [self autoscroll:event];
+//        CGPoint pinLocation = [event locationInView:self];
+//        if (_grid) {
+//            pinLocation = [_grid constrainedPoint:pinLocation];
+//        }
+//        pin = [Gate resizeByMovingPin:pin toPoint:pinLocation];
+//        if (echoToRulers) {
+//            [self continueEchoingMoveToRulers:[Gate bounds]];
+//        }
+//    }
+//    
+//    if (echoToRulers) {
+//        [self stopEchoingMoveToRulers];
+//    }
+//    
+//    [[self undoManager] setActionName:NSLocalizedStringFromTable(@"Resize", @"UndoStrings", @"Action name for resizes.")];
+//    
+//}
 
 
 - (NSIndexSet *)indexesOfGatesIntersectingRect:(CGRect)rect {
@@ -796,9 +796,9 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
     [self.gates insertObject:_creatingGate atIndex:0];
     
     // If this was triggered by a user event then allow the user size the new Gate until they let go of the mouse. Because different kinds of Gates have different kinds of Pins, first ask the Gate class what Pin the user is dragging during this initial sizing.
-    if (event) {
-        [self resizeGate:_creatingGate usingPin:[GateClass creationSizingPin] withEvent:event];
-    }
+//    if (event) {
+//        [self resizeGate:_creatingGate usingPin:[GateClass creationSizingPin] withEvent:event];
+//    }
     
     // Why don't we do [undoManager endUndoGrouping] here, once, instead of twice in the following paragraphs? Because of the [undoManager setGroupsByEvent:NO] game we're playing. If we invoke -[NSUndoManager setActionName:] down below after invoking [undoManager endUndoGrouping] there won't be any open undo group, and NSUndoManager will raise an exception. If we weren't playing the [undoManager setGroupsByEvent:NO] game then it would be OK to invoke -[NSUndoManager setActionName:] after invoking [undoManager endUndoGrouping] because the action name would apply to the top-level automatically-created undo group, which is fine.
     
@@ -893,15 +893,15 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
     CGPoint mouseLocation = [event locationInView:self];
     NSUInteger clickedGateIndex;
     BOOL clickedGateIsSelected;
-    NSInteger clickedGatePin;
-    LPGate *clickedGate = [self GateUnderPoint:mouseLocation index:&clickedGateIndex isSelected:&clickedGateIsSelected Pin:&clickedGatePin];
+    LPPin *clickedGatePin;
+    LPGate *clickedGate = [self gateUnderPoint:mouseLocation index:&clickedGateIndex isSelected:&clickedGateIsSelected pin:&clickedGatePin];
     if (clickedGate) {
         
         // Clicking on a Gate knob takes precedence.
         if (clickedGatePin!=LPGateNoPin) {
             
             // The user clicked on a Gate's Pin. Let the user drag it around.
-            [self resizeGate:clickedGate usingPin:clickedGatePin withEvent:event];
+//            [self resizeGate:clickedGate usingPin:clickedGatePin withEvent:event];
             
         } else {
             

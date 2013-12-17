@@ -7,6 +7,7 @@
 //
 
 #import "LPGate.h"
+#import "LPPin.h"
 
 //@implementation Gates
 //
@@ -67,7 +68,7 @@ NSString *LPGateDrawingContentsKey = @"drawingContents";
 NSString *LPGateKeysForValuesToObserveForUndoKey = @"keysForValuesToObserveForUndo";
 
 // Another constant that's declared in the header.
-const NSInteger LPGateNoPin = 0;
+const LPPin *LPGateNoPin;
 
 // A key that's used in Sketch's property-list-based file and pasteboard formats.
 static NSString *LPGateClassNameKey = @"className";
@@ -117,6 +118,9 @@ CGFloat LPGatePinHalfWidth = 6.0f / 2.0f;
         _isDrawingStroke = YES;
         _strokeColor = [UIColor blackColor];
         _strokeWidth = 1.0f;
+        if (!LPGateNoPin) {
+            LPGateNoPin = [LPPin new];
+        }
         
     }
     return self;
@@ -529,16 +533,19 @@ CGFloat LPGatePinHalfWidth = 6.0f / 2.0f;
 
 - (void)drawPinsInView:(UIView *)view {
     
-    // Draw Pins at the corners and on the sides.
-    CGRect bounds = [self bounds];
-    [self drawPinInView:view atPoint:CGPointMake(CGRectGetMinX(bounds), CGRectGetMinY(bounds))];
-    [self drawPinInView:view atPoint:CGPointMake(CGRectGetMidX(bounds), CGRectGetMinY(bounds))];
-    [self drawPinInView:view atPoint:CGPointMake(CGRectGetMaxX(bounds), CGRectGetMinY(bounds))];
-    [self drawPinInView:view atPoint:CGPointMake(CGRectGetMinX(bounds), CGRectGetMidY(bounds))];
-    [self drawPinInView:view atPoint:CGPointMake(CGRectGetMaxX(bounds), CGRectGetMidY(bounds))];
-    [self drawPinInView:view atPoint:CGPointMake(CGRectGetMinX(bounds), CGRectGetMaxY(bounds))];
-    [self drawPinInView:view atPoint:CGPointMake(CGRectGetMidX(bounds), CGRectGetMaxY(bounds))];
-    [self drawPinInView:view atPoint:CGPointMake(CGRectGetMaxX(bounds), CGRectGetMaxY(bounds))];
+    // Draw gate pins
+    NSArray *pins = self.pins;
+    for (LPPin *pin in pins) {
+        [self drawPinInView:view atPoint:pin.position];
+    }
+//    [self drawPinInView:view atPoint:CGPointMake(CGRectGetMinX(bounds), CGRectGetMinY(bounds))];
+//    [self drawPinInView:view atPoint:CGPointMake(CGRectGetMidX(bounds), CGRectGetMinY(bounds))];
+//    [self drawPinInView:view atPoint:CGPointMake(CGRectGetMaxX(bounds), CGRectGetMinY(bounds))];
+//    [self drawPinInView:view atPoint:CGPointMake(CGRectGetMinX(bounds), CGRectGetMidY(bounds))];
+//    [self drawPinInView:view atPoint:CGPointMake(CGRectGetMaxX(bounds), CGRectGetMidY(bounds))];
+//    [self drawPinInView:view atPoint:CGPointMake(CGRectGetMinX(bounds), CGRectGetMaxY(bounds))];
+//    [self drawPinInView:view atPoint:CGPointMake(CGRectGetMidX(bounds), CGRectGetMaxY(bounds))];
+//    [self drawPinInView:view atPoint:CGPointMake(CGRectGetMaxX(bounds), CGRectGetMaxY(bounds))];
     
 }
 
@@ -547,15 +554,17 @@ CGFloat LPGatePinHalfWidth = 6.0f / 2.0f;
     
     // Figure out a rectangle that's centered on the point but lined up with device pixels.
     CGRect pinBounds;
-    pinBounds.origin.x = point.x - LPGatePinHalfWidth;
-    pinBounds.origin.y = point.y - LPGatePinHalfWidth;
+    CGPoint gateOrigin = self.bounds.origin;
+    pinBounds.origin.x = gateOrigin.x + point.x - LPGatePinHalfWidth;
+    pinBounds.origin.y = gateOrigin.y + point.y - LPGatePinHalfWidth;
     pinBounds.size.width = LPGatePinWidth;
     pinBounds.size.height = LPGatePinWidth;
+//    pinBounds = [view convertRect:pinBounds toView:];
 //    PinBounds = [view centerScanRect:PinBounds];
     
     // Draw the shadow of the Pin.
     CGRect pinShadowBounds = CGRectOffset(pinBounds, 1.0f, 1.0f);
-    [[UIColor darkGrayColor] set];   // [UIColor controlDarkShadowColor] set];
+    [[UIColor darkGrayColor] set];
     UIRectFill(pinShadowBounds);
     
     // Draw the Pin itself.
@@ -601,30 +610,17 @@ CGFloat LPGatePinHalfWidth = 6.0f / 2.0f;
 }
 
 
-- (NSInteger)pinUnderPoint:(CGPoint)point {
+- (LPPin *)pinUnderPoint:(CGPoint)point {
     
     // Check Pins at the corners and on the sides.
-    NSInteger pin = LPGateNoPin;
-//    CGRect bounds = [self bounds];
-//    if ([self isPinAtPoint:CGPointMake(CGRectGetMinX(bounds), CGRectGetMinY(bounds)) underPoint:point]) {
-//        Pin = LPGateUpperLeftPin;
-//    } else if ([self isPinAtPoint:CGPointMake(CGRectGetMidX(bounds), CGRectGetMinY(bounds)) underPoint:point]) {
-//        Pin = LPGateUpperMiddlePin;
-//    } else if ([self isPinAtPoint:CGPointMake(CGRectGetMaxX(bounds), CGRectGetMinY(bounds)) underPoint:point]) {
-//        Pin = LPGateUpperRightPin;
-//    } else if ([self isPinAtPoint:CGPointMake(CGRectGetMinX(bounds), CGRectGetMidY(bounds)) underPoint:point]) {
-//        Pin = LPGateMiddleLeftPin;
-//    } else if ([self isPinAtPoint:CGPointMake(CGRectGetMaxX(bounds), CGRectGetMidY(bounds)) underPoint:point]) {
-//        Pin = LPGateMiddleRightPin;
-//    } else if ([self isPinAtPoint:CGPointMake(CGRectGetMinX(bounds), CGRectGetMaxY(bounds)) underPoint:point]) {
-//        Pin = LPGateLowerLeftPin;
-//    } else if ([self isPinAtPoint:CGPointMake(CGRectGetMidX(bounds), CGRectGetMaxY(bounds)) underPoint:point]) {
-//        Pin = LPGateLowerMiddlePin;
-//    } else if ([self isPinAtPoint:CGPointMake(CGRectGetMaxX(bounds), CGRectGetMaxY(bounds)) underPoint:point]) {
-//        Pin = LPGateLowerRightPin;
-//    }
-    return pin;
-    
+    NSArray *pins = self.pins;
+    for (LPPin *pin in pins) {
+        if ([self isPinAtPoint:pin.position underPoint:point]) {
+            return pin;
+        }
+        
+    }
+    return nil;
 }
 
 
