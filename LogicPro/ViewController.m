@@ -7,7 +7,7 @@
 //
 
 #import "ViewController.h"
-#import "LPGate.h"
+#import "LPBlock.h"
 #import "LPToolPaletteController.h"
 #import "LPGateView.h"
 #import "UIBezierPath+Image.h"
@@ -29,7 +29,7 @@
 @implementation ViewController {
 
     NSUInteger lastGateType;
-    LPGate *activeObject;
+    LPBlock *activeObject;
 }
 
 - (void) setScrollView:(UIScrollView *)scrollView {
@@ -104,7 +104,7 @@
 
 - (UIImage *)imageForGate:(NSUInteger)gateID {
     CGRect gateSize = CGRectMake(0, 0, 50, 25);
-    LPGate *gate = [[[LPToolPaletteController classForGate:gateID] alloc] init];
+    LPBlock *gate = [[[LPToolPaletteController classForGate:gateID] alloc] init];
     [gate setBounds:gateSize];
     UIColor *tint = self.textScaleButton.tintColor;
     if (self.toolBar) {
@@ -157,7 +157,7 @@
 - (void)swippedView:(UISwipeGestureRecognizer *)sender {
 //    CGPoint position = [sender locationInView:_drawView];
     NSLog(@"swipped");
-    LPGate *gate = nil;  //[self.gates findMatch:position];
+    LPBlock *gate = nil;  //[self.gates findMatch:position];
     if (gate) {
 //        gate.selected = YES;
         activeObject = gate;

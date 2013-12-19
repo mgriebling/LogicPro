@@ -80,7 +80,7 @@ static LPToolPaletteController *sharedToolPaletteController = nil;
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"GateCell" forIndexPath:indexPath];
     UIImageView *gateView = (UIImageView *)[cell viewWithTag:10];
-    LPGate *gate = [[[LPToolPaletteController classForIndex:indexPath.item] alloc] init];
+    LPBlock *gate = [[[LPToolPaletteController classForIndex:indexPath.item] alloc] init];
     [gate setBounds:gateView.bounds];
     UIBezierPath *gatePath = [gate bezierPathForDrawing];
     gateView.image = [gatePath strokeImageWithColor:[UIColor redColor]];

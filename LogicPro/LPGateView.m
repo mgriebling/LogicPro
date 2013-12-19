@@ -7,7 +7,7 @@
 //
 
 #import "LPGateView.h"
-#import "LPGate.h"
+#import "LPBlock.h"
 #import "LPToolPaletteController.h"
 #import "LPGrid.h"
 
@@ -52,10 +52,10 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
     CGRect _rulerEchoedBounds;
     
     // The graphic that is being created right now, if a graphic is being created right now (not explicitly retained, because it's always allocated and forgotten about in the same method).
-    LPGate *_creatingGate;
+    LPBlock *_creatingGate;
     
     // The graphic that is being edited right now, the view that it gave us to present its editing interface, and the last known frame of that view, if a graphic is being edited right now. We have to record the editing view frame because when it changes we need its old value, and the old value isn't available when this view gets the NSViewFrameDidChangeNotification. Also, the reserved thickness for the horizontal ruler accessory view before editing began, so we can restore it after editing is done. (We could do the same for the vertical ruler, but so far in Sketch there are no vertical ruler accessory views.)
-    LPGate *_editingGate;
+    LPBlock *_editingGate;
     UIView *_editingView;
     CGRect _editingViewFrame;
     CGFloat _oldReservedThicknessForRulerAccessoryView;
@@ -372,7 +372,7 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
         } else if ([keyPath isEqualToString:LPGateDrawingContentsKey]) {
             
             // The Gate's drawing bounds hasn't changed, so just redraw the part of the view that it occupies right now.
-            CGRect GateDrawingBounds = [(LPGate *)observedObject drawingBounds];
+            CGRect GateDrawingBounds = [(LPBlock *)observedObject drawingBounds];
             [self setNeedsDisplayInRect:GateDrawingBounds];
             
         } // else something truly bizarre has happened.
@@ -393,13 +393,13 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
         if (![oldSelectionIndexes isEqual:[NSNull null]] && ![newSelectionIndexes isEqual:[NSNull null]]) {
             for (NSUInteger oldSelectionIndex = [oldSelectionIndexes firstIndex]; oldSelectionIndex!=NSNotFound; oldSelectionIndex = [oldSelectionIndexes indexGreaterThanIndex:oldSelectionIndex]) {
                 if (![newSelectionIndexes containsIndex:oldSelectionIndex]) {
-                    LPGate *deselectedGate = [[self gates] objectAtIndex:oldSelectionIndex];
+                    LPBlock *deselectedGate = [[self gates] objectAtIndex:oldSelectionIndex];
                     [self setNeedsDisplayInRect:[deselectedGate drawingBounds]];
                 }
             }
             for (NSUInteger newSelectionIndex = [newSelectionIndexes firstIndex]; newSelectionIndex!=NSNotFound; newSelectionIndex = [newSelectionIndexes indexGreaterThanIndex:newSelectionIndex]) {
                 if (![oldSelectionIndexes containsIndex:newSelectionIndex]) {
-                    LPGate *selectedGate = [[self gates] objectAtIndex:newSelectionIndex];
+                    LPBlock *selectedGate = [[self gates] objectAtIndex:newSelectionIndex];
                     [self setNeedsDisplayInRect:[selectedGate drawingBounds]];
                 }
             }
@@ -450,7 +450,7 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
 //    NSIndexSet *selectionIndexes = [self selectionIndexes];
     NSInteger gateCount = [gates count];
     for (NSInteger index = gateCount - 1; index>=0; index--) {
-        LPGate *gate = [gates objectAtIndex:index];
+        LPBlock *gate = [gates objectAtIndex:index];
         CGRect gateDrawingBounds = [gate drawingBounds];
         if (CGRectIntersectsRect(rect, gateDrawingBounds)) {
             
@@ -555,7 +555,7 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
 }
 
 
-- (void)startEditingGate:(LPGate *)Gate {
+- (void)startEditingGate:(LPBlock *)Gate {
     
     // It's the responsibility of invokers to not invoke this method when editing has already been started.
     NSAssert((!_editingGate && !_editingView), @"-[LPGateView startEditingGate:] is being mis-invoked.");
@@ -623,17 +623,17 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
 #pragma mark *** Mouse Event Handling ***
 
 
-- (LPGate *)gateUnderPoint:(CGPoint)point index:(NSUInteger *)outIndex isSelected:(BOOL *)outIsSelected pin:(LPPin **)outPin {
+- (LPBlock *)gateUnderPoint:(CGPoint)point index:(NSUInteger *)outIndex isSelected:(BOOL *)outIsSelected pin:(LPPin **)outPin {
     
     // We don't touch *outIndex, *outIsSelected, or *outPin if we return nil. Those values are undefined if we don't return a match.
     
     // Search through all of the Gates, front to back, looking for one that claims that the point is on a selection Pin (if it's selected) or in the contents of the Gate itself.
-    LPGate *gateToReturn = nil;
+    LPBlock *gateToReturn = nil;
     NSArray *gates = [self gates];
     NSIndexSet *selectionIndexes = [self selectionIndexes];
     NSUInteger gateCount = [gates count];
     for (NSUInteger index = 0; index<gateCount; index++) {
-        LPGate *gate = [gates objectAtIndex:index];
+        LPBlock *gate = [gates objectAtIndex:index];
         
         // Do a quick check to weed out Gates that aren't even in the neighborhood.
         if (CGRectContainsPoint([gate drawingBounds], point)) {
@@ -690,7 +690,7 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
     NSUInteger c;
     BOOL didMove = NO, isMoving = NO;
     BOOL echoToRulers = NO;  // [[self enclosingScrollView] rulersVisible];
-    CGRect selBounds = [[LPGate self] boundsOfGates:selGates];
+    CGRect selBounds = [[LPBlock self] boundsOfGates:selGates];
     
     c = [selGates count];
     
@@ -736,7 +736,7 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
     }
     if (isMoving) {
         _isHidingPins = NO;
-        [self setNeedsDisplayInRect:[LPGate drawingBoundsOfGates:selGates]];
+        [self setNeedsDisplayInRect:[LPBlock drawingBoundsOfGates:selGates]];
         if (didMove) {
             // Only if we really moved.
             [[self undoManager] setActionName:NSLocalizedStringFromTable(@"Move", @"UndoStrings", @"Action name for moves.")];
@@ -782,7 +782,7 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
     NSArray *gates = [self gates];
     NSUInteger gateCount = [gates count];
     for (NSUInteger index = 0; index<gateCount; index++) {
-        LPGate *gate = [gates objectAtIndex:index];
+        LPBlock *gate = [gates objectAtIndex:index];
         if (CGRectIntersectsRect(rect, [gate drawingBounds])) {
             [indexSetToReturn addIndex:index];
         }
@@ -933,7 +933,7 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
     NSUInteger clickedGateIndex;
     BOOL clickedGateIsSelected;
     LPPin *clickedGatePin;
-    LPGate *clickedGate = [self gateUnderPoint:mouseLocation index:&clickedGateIndex isSelected:&clickedGateIsSelected pin:&clickedGatePin];
+    LPBlock *clickedGate = [self gateUnderPoint:mouseLocation index:&clickedGateIndex isSelected:&clickedGateIsSelected pin:&clickedGatePin];
     if (clickedGate) {
         
         // Clicking on a Gate knob takes precedence.
@@ -1090,14 +1090,14 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
 - (void)unhidePinsForTimer:(NSTimer *)timer {
     _isHidingPins = NO;
     _pinShowingTimer = nil;
-    [self setNeedsDisplayInRect:[LPGate drawingBoundsOfGates:[self selectedGates]]];
+    [self setNeedsDisplayInRect:[LPBlock drawingBoundsOfGates:[self selectedGates]]];
 }
 
 - (void)hidePinsMomentarily {
     [_pinShowingTimer invalidate];
     _pinShowingTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(unhidePinsForTimer:) userInfo:nil repeats:NO];
     _isHidingPins = YES;
-    [self setNeedsDisplayInRect:[LPGate drawingBoundsOfGates:[self selectedGates]]];
+    [self setNeedsDisplayInRect:[LPBlock drawingBoundsOfGates:[self selectedGates]]];
 }
 
 
@@ -1111,7 +1111,7 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
         [self hidePinsMomentarily];
         
         // Move the selected Gates.
-        [[LPGate class] translateGates:selectedGates byX:x y:y];
+        [[LPBlock class] translateGates:selectedGates byX:x y:y];
         
         // Overwrite whatever undo action name was registered during all of that with a more specific one.
         [[self undoManager] setActionName:NSLocalizedStringFromTable(@"Nudge", @"UndoStrings", @"Action name for nudge keyboard commands.")];
@@ -1547,7 +1547,7 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
     NSUInteger i, c = [selection count];
     if (c > 1) {
         CGRect firstBounds = [[selection objectAtIndex:0] bounds];
-        LPGate *curGate;
+        LPBlock *curGate;
         CGRect curBounds;
         for (i=1; i<c; i++) {
             curGate = [selection objectAtIndex:i];
@@ -1566,7 +1566,7 @@ static CGFloat LPGateViewDefaultPasteCascadeDelta = 10.0;
     NSArray *selection = [self selectedGates];
     NSUInteger i, c = [selection count];
     if (c > 0) {
-        LPGate *curGate;
+        LPBlock *curGate;
         
         for (i=0; i<c; i++) {
             curGate = [selection objectAtIndex:i];

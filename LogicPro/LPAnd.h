@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 Computer Inspirations. All rights reserved.
 //
 
-#import "LPLogicGate.h"
+#import "LPGate.h"
 
-@interface LPAnd : LPLogicGate
+@interface LPAnd : LPGate
 
 @end

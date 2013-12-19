@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 Computer Inspirations. All rights reserved.
 //
 
-#import "LPGate.h"
+#import "LPBlock.h"
 
-@interface LPNot : LPGate
+@interface LPNot : LPBlock
 
 @end

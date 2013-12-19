@@ -7,7 +7,7 @@
 //
 
 #import "LPDocument.h"
-#import "LPGate.h"
+#import "LPBlock.h"
 #import "LPMetadata.h"
 
 // String constants declared in the header.
@@ -403,7 +403,7 @@ static NSString *LPDocumentPrintInfoKey = @"printInfo";
     // Do the opposite of what's done in -startObservingGraphics:.
     NSUInteger graphicCount = [graphics count];
     for (NSUInteger index = 0; index<graphicCount; index++) {
-        LPGate *graphic = [graphics objectAtIndex:index];
+        LPBlock *graphic = [graphics objectAtIndex:index];
         [graphic removeObserver:self forKeyPath:LPGateKeysForValuesToObserveForUndoKey];
         NSSet *keys = [graphic keysForValuesToObserveForUndo];
         NSEnumerator *keyEnumerator = [keys objectEnumerator];

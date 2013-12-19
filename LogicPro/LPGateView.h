@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@class LPGate;
+@class LPBlock;
 @class LPGrid;
 
 @interface LPGateView : UIView 
