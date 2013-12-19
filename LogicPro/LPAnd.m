@@ -25,11 +25,11 @@
     if (!super.pins) {
         NSMutableArray *pins = [NSMutableArray array];
         
-        // create pins for this gate
+        // create input/output pins for this gate
         CGFloat spacing = self.bounds.size.height / 4.0;
         [pins addObject:[[LPPin alloc] initWithPosition:CGPointMake(0, spacing)]];
         [pins addObject:[[LPPin alloc] initWithPosition:CGPointMake(0, 3*spacing)]];
-        [pins addObject:[[LPPin alloc] initWithPosition:CGPointMake(self.bounds.size.width, 2*spacing)]];
+        [pins addObject:[[LPPin alloc] initWithPosition:CGPointMake(self.bounds.size.width, 2*spacing) andType:PIN_OUTPUT]];
         super.pins = pins;
     }
     return super.pins;

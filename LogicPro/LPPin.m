@@ -9,19 +9,29 @@
 #import "LPPin.h"
 
 @implementation LPPin {
-    CGPoint point;
+    CGPoint _point;
+    PinType _pinType;
 }
 
-- (id)initWithPosition:(CGPoint)position {
+- (id)initWithPosition:(CGPoint)position andType:(PinType)pinType {
     self = [super init];
     if (self) {
-        point = position;
+        _point = position;
+        _pinType = pinType;
     }
     return self;
 }
 
+- (id)initWithPosition:(CGPoint)position {
+    return [self initWithPosition:position andType:PIN_INPUT];
+}
+
 - (CGPoint)position {
-    return point;
+    return _point;
+}
+
+- (PinType)pinType {
+    return _pinType;
 }
 
 @end

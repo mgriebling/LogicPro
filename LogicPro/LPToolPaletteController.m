@@ -82,12 +82,18 @@ static LPToolPaletteController *sharedToolPaletteController = nil;
     CGPoint gateOrigin = block.bounds.origin;
     CGPoint pinStart = CGPointMake(gateOrigin.x + pin.position.x, gateOrigin.y + pin.position.y);
     CGPoint pinEnd = pinStart;
-    if (gateOrigin.x == 0) pinEnd.x -= 15;
-    else pinEnd.x += 15;
+    pinEnd.x -= 15;
     
     // Draw the Pin itself
     [path moveToPoint:pinStart];
     [path addLineToPoint:pinEnd];
+}
+
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
+    UICollectionReusableView *cell = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"Header" forIndexPath:indexPath];
+    UILabel *label = (UILabel *)[cell viewWithTag:30];
+    label.text = @"Logic Gates";
+    return cell;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
