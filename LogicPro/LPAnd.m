@@ -15,24 +15,26 @@
 const CGFloat IWIDTH_AND = 277.0;
 const CGFloat IHEIGHT_AND = 217.0;
 
+- (CGFloat)naturalHeight {
+    return IHEIGHT_AND;
+}
+
+- (CGFloat)naturalWidth {
+    return IWIDTH_AND;
+}
+
 - (NSArray *)pins {
     if (!super.pins) {
         NSMutableArray *pins = [NSMutableArray array];
         
         // create pins for this gate
-        LPPin *pin = [[LPPin alloc] initWithPosition:CGPointMake(0, 0)];
-        [pins addObject:pin];
+        CGFloat spacing = self.bounds.size.height / 4.0;
+        [pins addObject:[[LPPin alloc] initWithPosition:CGPointMake(0, spacing)]];
+        [pins addObject:[[LPPin alloc] initWithPosition:CGPointMake(0, 3*spacing)]];
+        [pins addObject:[[LPPin alloc] initWithPosition:CGPointMake(self.bounds.size.width, 2*spacing)]];
         super.pins = pins;
     }
     return super.pins;
-}
-
-- (BOOL)canMakeNaturalSize {
-    return YES;
-}
-
-- (void)makeNaturalSize {
-    [self setBounds:CGRectMake(self.bounds.origin.x, self.bounds.origin.y, IWIDTH_AND/5, IHEIGHT_AND/5)];
 }
 
 - (UIBezierPath *)bezierPathForDrawing {
@@ -48,15 +50,9 @@ const CGFloat IHEIGHT_AND = 217.0;
 }
 
 - (NSString *)description {
-    return @"And Gate";
+    NSString *text = [NSString stringWithFormat:@"%d-Input And", self.pins.count-1];
+    return text;
 }
 
-
-- (BOOL)isContentsUnderPoint:(CGPoint)point {
-    
-    // Just check to see if the point is in the path.
-    return [[self bezierPathForDrawing] containsPoint:point];
-    
-}
 
 @end
