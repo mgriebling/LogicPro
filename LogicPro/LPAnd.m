@@ -12,15 +12,13 @@
 
 @implementation LPAnd
 
-const CGFloat IWIDTH_AND = 277.0;
-const CGFloat IHEIGHT_AND = 217.0;
 
 - (CGFloat)naturalHeight {
-    return IHEIGHT_AND;
+    return 217.0;
 }
 
 - (CGFloat)naturalWidth {
-    return IWIDTH_AND;
+    return 277.0;
 }
 
 - (NSArray *)pins {
@@ -40,7 +38,7 @@ const CGFloat IHEIGHT_AND = 217.0;
 - (UIBezierPath *)bezierPathForDrawing {
     
     UIBezierPath *path = [UIBezierPath bezierPath];
-    CGFloat scale = MIN(self.bounds.size.width/IWIDTH_AND, self.bounds.size.height/IHEIGHT_AND);
+    CGFloat scale = MIN(self.bounds.size.width/[self naturalWidth], self.bounds.size.height/[self naturalHeight]);
     
     [path setLineWidth:[self strokeWidth]];
     [LPGraphicPrimitives drawAndAtPoint:self.bounds.origin withPath:path atScale:scale];
@@ -50,8 +48,7 @@ const CGFloat IHEIGHT_AND = 217.0;
 }
 
 - (NSString *)description {
-    NSString *text = [NSString stringWithFormat:@"%d-Input And", self.pins.count-1];
-    return text;
+    return [NSString stringWithFormat:@"%d-Input And", self.pins.count-1];
 }
 
 

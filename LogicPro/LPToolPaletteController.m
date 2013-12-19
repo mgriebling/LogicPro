@@ -16,6 +16,7 @@
 #import "LPBuffer.h"
 #import "LPNot.h"
 #import "LPXNor.h"
+#import "LPPin.h"
 
 @interface LPToolPaletteController () <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
@@ -77,13 +78,26 @@ static LPToolPaletteController *sharedToolPaletteController = nil;
     return 1;
 }
 
+- (void)addPin:(LPPin *)pin toPath:(UIBezierPath *)path forGate:(LPBlock *)block {
+    CGPoint gateOrigin = block.bounds.origin;
+    CGPoint pinStart = CGPointMake(gateOrigin.x + pin.position.x, gateOrigin.y + pin.position.y);
+    CGPoint pinEnd = pinStart;
+    if (gateOrigin.x == 0) pinEnd.x -= 15;
+    else pinEnd.x += 15;
+    
+    // Draw the Pin itself
+    [path moveToPoint:pinStart];
+    [path addLineToPoint:pinEnd];
+}
+
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"GateCell" forIndexPath:indexPath];
     UIImageView *gateView = (UIImageView *)[cell viewWithTag:10];
     LPBlock *gate = [[[LPToolPaletteController classForIndex:indexPath.item] alloc] init];
     [gate setBounds:gateView.bounds];
     UIBezierPath *gatePath = [gate bezierPathForDrawing];
-    gateView.image = [gatePath strokeImageWithColor:[UIColor redColor]];
+    for (LPPin *pin in gate.pins) [self addPin:pin toPath:gatePath forGate:gate];
+    gateView.image = [gatePath strokeImageWithColor:self.view.tintColor];
     
     UILabel *label = (UILabel *)[cell viewWithTag:20];
     label.text = gate.description;
