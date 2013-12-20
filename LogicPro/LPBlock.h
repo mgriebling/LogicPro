@@ -99,6 +99,7 @@ extern CGFloat LPGatePinHalfWidth;
 
 // Return a bezier path that can be stroked and filled to draw the graphic, if the graphic can be drawn so simply, nil otherwise. The default implementation of this method returns nil. Subclasses have to override either this method or -drawContentsInView:. Any returned bezier path should already have the graphic's current stroke width set in it.
 - (UIBezierPath *)bezierPathForDrawing;
+- (UIBezierPath *)bezierPathForDrawingWithPinLines;
 
 // Draw the pins of the receiver in a specific view. The default implementation of this method just invokes -drawPinInView:atPoint: for each point at the corners and on the sides of the rectangle returned by -bounds. Subclasses that override this probably have to override -PinUnderPoint: too.
 - (void)drawPinsInView:(UIView *)view;
@@ -115,6 +116,8 @@ extern CGFloat LPGatePinHalfWidth;
 
 // Return YES if sending -makeNaturalSize to the receiver would do something noticable by the user, NO otherwise. The default implementation of this method returns YES if the defaultimplementation of -makeNaturalSize would actually do something, NO otherwise.
 - (BOOL)canMakeNaturalSize;
+- (CGFloat)naturalWidth;
+- (CGFloat)naturalHeight;
 
 // Return YES if the point is in the contents of the receiver, NO otherwise. The default implementation of this method returns YES if the point is inside [self bounds].
 - (BOOL)isContentsUnderPoint:(CGPoint)point;
@@ -161,15 +164,4 @@ extern CGFloat LPGatePinHalfWidth;
 
 @end
 
-
-//@interface Gates : NSObject
-//
-//+ (NSString *)getNameForGate:(GateType)gate;
-//+ (NSInteger)total;
-//
-//- (Gate *)findMatch:(CGPoint)position;
-//
-//@property (strong, nonatomic) NSMutableArray *list;
-//
-//@end
 

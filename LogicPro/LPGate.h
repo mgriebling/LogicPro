@@ -10,7 +10,4 @@
 
 @interface LPGate : LPBlock
 
-- (CGFloat)naturalWidth;
-- (CGFloat)naturalHeight;
-
 @end

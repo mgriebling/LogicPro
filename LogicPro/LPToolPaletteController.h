@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 enum {
-    LPOrGate = 0,
+    LPOrGate = 0, LPOr3Gate, LPOr4Gate,
     LPNorGate,
     LPAndGate, LPAndGate3, LPAndGate4,
     LPNandGate,

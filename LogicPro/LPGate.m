@@ -10,26 +10,12 @@
 
 @implementation LPGate
 
-- (void)setNumberOfInputs:(NSUInteger)numberOfInputs {
-    
-}
-
 - (BOOL)canMakeNaturalSize {
     return YES;
 }
 
 - (void)makeNaturalSize {
     [self setBounds:CGRectMake(self.bounds.origin.x, self.bounds.origin.y, [self naturalWidth]/5, [self naturalHeight]/5)];
-}
-
-- (CGFloat)naturalWidth {
-    // should be overridden
-    return 0.0;
-}
-
-- (CGFloat)naturalHeight {
-    // should be overridden
-    return 0.0;
 }
 
 

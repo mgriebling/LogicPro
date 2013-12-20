@@ -6,8 +6,16 @@
 //  Copyright (c) 2013 Computer Inspirations. All rights reserved.
 //
 
-#import "LPBlock.h"
+#import "LPGate.h"
 
-@interface LPOr : LPBlock
+@interface LPOr : LPGate
+
+@end
+
+@interface LPOr3 : LPOr
+
+@end
+
+@interface LPOr4 : LPOr
 
 @end

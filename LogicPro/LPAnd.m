@@ -43,7 +43,6 @@
     [LPGraphicPrimitives drawAndAtPoint:self.bounds.origin withPath:path atScale:scale];
     
     return path;
-    
 }
 
 - (NSString *)description {
