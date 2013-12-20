@@ -39,6 +39,8 @@ static LPToolPaletteController *sharedToolPaletteController = nil;
     Class theClass = nil;
     switch (index) {
         case LPAndGate:      theClass = [LPAnd class]; break;
+        case LPAndGate3:     theClass = [LPAnd3 class]; break;
+        case LPAndGate4:     theClass = [LPAnd4 class]; break;
         case LPOrGate:       theClass = [LPOr class];  break;
         case LPXOrGate:      theClass = [LPXOr class]; break;
         case LPNandGate:     theClass = [LPNand class]; break;
@@ -82,7 +84,8 @@ static LPToolPaletteController *sharedToolPaletteController = nil;
     CGPoint gateOrigin = block.bounds.origin;
     CGPoint pinStart = CGPointMake(gateOrigin.x + pin.position.x, gateOrigin.y + pin.position.y);
     CGPoint pinEnd = pinStart;
-    pinEnd.x -= 15;
+    if (pin.pinType != PIN_INPUT) pinEnd.x += 15;
+    else pinEnd.x -= 15;
     
     // Draw the Pin itself
     [path moveToPoint:pinStart];
@@ -100,7 +103,7 @@ static LPToolPaletteController *sharedToolPaletteController = nil;
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"GateCell" forIndexPath:indexPath];
     UIImageView *gateView = (UIImageView *)[cell viewWithTag:10];
     LPBlock *gate = [[[LPToolPaletteController classForIndex:indexPath.item] alloc] init];
-    [gate setBounds:gateView.bounds];
+    [gate makeNaturalSize];
     UIBezierPath *gatePath = [gate bezierPathForDrawing];
     for (LPPin *pin in gate.pins) [self addPin:pin toPath:gatePath forGate:gate];
     gateView.image = [gatePath strokeImageWithColor:self.view.tintColor];

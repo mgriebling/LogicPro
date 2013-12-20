@@ -11,7 +11,7 @@
 enum {
     LPOrGate = 0,
     LPNorGate,
-    LPAndGate,
+    LPAndGate, LPAndGate3, LPAndGate4,
     LPNandGate,
     LPXOrGate,
     LPXNorGate,

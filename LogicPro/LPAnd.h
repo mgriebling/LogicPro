@@ -11,3 +11,11 @@
 @interface LPAnd : LPGate
 
 @end
+
+@interface LPAnd3 : LPAnd
+
+@end
+
+@interface LPAnd4 : LPAnd
+
+@end

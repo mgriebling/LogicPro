@@ -13,6 +13,7 @@
 #import "UIBezierPath+Image.h"
 #import "LPZoomingScrollView.h"
 #import "LPScalingViewController.h"
+#import "LPPin.h"
 
 @interface ViewController () <UIScrollViewDelegate, UIAlertViewDelegate, UIGestureRecognizerDelegate>
 
@@ -102,17 +103,33 @@
     [self setTitle:@"Unnamed1"];
 }
 
+- (void)addPin:(LPPin *)pin toPath:(UIBezierPath *)path forGate:(LPBlock *)block {
+    CGPoint gateOrigin = block.bounds.origin;
+    CGPoint pinStart = CGPointMake(gateOrigin.x + pin.position.x, gateOrigin.y + pin.position.y);
+    CGPoint pinEnd = pinStart;
+    if (pin.pinType != PIN_INPUT) pinEnd.x += 15;
+    else pinEnd.x -= 15;
+    
+    // Draw the Pin itself
+    [path moveToPoint:pinStart];
+    [path addLineToPoint:pinEnd];
+}
+
 - (UIImage *)imageForGate:(NSUInteger)gateID {
-    CGRect gateSize = CGRectMake(0, 0, 50, 25);
     LPBlock *gate = [[[LPToolPaletteController classForGate:gateID] alloc] init];
-    [gate setBounds:gateSize];
-    UIColor *tint = self.textScaleButton.tintColor;
-    if (self.toolBar) {
-        tint = self.toolBar.tintColor;
-    } else {
-        tint = self.navigationController.navigationBar.tintColor;
-    }
-    return [[gate bezierPathForDrawing] strokeImageWithColor:tint];
+    [gate makeNaturalSize];
+//    gate.bounds = CGRectMake(gate.bounds.origin.x, gate.bounds.origin.y, gate.bounds.size.width-30, gate.bounds.size.height);
+//    CGFloat *scale = gate.bounds.size.height / 28.0;
+//    [gate setBounds:gateSize];
+//    UIColor *tint = self.textScaleButton.tintColor;
+//    if (self.toolBar) {
+//        tint = self.toolBar.tintColor;
+//    } else {
+//        tint = self.navigationController.navigationBar.tintColor;
+//    }
+    UIBezierPath *gatePath = [gate bezierPathForDrawing];
+    for (LPPin *pin in gate.pins) [self addPin:pin toPath:gatePath forGate:gate];
+    return [gatePath strokeImageWithColor:[UIColor blueColor]];
 }
 
 - (IBAction)exitGateSelection:(UIStoryboardSegue *)segue {
