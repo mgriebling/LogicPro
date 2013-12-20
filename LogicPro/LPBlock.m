@@ -470,6 +470,22 @@ CGFloat LPGatePinHalfWidth = 6.0f / 2.0f;
     return 0.0;
 }
 
+- (BOOL)canMakeNaturalSize {
+    return YES;
+}
+
+- (void)makeNaturalSize {
+    [self setBounds:CGRectMake(self.bounds.origin.x, self.bounds.origin.y, [self naturalWidth]/5, [self naturalHeight]/5)];
+}
+
+
+- (BOOL)isContentsUnderPoint:(CGPoint)point {
+    
+    // Just check to see if the point is in the path.
+    return [[self bezierPathForDrawing] containsPoint:point];
+    
+}
+
 
 #pragma mark *** Drawing ***
 
@@ -611,23 +627,6 @@ CGFloat LPGatePinHalfWidth = 6.0f / 2.0f;
 }
 
 
-- (BOOL)canMakeNaturalSize {
-    
-    // Only return YES if -makeNaturalSize would actually do something.
-    CGRect bounds = [self bounds];
-    return bounds.size.width!=bounds.size.height;
-    
-}
-
-
-- (BOOL)isContentsUnderPoint:(CGPoint)point {
-    
-    // Just check against the graphic's bounds.
-    return CGRectContainsPoint([self bounds], point);
-    
-}
-
-
 - (LPPin *)pinUnderPoint:(CGPoint)point {
     
     // Check Pins at the corners and on the sides.
@@ -761,21 +760,6 @@ CGFloat LPGatePinHalfWidth = 6.0f / 2.0f;
 - (void)flipVertically {
     
     // Live to be overridden.
-    
-}
-
-
-- (void)makeNaturalSize {
-    
-    // Just make the graphic square.
-    CGRect bounds = [self bounds];
-    if (bounds.size.width<bounds.size.height) {
-        bounds.size.height = bounds.size.width;
-        [self setBounds:bounds];
-    } else if (bounds.size.width>bounds.size.height) {
-        bounds.size.width = bounds.size.height;
-        [self setBounds:bounds];
-    }
     
 }
 
