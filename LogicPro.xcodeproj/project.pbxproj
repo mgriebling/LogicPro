@@ -16,7 +16,6 @@
 		2FB2284D184CC5CB00E8A24F /* LPGateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FB2284A184CC5CB00E8A24F /* LPGateView.m */; };
 		2FC56773185205C2006E1AB3 /* LPMetadata.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FC56772185205C2006E1AB3 /* LPMetadata.m */; };
 		4729F6DC185DF465000FCB59 /* LPScalingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4729F6DB185DF465000FCB59 /* LPScalingViewController.m */; };
-		474BC01418630DAE00D80B35 /* LPGate.m in Sources */ = {isa = PBXBuildFile; fileRef = 474BC01318630DAE00D80B35 /* LPGate.m */; };
 		478DB5FC1615B41A00D69B15 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 478DB5FB1615B41A00D69B15 /* UIKit.framework */; };
 		478DB5FE1615B41A00D69B15 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 478DB5FD1615B41A00D69B15 /* Foundation.framework */; };
 		478DB6001615B41A00D69B15 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 478DB5FF1615B41A00D69B15 /* CoreGraphics.framework */; };
@@ -65,8 +64,6 @@
 		2FC56772185205C2006E1AB3 /* LPMetadata.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPMetadata.m; sourceTree = "<group>"; };
 		4729F6DA185DF465000FCB59 /* LPScalingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPScalingViewController.h; sourceTree = "<group>"; };
 		4729F6DB185DF465000FCB59 /* LPScalingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPScalingViewController.m; sourceTree = "<group>"; };
-		474BC01218630DAE00D80B35 /* LPGate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPGate.h; sourceTree = "<group>"; };
-		474BC01318630DAE00D80B35 /* LPGate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPGate.m; sourceTree = "<group>"; };
 		478DB5F71615B41A00D69B15 /* LogicPro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LogicPro.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		478DB5FB1615B41A00D69B15 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		478DB5FD1615B41A00D69B15 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -125,6 +122,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2F84C03A1864816F005D7278 /* Document */ = {
+			isa = PBXGroup;
+			children = (
+				2FB22845184CC5CB00E8A24F /* LPDocument.h */,
+				2FB22846184CC5CB00E8A24F /* LPDocument.m */,
+				2FC56771185205C2006E1AB3 /* LPMetadata.h */,
+				2FC56772185205C2006E1AB3 /* LPMetadata.m */,
+			);
+			name = Document;
+			sourceTree = "<group>";
+		};
 		478DB5EC1615B41A00D69B15 = {
 			isa = PBXGroup;
 			children = (
@@ -169,15 +177,10 @@
 				47B303B816A6C0B5000F5AB0 /* LPToolPaletteController.m */,
 				478DB6191615B41A00D69B15 /* ViewController.h */,
 				478DB61A1615B41A00D69B15 /* ViewController.m */,
-				2FB22845184CC5CB00E8A24F /* LPDocument.h */,
-				2FB22846184CC5CB00E8A24F /* LPDocument.m */,
+				2F84C03A1864816F005D7278 /* Document */,
 				47D63878185B2537002BFEB4 /* LPGrid.h */,
 				47D63879185B2537002BFEB4 /* LPGrid.m */,
 				47BBB167185721F0000C92F8 /* Circuit Elements */,
-				2FC56771185205C2006E1AB3 /* LPMetadata.h */,
-				2FC56772185205C2006E1AB3 /* LPMetadata.m */,
-				2FB22847184CC5CB00E8A24F /* LPBlock.h */,
-				2FB22848184CC5CB00E8A24F /* LPBlock.m */,
 				2FB22849184CC5CB00E8A24F /* LPGateView.h */,
 				2FB2284A184CC5CB00E8A24F /* LPGateView.m */,
 				478DB6021615B41A00D69B15 /* Supporting Files */,
@@ -207,6 +210,8 @@
 		47BBB167185721F0000C92F8 /* Circuit Elements */ = {
 			isa = PBXGroup;
 			children = (
+				2FB22847184CC5CB00E8A24F /* LPBlock.h */,
+				2FB22848184CC5CB00E8A24F /* LPBlock.m */,
 				2F12CE7C1855EDBC00A74841 /* LPAnd.h */,
 				2F12CE7D1855EDBC00A74841 /* LPAnd.m */,
 				47BBB1521857216D000C92F8 /* LPOr.h */,
@@ -227,8 +232,6 @@
 				47CC62F6185F166A0076A65F /* LPGraphicPrimitives.m */,
 				2F63D8E2185F35FC00D89D30 /* LPPin.h */,
 				2F63D8E3185F35FC00D89D30 /* LPPin.m */,
-				474BC01218630DAE00D80B35 /* LPGate.h */,
-				474BC01318630DAE00D80B35 /* LPGate.m */,
 			);
 			name = "Circuit Elements";
 			sourceTree = "<group>";
@@ -306,7 +309,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				2F12CE7E1855EDBC00A74841 /* LPAnd.m in Sources */,
-				474BC01418630DAE00D80B35 /* LPGate.m in Sources */,
 				2F12CE811855F9CA00A74841 /* UIBezierPath+Image.m in Sources */,
 				2FB2284D184CC5CB00E8A24F /* LPGateView.m in Sources */,
 				47BBB15718572180000C92F8 /* LPXOr.m in Sources */,

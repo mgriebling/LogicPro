@@ -11,3 +11,11 @@
 @interface LPOr : LPBlock
 
 @end
+
+@interface LPOr3 : LPOr
+
+@end
+
+@interface LPOr4 : LPOr
+
+@end

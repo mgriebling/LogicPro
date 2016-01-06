@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 Computer Inspirations. All rights reserved.
 //
 
-#import "LPGate.h"
+#import "LPBlock.h"
 
-@interface LPAnd : LPGate
+@interface LPAnd : LPBlock
 
 @end
 

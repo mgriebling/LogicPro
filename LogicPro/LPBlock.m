@@ -460,6 +460,32 @@ CGFloat LPGatePinHalfWidth = 6.0f / 2.0f;
     return @"LPBlock";
 }
 
+- (CGFloat)naturalWidth {
+    // should be overridden
+    return 0.0;
+}
+
+- (CGFloat)naturalHeight {
+    // should be overridden
+    return 0.0;
+}
+
+- (BOOL)canMakeNaturalSize {
+    return YES;
+}
+
+- (void)makeNaturalSize {
+    [self setBounds:CGRectMake(self.bounds.origin.x, self.bounds.origin.y, [self naturalWidth]/5, [self naturalHeight]/5)];
+}
+
+
+- (BOOL)isContentsUnderPoint:(CGPoint)point {
+    
+    // Just check to see if the point is in the path.
+    return [[self bezierPathForDrawing] containsPoint:point];
+    
+}
+
 
 #pragma mark *** Drawing ***
 
@@ -526,6 +552,25 @@ CGFloat LPGatePinHalfWidth = 6.0f / 2.0f;
     
 }
 
+- (UIBezierPath *)bezierPathForDrawingWithPinLines {
+    
+    CGFloat scale = MIN(self.bounds.size.width/[self naturalWidth], self.bounds.size.height/[self naturalHeight]);
+    UIBezierPath *path = [self bezierPathForDrawing];
+    NSArray *pins = self.pins;
+    for (LPPin *pin in pins) {
+        CGPoint gateOrigin = self.bounds.origin;
+        CGPoint pinStart = CGPointMake(gateOrigin.x + pin.position.x, gateOrigin.y + pin.position.y);
+        CGPoint pinEnd = pinStart;
+        if (pin.pinType != PIN_INPUT) pinEnd.x += 45*scale;
+        else pinEnd.x -= 45*scale;
+        
+        // Draw the Pin itself
+        [path moveToPoint:pinStart];
+        [path addLineToPoint:pinEnd];
+    }
+    return path;
+}
+
 
 - (NSArray *)pins {
     return _pins;
@@ -534,18 +579,9 @@ CGFloat LPGatePinHalfWidth = 6.0f / 2.0f;
 - (void)drawPinsInView:(UIView *)view {
     
     // Draw gate pins
-    NSArray *pins = self.pins;
-    for (LPPin *pin in pins) {
+    for (LPPin *pin in self.pins) {
         [self drawPinInView:view atPoint:pin.position];
     }
-//    [self drawPinInView:view atPoint:CGPointMake(CGRectGetMinX(bounds), CGRectGetMinY(bounds))];
-//    [self drawPinInView:view atPoint:CGPointMake(CGRectGetMidX(bounds), CGRectGetMinY(bounds))];
-//    [self drawPinInView:view atPoint:CGPointMake(CGRectGetMaxX(bounds), CGRectGetMinY(bounds))];
-//    [self drawPinInView:view atPoint:CGPointMake(CGRectGetMinX(bounds), CGRectGetMidY(bounds))];
-//    [self drawPinInView:view atPoint:CGPointMake(CGRectGetMaxX(bounds), CGRectGetMidY(bounds))];
-//    [self drawPinInView:view atPoint:CGPointMake(CGRectGetMinX(bounds), CGRectGetMaxY(bounds))];
-//    [self drawPinInView:view atPoint:CGPointMake(CGRectGetMidX(bounds), CGRectGetMaxY(bounds))];
-//    [self drawPinInView:view atPoint:CGPointMake(CGRectGetMaxX(bounds), CGRectGetMaxY(bounds))];
     
 }
 
@@ -559,8 +595,6 @@ CGFloat LPGatePinHalfWidth = 6.0f / 2.0f;
     pinBounds.origin.y = gateOrigin.y + point.y - LPGatePinHalfWidth;
     pinBounds.size.width = LPGatePinWidth;
     pinBounds.size.height = LPGatePinWidth;
-//    pinBounds = [view convertRect:pinBounds toView:];
-//    PinBounds = [view centerScanRect:PinBounds];
     
     // Draw the shadow of the Pin.
     CGRect pinShadowBounds = CGRectOffset(pinBounds, 1.0f, 1.0f);
@@ -589,23 +623,6 @@ CGFloat LPGatePinHalfWidth = 6.0f / 2.0f;
     
     // The default implementation of -drawContentsInView: can draw strokes.
     return YES;
-    
-}
-
-
-- (BOOL)canMakeNaturalSize {
-    
-    // Only return YES if -makeNaturalSize would actually do something.
-    CGRect bounds = [self bounds];
-    return bounds.size.width!=bounds.size.height;
-    
-}
-
-
-- (BOOL)isContentsUnderPoint:(CGPoint)point {
-    
-    // Just check against the graphic's bounds.
-    return CGRectContainsPoint([self bounds], point);
     
 }
 
@@ -743,21 +760,6 @@ CGFloat LPGatePinHalfWidth = 6.0f / 2.0f;
 - (void)flipVertically {
     
     // Live to be overridden.
-    
-}
-
-
-- (void)makeNaturalSize {
-    
-    // Just make the graphic square.
-    CGRect bounds = [self bounds];
-    if (bounds.size.width<bounds.size.height) {
-        bounds.size.height = bounds.size.width;
-        [self setBounds:bounds];
-    } else if (bounds.size.width>bounds.size.height) {
-        bounds.size.width = bounds.size.height;
-        [self setBounds:bounds];
-    }
     
 }
 
