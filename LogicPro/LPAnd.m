@@ -47,7 +47,7 @@
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"%d-Input And", self.pins.count-1];
+    return [NSString stringWithFormat:@"%lu-Input And", self.pins.count-1];
 }
 
 @end
